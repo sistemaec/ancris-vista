@@ -1,0 +1,63 @@
+<template>
+  <b-row class="mt-4">
+    <b-colxx xxs="12" md="10" class="mx-auto my-auto">
+      <b-card class="auth-card">       
+        <b-jumbotron>
+          <template #header>
+            <b-row class="d-inline-flex">
+              <b-col>
+                <img alt="ANCRIS" width="70" src="@/assets/logos/mobile.png">
+              </b-col>
+              <b-col>
+                <h1 class="pt-4">ANCRIS</h1>
+              </b-col>
+            </b-row>
+          </template>
+          <template #lead>
+            Centro de servicios medicos comunitario
+          </template>
+          <hr class="my-4">
+          <p>En ANCRIS contamos con profesionales para la prestación de servicios medicos y de diagnóstico en distintas especialidades con la finalidad de cuidar con vocacion humanitaria la salud de todos nuestra comunidad.</p>
+          <b-form-group label="Agendar consulta" class="has-float-label mb-4">
+            <b-form-input ref="txCedula" size="sm" v-model="cedula" placeholder="Digite su numero de cedula" @keyup.enter="agendar()"/>
+          </b-form-group>
+          <p class="lead mb-0">
+            <b-button variant="primary" class="mr-4 mt-4 mb-4" size="lg" @click="agendar()">Agendar consulta</b-button>
+            <b-button to="/usuario/acceder" class="mt-2 mb-2" variant="success" size="lg">Acceder al sistema</b-button>
+          </p>
+        </b-jumbotron>
+      </b-card>
+    </b-colxx>
+  </b-row>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      cedula: ""
+    }
+  },
+  methods: {
+    agendar() {
+      if (this.cedula.length == 10) {
+        this.$router.push({
+          name: "consultas-crear",
+          params: {
+            id: 0,
+            dato: null,
+            lectura: false,
+            cedula: this.cedula,
+            publico: true
+          }
+        });
+      } else {
+        this.$notify("error", "Cedula invalida", "Al numero de cedula le falta digitos", {
+						duration: 3000,
+						permanent: false
+					});
+      }
+    }
+  }
+}
+</script>
