@@ -81,8 +81,8 @@ Vue.mixin({
   methods: {
     async loadAppConfig() {
         this.appConfig = {
-        adminRoot: "ecuamedica",
-        apiUrl: 'https://martinbarberan.herokuapp.com/api/v4'
+        adminRoot: "ancris",
+        apiUrl: 'http://ancris-server.herokuapp.com/api/v4'
       };
     }
   },
