@@ -1,6 +1,6 @@
 {
   "general": {
-    "copyright": "Pointerp App © Todos los derechos reservados."
+    "copyright": "ANCRIS © Todos los derechos reservados."
   },
   "unauthorized": {
     "title": "Acceso no autorizado",
@@ -29,7 +29,7 @@
     "survey": "Encuesta",
     "todo": "Tareas",
     "app": "Vista",
-    "titulo": "Pointerp",
+    "titulo": "Ancris",
     "inicio": "Inicio",
     "ecuamedica": "Ecuamedica",
     "ventas": {

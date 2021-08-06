@@ -7,8 +7,8 @@
             <b-colxx xxs="12" md="10" class="mx-auto my-auto">
               <b-card class="auth-card" no-body>
                 <div class="position-relative image-side">
-                  <p class="text-white h2">POINTERP - Sistema integrado</p>
-                  <p class="white mb-0">Version 4.0</p>
+                  <p class="text-white h2">ANCRIS - Sistema integrado</p>
+                  <p class="white mb-0">Version 1.0</p>
                 </div>
                 <div class="form-side">
                   <router-link tag="a" to="/">

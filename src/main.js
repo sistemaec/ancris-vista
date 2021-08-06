@@ -7,23 +7,16 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 
-// Multi Language Add
 import en from './locales/en.json'
 import es from './locales/es.json'
 import VueI18n from 'vue-i18n'
-// Notification Component Add
 import Notifications from './components/Common/Notification'
-// Breadcrumb Component Add
 import Breadcrumb from './components/Common/Breadcrumb'
-// RefreshButton Component Add
 import RefreshButton from './components/Common/RefreshButton'
-// Colxx Component Add
 import Colxx from './components/Common/Colxx'
-// Perfect Scrollbar Add
 import vuePerfectScrollbar from 'vue-perfect-scrollbar'
 import TableBusy from './components/Common/TableBusy'
 import contentmenu from 'v-contextmenu'
-//import VueLineClamp from 'vue-line-clamp'
 import VueScrollTo from 'vue-scrollto'
 import { getCurrentLanguage } from './utils'
 import 'vue-search-select/dist/VueSearchSelect.css'

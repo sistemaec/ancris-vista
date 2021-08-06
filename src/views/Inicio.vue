@@ -7,7 +7,7 @@
             <b-colxx xxs="12" md="10" class="mx-auto my-auto">
               <b-card class="auth-card" no-body>
                 <div class="position-relative image-side">
-                  <p class="text-white h2">POINTERP - SISTEMA ADMINISTRATIVO</p>
+                  <p class="text-white h2">ANCRIS - SISTEMA ADMINISTRATIVO</p>
                   <p class="white mb-0">No se encuentra el recurso</p>
                 </div>
                 <div class="form-side">

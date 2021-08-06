@@ -1,30 +1,9 @@
 const CopyPlugin = require("copy-webpack-plugin");
-//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-//const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-//const ExtractTextPlugin = require("extract-text-webpack-plugin");
-
 module.exports = {
   runtimeCompiler: true,
-  //publicPath: process.env.NODE_ENV === 'production' ? 'http://app.pointerp.local' : '/', 
-  /*css: {
-    sourceMap: true,
-    extract: true
-  },*/
   filenameHashing:false,
   productionSourceMap: false,
   configureWebpack:{
-    /*module: {
-      rules: [
-        {
-          test: /\.css$/,
-          use: [ 
-            process.env.NODE_ENV !== 'production' 
-              ? 'vue-style-loader' 
-              : MiniCssExtractPlugin.loader, 'css-loader'
-          ]
-        }
-      ]
-    },*/
     resolve: {
       symlinks: false
     },
@@ -65,8 +44,6 @@ module.exports = {
           { from: "src/assets/fonts", to: "assets/fonts" }
         ]
       ),
-      //new BundleAnalyzerPlugin(),
-      //new MiniCssExtractPlugin({ filename: 'estilos.css' })
     ],
   }
 }
