@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal v-model="selProductoVer" title="Seleccionar producto" v-on:ok="productoSeleccionado();" v-on:hidden="pasarFoco();">
+    <b-modal v-model="selProductoVer" :title="$t('vista.inventarios.sel-producto')" v-on:ok="productoSeleccionado();" v-on:hidden="pasarFoco();">
       <producto-seleccionar/>
       <template #modal-footer="{ ok, cancel }">
         <b-button variant="success" size="sm" @click="ok()" :disabled="productoNoSeleccionado">
@@ -62,7 +62,7 @@
               <b-row>
                 <b-colxx xxs="12" sm="8">
                   <b-input-group>
-                    <b-form-input ref="txProducto" size="sm" v-model="productoSeleccion.nombre" placeholder="Buscar producto" @keyup.enter="buscarProducto()"/>
+                    <b-form-input ref="txProducto" size="sm" v-model="productoSeleccion.nombre" :placeholder="$t('vista.busqueda.digitar-enter') + $t('vista.inventarios.productos.denominacion')" @keyup.enter="buscarProducto()"/>
                     <b-input-group-append>
                       <b-button variant="primary" class="borde-recto" @click="buscarProducto()">
                         <i class="mdi mdi-magnify"/>
@@ -73,7 +73,7 @@
                 <b-colxx xxs="12" sm="4">
                   <div class="d-flex">
                     <b-input-group class="w-100">
-                      <b-form-input ref="txCantidad" size="sm" v-model="productoSeleccion.cantidad" placeholder="Cantidad"  @keyup.enter="agregarItem()"/>
+                      <b-form-input ref="txCantidad" size="sm" v-model="productoSeleccion.cantidad" :placeholder="$t('vista.inventarios.movimientos.campos.cantidad')"  @keyup.enter="agregarItem()"/>
                       <b-input-group-append>
                         <b-button variant="primary" class="borde-recto" @click="agregarItem()">
                           <i class="mdi mdi-plus"/>
@@ -84,7 +84,7 @@
                       class="span-comando pt-1 flex-shrink-1 ml-2"
                       @click="vaciarItems()"
                       v-b-tooltip.hover
-                      title="Eliminar todos los items"
+                      :title="$t('vista.transacciones.eliminar-todo')"
                     >
                       <i class="mdi mdi-delete-sweep mdi-18px"/>
                     </span>
@@ -99,7 +99,7 @@
                 class="span-comando pt-1"
                 @click="eliminarItem(fila)"
                 v-b-tooltip.hover
-                title="Eliminar item"
+                :title="$t('vista.transacciones.eliminar-item')"
               >
                 <i class="mdi mdi-trash-can mdi-18px"/>
               </span>
@@ -172,7 +172,7 @@ export default {
         producto: null
       },
       selProductoVer: false,
-      tipoDen: "Movimientos",
+      tipoDen: this.$t("vista.inventarios.movimientos.titulo"),
       itemCampos: [
         {
           label: this.$t("vista.comandos.acciones"), 
@@ -238,7 +238,10 @@ export default {
     },
     guardar() {
       if (this.movimiento.bodega_id == null || this.movimiento.bodega_id <= 0) {
-        this.mensaje("Debe seleccionar la bodega", "Guardar", "danger");
+        this.$notify("danger",
+          this.$t("vista.comandos.guardar"),
+          this.$t("vista.inventarios.sel-bodega"),
+          { duration: 3000, permanent: false });
         this.procesando = false;
       } else {
         this.procesarGuardado();
@@ -274,20 +277,29 @@ export default {
         .dispatch("inventarios/movimientoGuardar", this.movimiento)
         .then(function(res) {
           if (res.status <= 201) {
-            this.mensaje(res.data.msj, "Guardando registro", "success");
+            this.$notify("success",
+              this.$t("vista.transacciones.guardando-reg"),
+              res.data.msj,
+              { duration: 3000, permanent: false });
             this.$router.back();
           } else {
-            this.mensaje(res.data.msj, "Guardar registro", "warning");
+            this.$notify("warning",
+              this.$t("vista.transacciones.guardar-reg"),
+              res.data.msj,
+              { duration: 3000, permanent: false });
           }
           this.procesando = false;
         }.bind(this))
         .catch(function(e) {
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t("vista.transacciones.guardar-error");
           console.log(e)
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
-          this.mensaje(msj, "Guardar", "danger");
+          this.$notify("danger",
+            this.$t("vista.comandos.guardar"),
+            msj,
+            { duration: 3000, permanent: false });  
         }.bind(this)
       );
     },

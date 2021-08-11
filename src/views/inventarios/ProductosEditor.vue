@@ -142,8 +142,8 @@ export default {
       if (this.$v.$invalid) {
         this.$notify(
           "warning", 
-          "No se puede guardar", 
-          "Revise los mensajes de validacion para poder continuar.", 
+          this.$t("vista.transacciones.guardar-canot"), 
+          this.$t("vista.transacciones.guardar-invalido"), 
           { duration: 3000, permanent: false }
         );
       } else {
@@ -161,7 +161,7 @@ export default {
               } else {
                 this.$notify(
                   "warning", 
-                  "No se puede guardar", 
+                  this.$t("vista.transacciones.guardar-canot"), 
                   res.data, 
                   { duration: 3000, permanent: false }
                 );
@@ -170,13 +170,13 @@ export default {
             }.bind(this))
             .catch(function(e) {
               console.log(e);
-              let msg = "No se puede guardar por error relacionado al servidor";
+              let msg = this.$t("vista.transacciones.guardar-error");
               if (e.response != undefined)
                 msg = e.response.data;
               this.procesando = false;
               this.$notify(
                 "warning", 
-                "No se puede guardar", 
+                this.$t("vista.transacciones.guardar-canot"), 
                 msg, 
                 { duration: 3000, permanent: false }
               );
@@ -195,7 +195,7 @@ export default {
           if (res.status <= 201) {
             this.$notify(
               "success", 
-              "Guardar producto", 
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.inventarios.productos.denominacion"), 
               res.data.msj, 
               { duration: 3000, permanent: false }
             );
@@ -203,7 +203,7 @@ export default {
           } else {
             this.$notify(
               "warning", 
-              "Guardar producto", 
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.inventarios.productos.denominacion"), 
               res.data.msj, 
               { duration: 3000, permanent: false }
             );
@@ -213,12 +213,12 @@ export default {
         .catch(function(e) {
           console.log(e);
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t("vista.transacciones.guardar-error");
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
           this.$notify(
             "danger", 
-            "Guardar producto", 
+            this.$t("vista.comandos.guardar") + " " + this.$t("vista.inventarios.productos.denominacion"), 
             res.data.msj, 
             { duration: 3000, permanent: false }
           );

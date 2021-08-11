@@ -162,7 +162,10 @@ export default {
     guardar() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.mensaje("Revise los mensajes de validacion para poder continuar.", "No se puede guardar", "warning");
+        this.$notify("warning",
+          this.$t("vista.comandos.guardar-canot"),
+          this.$t("vista.transacciones.guardar-error"),
+          { duration: 3000, permanent: false });
       } else {
         this.procesando = true;
         if (this.servicio.id == 0) {
@@ -176,16 +179,22 @@ export default {
               if (res.status == 200) {  
                 this.procesarGuardado();
               } else {
-                this.mensaje(res.data, "No se puede guardar", "warning");
+                this.$notify("warning",
+                  this.$t("vista.comandos.guardar-canot"),
+                  res.data,
+                  { duration: 3000, permanent: false });
               }
               this.procesando = false;
             }.bind(this))
             .catch(function(e) {
-              let msg = "No se puede guardar por error relacionado al servidor";
+              let msg = this.$t("vista.transacciones.guardar-error");
               if (e.response.data != undefined)
                 msg = e.response.data;
               this.procesando = false;
-              this.mensaje(msg, "Guardar Servicio", "danger");
+              this.$notify("danger",
+                this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+                msg,
+                { duration: 3000, permanent: false });
             }.bind(this));
           this.procesando = false;  
         } else {
@@ -199,20 +208,29 @@ export default {
         .dispatch("clinica/servicioGuardar", this.servicio)
         .then(function(res) {
           if (res.status <= 201) {
-            this.mensaje(res.data.msj, "Guardar Servicio", "success");
+            this.$notify("success",
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+              res.data.msj,
+              { duration: 3000, permanent: false });
             this.$router.back();
           } else {
-            this.mensaje(res.data.msj, "Guardar Servicio", "warning");
+            this.$notify("warning",
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+              res.data.msj,
+              { duration: 3000, permanent: false });
           }
           this.procesando = false;
         }.bind(this))
         .catch(function(e) {
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t('vista.transacciones.guardar-error');
           console.log(e)
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
-          this.mensaje(msj, "Guardar Servicio", "danger");
+          this.$notify("danger",
+            this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+            msj,
+            { duration: 3000, permanent: false });  
         }.bind(this)
       );  
     },

@@ -74,7 +74,7 @@
                 <b-colxx xxs="12" sm="5">
                   <b-form-group label="Buscar producto" class="has-float-label mb-4">
                     <b-input-group>
-                      <b-form-input ref="txProducto" size="sm" v-model="productoSeleccion.nombre" placeholder="digite el nombre y pulse enter" @keyup.enter="buscarProducto()"/>
+                      <b-form-input ref="txProducto" size="sm" v-model="productoSeleccion.nombre" :placeholder="$t('vista.busqueda.digitar-enter')" @keyup.enter="buscarProducto()"/>
                       <b-input-group-append is-text v-if="productoSeleccion.producto">
                         {{ productoSeleccion.producto.medida }}
                       </b-input-group-append>
@@ -101,7 +101,7 @@
                 </b-colxx>
                 <b-colxx xxs="12" sm="3">
                   <div class="d-flex">
-                    <b-form-group label="Costo" class="has-float-label mb-4">
+                    <b-form-group :label="$t('vista.inventarios.movimientos.campos.costo')" class="has-float-label mb-4">
                       <b-input-group class="w-100">
                         <b-form-input ref="txCosto" size="sm" v-model.number="productoSeleccion.costo" @keyup.enter="agregarItem()"/>
                         <b-input-group-append>
@@ -115,7 +115,7 @@
                       class="span-comando pt-1 flex-shrink-1 ml-2"
                       @click="vaciarItems()"
                       v-b-tooltip.hover
-                      title="Eliminar todos los items"
+                      :title="$t('vista.comandos.eliminar-todo')"
                     >
                       <i class="mdi mdi-delete-sweep mdi-18px"/>
                     </span>
@@ -197,12 +197,12 @@
               </div>
             </template>
             <template #empty>
-              <h4>No hay items registrados</h4>
+              <h4>{{ $t('vista.transacciones.no-items') }}</h4>
             </template>
           </b-table>
           <hr/>
           <div style="text-align: right;">
-            <span class="font-weight-semibold mr-4">TOTAL</span>
+            <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.facturas.campos.total-may') }}</span>
             <span class="font-weight-semibold mr-2">$ {{ total | dinero }}</span>
           </div>  
           <div class="mt-4">
@@ -403,7 +403,7 @@ export default {
           if (res.status <= 201) {
             this.$notify(
               "success",
-              "Guadando compra",
+              $t("vista.transacciones.guardando") + " " + $t("vista.inventarios.compras.denominacion"),
               res.data.msj,
               { duration: 3000, permanent: false }
             );
@@ -419,10 +419,10 @@ export default {
         }.bind(this))
         .catch(function(e) {
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t("vista.transacciones.guardar-error");
           this.$notify(
             "danger",
-            "Guardando registro",
+            this.$t("vista.transacciones.guardando-reg"),
             msj,
             { duration: 3000, permanent: false }
           );

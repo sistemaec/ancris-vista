@@ -86,11 +86,15 @@
                           <b-spinner type="grow" variant="dark"></b-spinner>
                           <b-spinner small type="grow" variant="secondary"></b-spinner>
                           <!-- SR para lectores de pantallas -->
-                          <span class="sr-only">Espere por favor...</span>
+                          <span class="sr-only">{{ $t('vista.busqueda.espere-porfa') + '...' }}</span>
                         </div>
                       </template>
                       <b-input-group>
-                        <b-form-input type="text" v-model.trim="venta.relCliente.identificacion" @keyup.enter="validarCedula()" :readonly="lectura"/>
+                        <b-form-input type="text" 
+                          v-model.trim="venta.relCliente.identificacion" 
+                          @keyup.enter="validarCedula()" 
+                          :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.cedula')" 
+                          :readonly="lectura"/>
                         <b-input-group-append is-text>
                           <i class="mdi mdi-magnify"/>
                         </b-input-group-append>  
@@ -102,7 +106,12 @@
               <b-colxx xxs="12" sm="8">
                 <b-form-group :label="$t('vista.ventas.clientes.campos.nombres')">
                   <b-input-group>
-                    <b-form-input type="text" v-model="venta.relCliente.nombres" :state="!$v.venta.relCliente.nombres.$error" :readonly="lectura" @keyup.enter="buscarCliente()" />
+                    <b-form-input type="text" 
+                      v-model="venta.relCliente.nombres" 
+                      :state="!$v.venta.relCliente.nombres.$error" 
+                      :readonly="lectura" 
+                      @keyup.enter="buscarCliente()" 
+                      :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.nombres')"/>
                     <b-input-group-append>
                       <b-button variant="primary" class="borde-recto" @click="buscarCliente()">
                         <i class="mdi mdi-magnify"/>
@@ -132,9 +141,12 @@
             <div v-if="!lectura">
               <b-row>
                 <b-colxx xxs="12" sm="5">
-                  <b-form-group label="Buscar producto" class="has-float-label mb-4">
+                  <b-form-group :label="$t('vista.comandos.buscar') + ' ' + $t('vista.inventarios.productos.denominacion')" class="has-float-label mb-4">
                     <b-input-group>
-                      <b-form-input ref="txProducto" size="sm" v-model="productoSeleccion.nombre" placeholder="Digite el nombre pulse enter" @keyup.enter="buscarProducto()"/>
+                      <b-form-input ref="txProducto" size="sm" 
+                        v-model="productoSeleccion.nombre" 
+                        :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.inventarios.productos.denominacionp')" 
+                        @keyup.enter="buscarProducto()"/>
                       <b-input-group-append is-text v-if="productoSeleccion.producto">
                         {{ productoSeleccion.producto.medida }}
                       </b-input-group-append>
@@ -147,7 +159,7 @@
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="2">
-                  <b-form-group label="Cantidad" class="has-float-label mb-4">
+                  <b-form-group :label="$t('vista.inventarios.movimientos.campos.cantidad')" class="has-float-label mb-4">
                     <b-input-group class="w-100">
                       <b-form-input ref="txCantidad" size="sm" v-model.number="productoSeleccion.cantidad" @keyup.enter="pasarFocoDescuento()"/>
                       <b-input-group-append is-text>
@@ -157,7 +169,7 @@
                   </b-form-group>  
                 </b-colxx>
                 <b-colxx xxs="12" sm="2">
-                  <b-form-group label="% Descuento" class="has-float-label mb-4">
+                  <b-form-group :label="$t('vista.ventas.facturas.campos.descuento_porcentaje')" class="has-float-label mb-4">
                     <b-input-group class="w-100">
                       <b-form-input ref="txDescuento" size="sm" v-model.number="productoSeleccion.descuento" @keyup.enter="pasarFocoPrecio()"/>
                       <b-input-group-append is-text>%</b-input-group-append>
@@ -166,7 +178,7 @@
                 </b-colxx>
                 <b-colxx xxs="12" sm="3">
                   <div class="d-flex">
-                    <b-form-group label="Precio de venta" class="has-float-label mb-4">
+                    <b-form-group :label="$t('vista.ventas.facturas.campos.precio-vta')" class="has-float-label mb-4">
                       <b-input-group class="w-100">
                         <b-form-input ref="txPrecio" size="sm" v-model.number="productoSeleccion.precio" @keyup.enter="agregarItem()"/>
                         <b-input-group-append>
@@ -180,7 +192,7 @@
                       class="span-comando pt-1 flex-shrink-1 ml-2"
                       @click="vaciarItems()"
                       v-b-tooltip.hover
-                      title="Eliminar todos los items"
+                      :title="$t('vista.transacciones.eliminar-todo')"
                     >
                       <i class="mdi mdi-delete-sweep mdi-18px"/>
                     </span>
@@ -243,12 +255,12 @@
               </div>
             </template>
             <template #empty>
-              <h4>No hay items registrados</h4>
+              <h4>{{ $t('vista.transacciones.no-items') }}</h4>
             </template>
           </b-table>
           <hr/>
           <div style="text-align: right;">
-            <span class="font-weight-semibold mr-4">TOTAL</span>
+            <span class="font-weight-semibold mr-4">{{$t('vista.ventas.facturas.campos.total-may')}}</span>
             <span class="font-weight-semibold mr-2">$ {{ total | dinero }}</span>
           </div>  
           <div class="mt-4">
@@ -677,14 +689,14 @@ export default {
           if (res.status <= 201) {
             this.$notify(
               "success",
-              "Guadando factura",
+              this.$t("vista.transacciones.guardando") + ' ' + $t("vista.ventas.facturas.denominacion"),
               res.data.msj,
               { duration: 3000, permanent: false }
             );
           } else {
             this.$notify(
               "warning",
-              "Guardando factura",
+              this.$t("vista.transacciones.guardando") + ' ' + $t("vista.ventas.facturas.denominacion"),
               res.data.msj,
               { duration: 3000, permanent: false }
             );
@@ -693,10 +705,10 @@ export default {
         }.bind(this))
         .catch(function(e) {
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t("vista.transacciones.guardar-error");
           this.$notify(
             "danger",
-            "Guardando registro",
+            this.$t("vista.transacciones.guardando") + ' ' + $t("vista.ventas.facturas.denominacion"),
             msj,
             { duration: 3000, permanent: false }
           );
@@ -818,8 +830,8 @@ export default {
           .catch(function(e) {
             this.$notify(
               "warning",
-              "Atencion",
-              "La cedula no se encuentra reistrada debe crear un cliente nuevo",
+              this.$t("vista.transacciones.atencion"),
+              this.$t("vista.ventas.facturas.validacion.cedula-nuevo"),
               { duration: 3000, permanent: false }
             );
             this.ocupadoCedula = false;

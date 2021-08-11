@@ -14,12 +14,12 @@
             </b-row>
           </template>
           <template #lead>
-            Centro de servicios medicos comunitario
+            Centro médicos comunitario
           </template>
           <hr class="my-4">
-          <p>En ANCRIS contamos con profesionales para la prestación de servicios medicos y de diagnóstico en distintas especialidades con la finalidad de cuidar con vocacion humanitaria la salud de todos nuestra comunidad.</p>
+          <p>En ANCRIS contamos con profesionales para la prestación de servicios médicos y de diagnóstico en distintas especialidades con la finalidad de cuidar con vocación humanitaria la salud de todos en nuestra comunidad.</p>
           <b-form-group label="Agendar consulta" class="has-float-label mb-4">
-            <b-form-input ref="txCedula" size="sm" v-model="cedula" placeholder="Digite su numero de cedula" @keyup.enter="agendar()"/>
+            <b-form-input ref="txCedula" size="sm" v-model="cedula" placeholder="Digite su numero de cédula o R.U.C" @keyup.enter="agendar()"/>
           </b-form-group>
           <p class="lead mb-0">
             <b-button variant="primary" class="mr-4 mt-4 mb-4" size="lg" @click="agendar()">Agendar consulta</b-button>
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     agendar() {
-      if (this.cedula.length == 10) {
+      if (this.cedula.length == 10 || this.cedula.length == 13) {
         this.$router.push({
           name: "consultas-crear",
           params: {
@@ -52,10 +52,10 @@ export default {
           }
         });
       } else {
-        this.$notify("error", "Cedula invalida", "Al numero de cedula le falta digitos", {
-						duration: 3000,
-						permanent: false
-					});
+        this.$notify("error", 
+          this.$t("vista.comandos.fallo") + ' ' + this.$t('vista.comandos.continuar'),
+          this.$t("vista.ventas.clientes.validacion.cedula"),
+          { duration: 3000,	permanent: false	});
       }
     }
   }

@@ -4,7 +4,7 @@
   },
   "unauthorized": {
     "title": "Acceso no autorizado",
-    "detail": "No tiene acceso a la vista que esta intentado acceder."
+    "detail": "No tiene acceso a la vista que está intentado acceder."
   },
   "user": {
     "login-title": "Iniciar sesión",
@@ -24,7 +24,7 @@
   "menu": {
     "dashboards": "Paneles",
     "ui": "UI",
-    "charts": "Graficos",
+    "charts": "Gráficos",
     "chat": "Mensajes",
     "survey": "Encuesta",
     "todo": "Tareas",
@@ -70,7 +70,7 @@
         "modificar": "Modificar"
       },
       "fisico": {
-        "titulo": "Inventario fisico",
+        "titulo": "Inventario físico",
         "nuevo": "Nuevo",
         "modificar": "Modificar"
       },
@@ -78,7 +78,7 @@
       "movimientospro": "Movimientos por producto"
     },
     "clinica": {
-      "titulo": "Clinica",
+      "titulo": "Clínica",
       "pacientes": {
         "titulo": "Pacientes",
         "nuevo": "Nuevo",
@@ -94,7 +94,7 @@
         "nuevo": "Nuevo",
         "modificar": "Modificar",
         "mediciones": "Mediciones",
-        "atencion": "Atencion"
+        "atencion": "Atención"
       },
       "medicos": {
         "titulo": "Profesionales",
@@ -103,12 +103,12 @@
       },
       "citas": "Citas",
       "recetas": "Recetas",
-      "examenes": "Orden de examenes"
+      "examenes": "Orden de exámenes"
     },
     "ajustes": {
       "titulo": "Ajustes",
-      "parametros": "Parametros basicos",
-      "tablas": "Tablas de validacion",
+      "parametros": "Parámetros básicos",
+      "tablas": "Tablas de validación",
       "reportes": "Reportes",
       "plantillas": "Plantillas",
       "impuestos": "Impuestos",
@@ -127,6 +127,11 @@
     
   },
   "vista": {
+    "el": "el",
+    "la": "la",
+    "esta": "esta",
+    "este": "este",
+    "error": "Error",
     "tema": {
       "claro-titulo": "Tema Claro",
       "oscuro-titulo": "Tema Oscuro",
@@ -135,38 +140,74 @@
       "tipo-borde": "Tipo de Borde"
     },
     "busqueda": {
+      "buscar": "Buscar",
       "de": "de",
       "al": "al",
+      "por": "por",
       "etiqueta": "Buscar por",
       "eliminados": "Ver eliminados",
-      "extendida": "Busqueda extendida",
+      "extendida": "Búsqueda extendida",
       "eliminados-alt": "Eliminados",
-      "extendida-alt": "Busqueda+"
+      "extendida-alt": "Búsqueda+",
+      "no-encontrado": "No se encontraron resultados para esta búsqueda.",
+      "digitar-enter": "Digite y pulse ENTER para buscar",
+      "espere-porfa": "Espere por favor",
+      "ejecutandoq": "Ejecutando consulta",
+      "consultando": "Consultando",
+      "sel": "Seleccionar",
+      "selec-periodo": "Es necesario seleccionar el periodo a consultar",
+      "resultados": "Resultados"
     },
     "comandos": {
       "acciones": "Acciones",
+      "ver": "Ver",
       "buscar": "Buscar",
+      "actualizar": "Actualizar",
       "nuevo": "Nuevo",
       "modificar": "Modificar",
       "eliminar": "Eliminar",
       "restaurar": "Restaurar",
+      "reactivar": "Reactivar",
       "imprimir": "Imprimir",
+      "facturar": "Facturar",
+      "unificar": "Unificar",
       "guardar": "Guardar",
       "cancelar": "Cancelar",
+      "continuar": "Continuar",
       "volver": "Volver",
       "salir": "Salir",
       "aceptar": "Aceptar",
       "cambiar-clave": "Actualizar contraseña",
-      "guardar-facturar": "Guardar y Facturar"
+      "guardar-facturar": "Guardar y Facturar",
+      "exito": "Exitosamente",
+      "fallo": "No se pudo",
+      "guardo": "guardó",
+      "elimino": "eliminó"
     },
     "transacciones": {
+      "atencion": "Atención",
+      "invalido": "Inválido",
       "datos-generales": "Datos generales",
       "campos": {
         "fecha": "Fecha",
         "numero": "Numero",
         "concepto": "Concepto",
         "valor": "Valor"
-      }
+      },
+      "agregar-items": "Agregar items",
+      "guardando": "Guardando",
+      "guardando-reg": "Guardando registro",
+      "guardar-reg": "Guardar registro",
+      "guardar-canot": "No se puede guardar",
+      "guardar-invalido": "Revise los mensajes de validación para poder continuar.",
+      "guardar-error": "No se puede guardar verifique los datos y vuelva a intentarlo",
+      "eliminar-error": "No se pudo eliminar",
+      "campos-req": "Estos campos son requeridos",
+      "elaboradox": "Elaborado por",
+      "eliminar-item": "Eliminar item",
+      "eliminar-todo": "Eliminar todos los items",
+      "no-items": "No hay items registrados",
+      "incompleto": "La información está incompleta, rellene todos campos"
     },
     "estados": {
       "0": "Activo",
@@ -184,15 +225,18 @@
     },
     "clinica": {
       "pacientes": {
+        "denominacion": "paciente",
+        "denominacionp": "pacientes",
         "lista-titulo": "Lista de Pacientes",
         "editor-titulo": "Datos del paciente",
         "editor-creando": "Nuevo",
         "editor-modificando": "Modificando",
-        "datos-medicos": "Informacion medica",
+        "datos-medicos": "Información médica",
         "campos": {
           "sexo": "Sexo",
+          "edad": "Edad",
           "ecivil": "Estado civil",
-          "gsanguineo": "Grupo sanguineo",
+          "gsanguineo": "Grupo sanguíneo",
           "nacimiento": "Fecha de nacimiento"
         },
         "tooltip": {
@@ -200,6 +244,8 @@
         }
       },
       "medicos": {
+        "denominacion": "profesional",
+        "denominacionp": "profesionales",
         "lista-titulo": "Lista de Profesionales",
         "editor-titulo": "Datos del profesional",
         "editor-creando": "Nuevo",
@@ -207,30 +253,43 @@
         "datos-personales": "Datos personales",
         "campos": {
           "registro": "Registro profesional",
-          "usuario": "Codigo de usuario",
+          "usuario": "Código de usuario",
           "titulo": "Titulo"
         },
         "validacion": {
           "usuario": "Debe seleccionar el usuario con el que accede",
           "nombres": "Debe digitar los apellidos y nombres"
-        }
+        },
+        "error-seluser": "Debe seleccionar un usuario para poder continuar"
       },
       "consultas": {
-        "lista-titulo": "Lista de Consultas Medicas",
+        "denominacion": "consulta",
+        "denominacionp": "consultas",
+        "denominacion-ext": "Consultas médicas",
+        "lista-titulo": "Lista de Consultas Médicas",
         "editor-titulo": "Datos de la consulta",
         "editor-modificando": "Modificando",
         "editor-nuevo": "Nuevo",
         "datos-paciente": "Datos del paciente",
         "datos-consulta": "Datos de la consulta",
+        "mediciones-sig": "Signos Vitales",
+        "mediciones-med": "Mediciones",
         "mediciones": "Signos Vitales y mediciones",
-        "atencion": "Atencion Medica",
+        "atencion": "Atención Medica",
         "historial": "Historial de consultas",
-        "receta": "Receta medica",
+        "receta": "Receta médica",
         "consulta-general": "Consulta General",
-        "informe-eco": "Informe Ecografico",
+        "informe-eco": "Informe Ecográfico",
         "informe-ekg": "Informe de EKG",
-        "valoracion-cardio": "Valoracion Cardiologica",
-        "certificado": "Certificado Medico",
+        "valoracion-cardio": "Valoración Cardiológica",
+        "certificado": "Certificado Médico",
+        "receta-titulo": "RECETA",
+        "medicamento": "Medicamento",
+        "adicionales": "Adicionales",
+        "examenes-titulo": "ORDEN DE EXAMENES",
+        "examenes-titulomin": "Orden de exámenes",
+        "otros-examenes": "Otros exámenes",
+        "servicio-med": "Servicio médico",
         "campos": {
           "paciente": "Paciente",
           "fecha": "Fecha",
@@ -238,31 +297,42 @@
           "medico": "Profesional",
           "motivo": "Motivo de consulta",
           "diagnostico": "Diagnostico",
-          "diagnostico-ext": "Descripcion",
+          "diagnostico-ext": "Diagnostico extendido",
+          "diagnostico-des": "Descripción",
           "especialidad": "Especialidad",
           "servicio": "Servicio",
-          "sintomas": "Sintomas subjetivos",
-          "exploracion": "Exploracion fisica",
+          "sintomas": "Síntomas subjetivos",
+          "exploracion": "Exploración física",
           "tratamiento": "Tratamiento",
-          "orden-examenes": "Orden de examenes",
+          "orden-examenes": "Orden de exámenes",
+          "datos-laboratorio": "Datos de laboratorio",
+          "proxima-fecha": "Próxima consulta",
           "estado": "Estado",
           "factura": "Factura",
           "antecedentes": "Antecedentes",
+          "indicaciones": "Indicaciones",
           "mediciones": {
             "peso": "Peso",
             "estatura": "Estatura",
             "temperatura": "Temperatura",
-            "presion": "Presion arterial",
+            "presion": "Presión arterial",
             "critmo": "Frecuencia cardiaca",
             "rritmo": "Frecuencia respiratoria",
-            "oxigeno": "Porc. oxigeno en la sangre",
+            "oxigeno": "Porc. oxígeno en la sangre",
             "imc": "IMC",
-            "saturaciono2": "Saturacion de oxigeno"
+            "saturaciono2": "Saturación de oxígeno"
+          },
+          "mediciones-abreviadas": {
+            "presion": "Presión",
+            "critmo": "Frec. cardiaca",
+            "rritmo": "Frec. respiratoria",
+            "oxigeno": "% oxígeno",
+            "saturaciono2": "Saturc. de oxígeno"
           }
         },
         "estados": {
           "0": "Pendiente",
-          "1": "En atencion",
+          "1": "En atención",
           "2": "Cancelada",
           "3": "Terminada",
           "colores": {
@@ -273,20 +343,32 @@
           }
         },
         "validacion": {
-          "paciente": "Se requiere los datos del paciente"
-        }
+          "paciente": "Debe proporcionar los datos del paciente",
+          "medico": "Seleccione el médico que atendera la consulta",
+          "servicio": "Debe seleccionar el servicio médico requerido",
+          "fecha": "Seleccione una fecha válida"
+        },
+        "factura-receta": "FACTURA DE RECETA MEDICA",
+        "factura-consulta": "FACTURA DE CONSULTA MEDICA",
+        "seleccione-esp": "Primero seleccione la especialidad",
+        "agendando": "Agendando nueva Consulta",
+        "ticket-turno-prn": "TICKET DE TURNO",
+        "reactivar-error": "No se pudo reactivar esta consulta."
       },
       "servicios": {
+        "denominacion": "servicio",
+        "denominacionp": "servicios",
+        "titulop": "Servicios",
         "lista-titulo": "Lista de Servicios",
         "editor-titulo": "Datos del Servicio",
         "editor-creando": "Nuevo",
         "editor-modificando": "Modificando",
         "campos": {
-          "descripcion": "Descripcion",
+          "descripcion": "Descripción",
           "producto": "Producto"
         },
         "validacion": {
-          "descripcion": "Debe digitar la descripcion",
+          "descripcion": "Debe digitar la descripción",
           "especialidad": "Debe seleccionar la especialidad",
           "producto": "Debe seleccionar un producto para facturar"
         }
@@ -296,22 +378,33 @@
       "clientes": {
         "datos-personales": "Datos personales",
         "campos": {
-          "codigo": "Codigo",
+          "codigo": "Código",
           "nombres": "Nombres",
-          "cedula": "Cedula/RUC",
-          "direccion": "Direccion",
-          "telefonos": "Telefonos",
-          "correo": "Correo electronico",
-          "tipo-identificacion": "Tipo identificacion",
+          "cedula": "Cédula/RUC",
+          "direccion": "Dirección",
+          "telefonos": "Teléfonos",
+          "correo": "Correo electrónico",
+          "tipo-identificacion": "Tipo identificación",
           "representante-nom": "Representante",
           "representante-ref": "Representante ref.",
           "referencias": "Referencias"
         },
         "validacion": {
-          "nombres": "Debe digitar los apellidos y nombres"
-        }
+          "nombres": "Debe digitar los apellidos y nombres",
+          "cedula": "se requiere una cédula/RUC que sea válido",
+          "direccion": "Se debe digitar la dirección del paciente",
+          "email": "El correo electrónico no es válido",
+          "telefonos": "El teléfono solo debe contener números"
+        },
+        "diario": "Diario de ventas",
+        "total-consultas": "Total Consultas",
+        "total-productos": "Total Productos",
+        "total-general": "TOTAL GENERAL"
       },
       "facturas": {
+        "denominacion": "factura",
+        "denominacionp": "facturas",
+        "titulo": "Factura",
         "datos-cliente": "Datos del cliente",
         "campos": {
           "cliente": "Cliente",
@@ -319,40 +412,49 @@
           "impuestos": "Impuestos",
           "sucursal": "Establecimiento",
           "total": "Total",
+          "total-may": "TOTAL",
           "operador": "Operador",
-          "producto": "Descripcion",
+          "producto": "Descripción",
           "descuento": "Descuento",
           "descuento_porcentaje": "% Descuento",
-          "precio": "Precio"
+          "precio": "Precio",
+          "precio-vta": "Precio de venta"
         },
         "validacion": {
-          "cliente": "Debe seleccionar un cliente"
+          "cliente": "Debe seleccionar un cliente",
+          "cedula-nuevo": "La cedula no se encuentra registrada debe crear un cliente nuevo"
         }
       }
     },
     "inventarios": {
       "productos": {
+        "denominacion": "producto",
+        "denominacionp": "productos",
+        "titulop": "Productos",
         "buscar": "Buscar producto",
         "lista-titulo": "Lista de productos",
         "editor-titulo": "Datos del producto",
         "campos": {
           "producto": "Producto",
-          "codigo": "Codigo",
-          "auto-codigo": "Codigo #",
-          "codigo-barras": "Codigo de barras",
+          "codigo": "Código",
+          "auto-codigo": "Código #",
+          "codigo-barras": "Código de barras",
           "nombre": "Nombre",
-          "medida": "Presentacion",
+          "medida": "Presentación",
           "precio": "Precio venta",
           "costo": "Costo",
-          "categoria": "Categoria",
+          "categoria": "Categoría",
           "tipo": "Tipo de producto",
-          "descripcion": "Descripcion"
+          "descripcion": "Descripción"
         },
         "validacion": {
           "nombre": "Debe digitar el nombre"
         }
       },
       "movimientos": {
+        "titulo": "Movimiento",
+        "denominacion": "movimiento",
+        "denominacionp": "movimientos",
         "campos": {
           "bodega": "Bodega",
           "cantidad": "Cantidad",
@@ -360,14 +462,27 @@
           "descuento": "Descuento",
           "subtotal": "Subtotal"
         }
-      }
+      },
+      "compras": {
+        "denominacion": "compra",
+        "denominacionp": "compras"
+      },
+      "existencias": "Existencia de productos",
+      "sin-stock": "Ver productos sin stock",
+      "sel-producto": "Seleccionar producto",
+      "sel-bodega": "Debe seleccionar la bodega"
     },
     "seguridad": {
       "usuarios": {
+        "denominacion": "usuario",
+        "denominacionp": "usuarios",
         "campos": {
           "rol": "Rol",
           "clave": "Contraseña"
-        }
+        },
+        "req-codigo": "Debe digitar el código del usuario",
+        "req-nombre": "Debe digitar los nombres del usuario",
+        "req-clave": "Debe digitar la contraseña del usuario"
       }
     }
   },
@@ -446,7 +561,7 @@
       "facturas-nuevo": "nuevo",
       "facturas-modificar": "modificar"
     }
-  },
+  }, 
   "dashboards": {
     "pending-orders": "Pedidos Pendientes",
     "completed-orders": "Pedidos Completados",
@@ -504,7 +619,7 @@
   "pages": {
     "add-new": "AGREGAR NUEVO",
     "add-new-modal-title": "Agregar ítem nuevo",
-    "display-options": "Opciones de Visualizacion",
+    "display-options": "Opciones de Visualización",
     "orderby": "Ordenar por : ",
     "product-name": "Nombre del Producto",
     "category": "Categoría",
@@ -513,22 +628,22 @@
     "cancel": "Cancelar",
     "submit": "Enviar",
     "delete": "Borrar",
-    "another-action": "Otra accion",
+    "another-action": "Otra acción",
     "actions": "ACCIONES",
     "header": "Encabezado",
     "details": "DETALLES",
     "orders": "PEDIDOS",
     "rating": "Clasificación",
     "price": "Precio",
-    "ingredients": "Ingredients",
+    "ingredients": "Ingredientes",
     "is-vegan": "Es Vegano",
     "order-status": "Estado del Pedido",
     "bake-progress": "Progreso de Hornear",
     "popularity": "Popularidad",
     "comments": "Comentarios",
-    "error-title": "Vaya, parece que ha ocurrido un error!",
+    "error-title": "Ha ocurrido un error",
     "error-code": "Código de error",
-    "go-back-home": "REGRESAR A INICIO",
+    "go-back-home": "VOLVER AL INICIO",
     "invoice-info": "Invoice template has an inline styled version for usage outside of the project as well as Vue version.",
     "vue-version": "Vue Version",
     "inline-version": "Inline Styled Html Version",
@@ -581,7 +696,7 @@
     "status": "Estado",
     "cancel": "Cancelar",
     "submit": "Enviar",
-    "another-action": "Otra accion",
+    "another-action": "Otra acción",
     "display-options": "Opciones de Pantalla",
     "orderby": "Ordenar por : ",
     "all-surveys": "Todas las Encuestas",
@@ -608,7 +723,7 @@
     "cancel": "Cancelar",
     "submit": "Enviar",
     "action": "Accion",
-    "another-action": "Otra accion",
+    "another-action": "Otra acción",
     "display-options": "Opciones de Pantalla",
     "orderby": "Ordenar por : ",
     "all-tasks": "Todas las Tareas",
@@ -660,7 +775,7 @@
   "button": {
     "default": "Bootstrap Defecto",
     "colors": "Colores",
-    "rounded": "Botones Redondeado",
+    "rounded": "Botones RedondeadoS",
     "outline": "Contorno",
     "states": "Estados",
     "sizes": "Tamaños",

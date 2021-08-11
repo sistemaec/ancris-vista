@@ -55,7 +55,7 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(numero)="fila">
               <div style="text-align: center; vertical-align: middle;">
@@ -178,25 +178,25 @@
                 </tr>
                 <tr>
                   <td v-if="consultaTicket != null" align="left" valign="center" style="padding-top: 30px; padding-bottom: 30px; border-top:0; font-weight: bold; width:100% !important;">
-                    TICKET DE TURNO # {{ consultaTicket.numero }}
+                    $t('vista.clinica.consultas.ticket-turno-prn') # {{ consultaTicket.numero }}
                   </td>
                   <td v-if="consultaTicket != null" align="right" valign="center" style="padding-top: 30px; padding-bottom:30px; border-top:0; font-weight: bold; width:100% !important;">
-                    FECHA: {{ $moment(consultaTicket.fecha).format("YYYY-MM-DD") }}
+                    {{ $t('vista.clinica.consultas.campos.fecha') }}: {{ $moment(consultaTicket.fecha).format("YYYY-MM-DD") }}
                   </td>
                 </tr>
                 <tr v-if="consultaTicket != null">
                   <td colspan="2" style="padding-bottom: 10px; padding-left: 20px">
-                    Paciente: {{ consultaTicket.relPaciente.relCliente.nombres }}
+                    {{ $t('vista.clinica.consultas.campos.paciente') }}: {{ consultaTicket.relPaciente.relCliente.nombres }}
                   </td>
                 </tr>
                 <tr v-if="consultaTicket != null">
                   <td colspan="2" style="padding-bottom: 10px; padding-left: 20px">
-                    Profesional: {{ consultaTicket.relMedico.nombres }}
+                    {{ $t('vista.clinica.consultas.campos.medico') }}: {{ consultaTicket.relMedico.nombres }}
                   </td>
                 </tr>
                 <tr v-if="consultaTicket != null">
                   <td colspan="2" style="padding-bottom: 10px; padding-left: 20px">
-                    Servicio medico: {{ consultaTicket.relServicio.descripcion }}
+                    {{ $t('vista.clinica.consultas.servicio-med') }}: {{ consultaTicket.relServicio.descripcion }}
                   </td>
                 </tr>
                 <tr>
@@ -208,7 +208,7 @@
                 <tr>
                   <td></td>
                   <td align="center" valign="top" style="padding-right: 15px; width:100% !important;">
-                    Elaborado por
+                    {{ $t('vista.transacciones.elaboradox') }}
                   </td>
                 </tr>
               </tbody>
@@ -380,8 +380,8 @@ export default {
               this.buscarPorFecha();
             } else {
               this.$notify("warning", 
-                "Buscar consultas medicas", 
-                "Debe seleccionar el perdiodo a consultar para ejecutar esta busqueda.", 
+                this.$t('vista.busqueda.buscar') + " " + this.$t('vista.clinica.consultas.denominacion-ext'), 
+                this.$t('vista.busqueda.selec-periodo'), 
                 { duration: 3000, permanent: false }
               );
             }
@@ -438,7 +438,7 @@ export default {
         plazo: 0,
         cliente_id: p.relPaciente.relCliente.id,
         vendedor_id: 1,
-        observaciones: "FACTURA DE CONSULTA MEDICA",
+        observaciones: this.$t('vista.clinica.consultas.factura-consulta'),
         descuento_porcentaje: 0,
         porcentaje_venta: 0, // Rect
         subtotal: 0, 
@@ -482,7 +482,7 @@ export default {
         params: {
           id: 0,
           dato: fac,
-          tipo: "Factura",
+          tipo: this.$t('vista.ventas.factura.titulo'),
           tipoId: 11,
           lectura: false,
           servicioValor: valServ,
@@ -505,13 +505,19 @@ export default {
          })
         .then(function(r) {
           if (r.data.msj != null)
-            this.$notify("success", "Reactivar consulta", r.data.msj, { duration: 3000, permanent: false });
+            this.$notify("success", 
+              this.$t("vista.comandos.reactivar") + " " + this.$t("vista.clinica.consultas.titulo"), 
+              r.data.msj, 
+              { duration: 3000, permanent: false });
           this.buscar();  
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.$notify("warning", "Reactivar profesional", "No se pudo reactivar esta consulta.", { duration: 3000, permanent: false });
+          this.$notify("warning", 
+            this.$t("vista.comandos.reactivar") + " " + this.$t("vista.clinica.consultas.campos.medico"), 
+            this.$t('vista.clinica.consultas.reactivar-error'), 
+            { duration: 3000, permanent: false });
         }.bind(this));
       this.busquedaEjecutando = false; 
     },
@@ -524,13 +530,19 @@ export default {
          })
         .then(function(r) {
           if (r.data.msj != null)
-            this.$notify("success", "Eliminar consulta", "La consulta se elimino exitosamente", { duration: 3000, permanent: false });
+            this.$notify("success", 
+              this.$t("vista.comandos.eliminar") + " " + this.$t("vista.clinica.consultas.titulo"), 
+              "La " + this.$t("vista.clinica.consultas.titulo") + "se " + this.$t("vista.comandos.elimino") + " " + this.$t("vista.comandos.exito"), 
+              { duration: 3000, permanent: false });
           this.buscar();
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.$notify("warning", "Eliminar profesional", "No se pudo eliminar esta consulta.", { duration: 3000, permanent: false });
+          this.$notify("warning", 
+            this.$t("vista.comandos.eliminar") + " " + this.$t("vista.clinica.consultas.titulo"), 
+            this.$t("vista.transacciones.eliminar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
+            { duration: 3000, permanent: false });
         }.bind(this));
       this.busquedaEjecutando = false; 
     },
@@ -564,12 +576,7 @@ export default {
             }
             this.busquedaEjecutando = false;
             if (this.consultas.length <= 0) {
-              this.$notify(
-                "warning", 
-                "Buscar consultas", 
-                "No se encontraron resultados para esta busqueda.", 
-                { duration: 3000, permanent: false }
-              );
+              this.noSeEncontro();
             } else {
               this.paginaActual = 1;
               this.cambiarPaginaActual(1);
@@ -577,7 +584,7 @@ export default {
           }.bind(this))
           .catch(function() {
             this.busquedaEjecutando = false;
-            this.$notify("warning", "Buscar consultas", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false});
+            this.noSeEncontro();
           }.bind(this));
       }
     },
@@ -596,7 +603,7 @@ export default {
             }
             this.busquedaEjecutando = false;
             if (this.consultas.length <= 0) {
-              this.$notify("warning", "Buscar consultas", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+              this.noSeEncontro();
             } else {
               this.paginaActual = 1;
               this.cambiarPaginaActual(1);
@@ -605,7 +612,7 @@ export default {
           .catch(function(e) {
             console.log(e);
             this.busquedaEjecutando = false;
-            this.$notify("warning", "Buscar consultas", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+            this.noSeEncontro();
           }.bind(this));
       }
     },
@@ -623,7 +630,7 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.consultas.length <= 0) {
-            this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+            this.noSeEncontro();
           } else {
             this.paginaActual = 1;
             this.cambiarPaginaActual(1);
@@ -632,7 +639,7 @@ export default {
         .catch(function(e) {
           console.log(e);
           this.busquedaEjecutando = false;
-          this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+          this.noSeEncontro();
         }.bind(this));
     },
     buscarPorFecha() {
@@ -648,7 +655,7 @@ export default {
               }
             }
             if (this.consultas.length <= 0) {
-              this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+              this.noSeEncontro();
             } else {
               this.paginaActual = 1;
               this.cambiarPaginaActual(1);
@@ -657,7 +664,7 @@ export default {
           }.bind(this))
           .catch(function(e) {
             this.busquedaEjecutando = false;
-            this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+            this.noSeEncontro();        
           }.bind(this));
     },
     iniciarFechasHoy() {
@@ -670,6 +677,12 @@ export default {
       this.$htmlToPaper("prnTurno");
       this.consultaTicket = null;
     },
+    noSeEncontro() {
+      this.$notify("warning", 
+      this.$t("vista.comandos.buscar") + " " + this.$t("vista.clinica.consultas.denominacionp"), 
+      this.$t("vista.busqueda.no-encontrado"), 
+      { duration: 3000, permanent: false });
+    }
   },
   created(){
     this.$store
@@ -705,6 +718,7 @@ export default {
       this.$store.commit('clinica/setBuscaConsultaDesde', new Date());
     if (this.buscaConsultaHasta == null)  
       this.$store.commit('clinica/setBuscaConsultaHasta', new Date());
+    this.actualizar();  
   },
   destroyed() {
     this.$store.commit('clinica/setBuscaConsultaListaCache', this.consultas);

@@ -17,7 +17,7 @@ export default new Vuex.Store({
   state: {
     empresaAccedida: {
       id: 1,
-      nombre: "Ecuamedica",
+      nombre: "ANCRIS",
       direccion: "Cdla. La Florida Norte Mz. 116 Solar 3",
       telefonos: "(04)-2250623",
     },

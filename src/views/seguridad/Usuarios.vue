@@ -7,13 +7,13 @@
           <b-colxx xxs="12" sm="6">
             <b-form-group :label="$t('vista.ventas.clientes.campos.codigo')">
               <b-form-input type="text" v-model="seleccionado.codigo" :state="!$v.seleccionado.codigo.$error"/>
-              <b-form-invalid-feedback>Debe digitar el codigo del usuario</b-form-invalid-feedback>
+              <b-form-invalid-feedback>{{ $t('vista.seguridad.usuarios.req-codigo') }}</b-form-invalid-feedback>
             </b-form-group>
           </b-colxx>
           <b-colxx xxs="12" sm="6">
             <b-form-group :label="$t('vista.ventas.clientes.campos.nombres')">
               <b-form-input type="text" v-model="seleccionado.nombres" :state="!$v.seleccionado.nombres.$error"/>
-              <b-form-invalid-feedback>Debe digitar los nombres del usuario</b-form-invalid-feedback>
+              <b-form-invalid-feedback>{{ $t('vista.seguridad.usuarios.req-nombre') }}</b-form-invalid-feedback>
             </b-form-group>
           </b-colxx>
           <b-colxx xxs="12" sm="6">
@@ -26,7 +26,7 @@
                   </b-button>
                 </b-input-group-append>
               </b-input-group>  
-              <b-form-invalid-feedback>Debe digitar la contraseña del usuario</b-form-invalid-feedback>
+              <b-form-invalid-feedback>{{ $t('vista.seguridad.usuarios.req-clave') }}</b-form-invalid-feedback>
             </b-form-group>
           </b-colxx>
           <b-colxx xxs="12" sm="6">
@@ -87,19 +87,19 @@
                 class="span-comando mdi mdi-pen mdi-18px mr-2" 
                 @click="modificar(row)"
                 v-b-tooltip.hover 
-                title="Modificar"
+                :title="$t('vista.comandos.modificar')"
               />
               <span v-if="row.item.estado == 0 && row.item.id > 1"
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="Eliminar"
+                title="$t('vista.comandos.eliminar')"
               />
               <span v-if="row.item.estado == 2"
                 class="span-comando mdi mdi-restore mdi-18px" 
                 @click="restaurar(row)"
                 v-b-tooltip.hover
-                title="Restaurar"
+                title="$t('vista.comandos.restaurar')"
               />
             </template>
           </b-table>
@@ -257,10 +257,12 @@ export default {
             }
           }
           if (this.usuarios.length <= 0) {
-            this.$notify("warning", "Consultando usuarios", e, {
-              duration: 3000,
-              permanent: false
-            });
+            this.$notify("warning", 
+              this.$t("vista.busqueda.consultando") + this.$t("vista.seguridad.usuarios.denominacionp"), e, 
+              {
+                duration: 3000,
+                permanent: false
+              });
           } else {
             this.paginaActual = 1;
             this.cambiarPaginaActual(1);
@@ -269,10 +271,10 @@ export default {
         }.bind(this))
         .catch(function(e) {
           this.busquedaEjecutando = false;
-          this.$notify("warning", "Consultando usuarios", "No se encontraron resultados para esta busqueda.", {
-            duration: 3000,
-            permanent: false
-          });
+          this.$notify("warning", 
+            this.$t("vista.busqueda.consultando") + " " + this.$t("vista.seguridad.usuarios.denominacionp"), 
+            this.$t("vista.bisqueda.no-encontrado"), 
+            { duration: 3000, permanent: false });
           this.consultando = false;
         }.bind(this));
     },
@@ -293,40 +295,40 @@ export default {
       }
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.$notify("warning", "No se puede guardar", "Revise los mensajes de validacion para poder continuar.", {
-          duration: 3000,
-          permanent: false
-        });
+        this.$notify("warning", 
+          this.$t("vista.transacciones.guardar-canot"), 
+          this.$t("vista.transacciones.guardar-invalido"), 
+          { duration: 3000, permanent: false });
       } else {
         // Validar que no este reistrado el nuevo codio id == 0
         this.$store
           .dispatch("seguridad/usuarioGuardar", this.seleccionado)
           .then(function(res) {
             if (res.status <= 201) {
-              this.$notify("success", "Guardar usuario", res.data, {
-                duration: 3000,
-                permanent: false
-              });
+              this.$notify("success", 
+                this.$t("vista.comandos.guardar") + " " + this.$t("vista.seguridad.usuarios.denominacion"), 
+                res.data, 
+                { duration: 3000, permanent: false });
               this.vaciarSeleccionado();
               this.verEditor = false;
               this.clave = '';
               this.listar();
             } else {
-              this.$notify("warning", "Guardar usuario", res.data, {
-                duration: 3000,
-                permanent: false
-              });
+              this.$notify("warning", 
+                this.$t("vista.comandos.guardar") + " " + this.$t("vista.seguridad.usuarios.denominacion"), 
+                res.data, 
+                { duration: 3000, permanent: false });
             }
           }.bind(this))
           .catch(function(e) {
             console.log(e);
-            let msj = "No se puede guardar por error relacionado al servidor";
+            let msj = this.$t("vista.transacciones.guardar-error");
             if (e.response.data != undefined);
               msj = e.response.data;
-            this.$notify("danger", "Guardar usuario", msj, {
-                duration: 3000,
-                permanent: false
-              });
+            this.$notify("danger", 
+              this.$t("vista.comandos.guardar") + this.$t("vista.seguridad.usuarios.denominacion"), 
+              msj, 
+              { duration: 3000, permanent: false });
           }.bind(this)
         );
       } 
@@ -346,10 +348,10 @@ export default {
       }
     },
     restaurar(p) {
-      this.modificarEstado(p.item.id, 0, "Restaurar");
+      this.modificarEstado(p.item.id, 0, this.$t("vista.comandos.restaurar"));
     },
     eliminar(p) {
-      this.modificarEstado(p.item.id, 2, "Eliminar");
+      this.modificarEstado(p.item.id, 2, this.$t("vista.comandos.eliminar"));
     },
     modificarEstado(pid, pest, cmd) {
       this.busquedaEjecutando = true;
@@ -359,17 +361,16 @@ export default {
           estado: pest
          })
         .then(function(r) {
-          this.$notify("success", cmd + " Usuario", r.data, {
+          this.$notify("success", cmd + " " + this.$t("vista.seguridad.usuarios.denominacion"), r.data, {
 						duration: 3000,
 						permanent: false
 					});
           this.listar();
-          this.mensaje(r.data, cmd + " Profesional", "success");
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.$notify("error", "Error", e, {
+          this.$notify("error", this.$t("vista.error"), e, {
 						duration: 3000,
 						permanent: false
 					});

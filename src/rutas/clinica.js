@@ -31,6 +31,10 @@ export const pacientesUnificar = function(id) {
   return `${rutaBase}/consultas/paciente/${id}/unificar`;
 };
 
+export const pacienteModificarEstado = function(id, estado) {
+  return `${rutaBase}/pacientes/${id}/modificar/estado/${estado}`
+}
+
 // MEDICOS
 
 export const medicoPorId = function(id) {

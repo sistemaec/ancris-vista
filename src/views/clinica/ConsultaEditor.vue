@@ -46,30 +46,47 @@
                             <span class="sr-only">Espere por favor...</span>
                           </div>
                         </template>
-                        <b-form-input type="text" v-model.trim="consulta.relPaciente.relCliente.identificacion" @keyup.enter="validarCedula()" :disabled="esPublico"/>
+                        <b-form-input type="text" 
+                          :state="!$v.consulta.relPaciente.relCliente.identificacion.$error"
+                          v-model.trim="consulta.relPaciente.relCliente.identificacion"
+                          :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.cedula')"
+                          @keyup.enter="validarCedula()" :disabled="esPublico"/>
+                        <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.cedula') }}</b-form-invalid-feedback>  
                       </b-overlay>
                     </div>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.nombres')">
-                    <b-form-input ref="txNombre" type="text" v-model="nombrePaciente" :state="!$v.consulta.relPaciente.relCliente.nombres.$error" @keyup.enter="buscarPaciente()"/>
+                    <b-form-input ref="txNombre" type="text" v-model="nombrePaciente" 
+                      :state="!$v.consulta.relPaciente.relCliente.nombres.$error" 
+                      :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.nombres')"
+                      @keyup.enter="buscarPaciente()"/>
                     <b-form-invalid-feedback>{{ $t('vista.clinica.consultas.validacion.paciente') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.direccion')">
-                    <b-form-input type="text" v-model.trim="consulta.relPaciente.relCliente.direccion"/>
+                    <b-form-input 
+                      :state="!$v.consulta.relPaciente.relCliente.direccion.$error"
+                      type="text" v-model.trim="consulta.relPaciente.relCliente.direccion"/>
+                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.direccion') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.telefonos')">
-                    <b-form-input type="text" v-model.trim="consulta.relPaciente.relCliente.telefonos"/>
+                    <b-form-input 
+                      :state="!$v.consulta.relPaciente.relCliente.telefonos.$error"
+                      type="text" v-model.trim="consulta.relPaciente.relCliente.telefonos"/>
+                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.telefonos') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.correo')">
-                    <b-form-input type="text" v-model.trim="consulta.relPaciente.relCliente.email"/>
+                    <b-form-input 
+                      :state="!$v.consulta.relPaciente.relCliente.email.$error"
+                      type="text" v-model.trim="consulta.relPaciente.relCliente.email"/>
+                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.email') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
               </b-row>
@@ -81,7 +98,8 @@
                       :list="especialidades"
                       v-model="especialidadSeleccionado"
                       option-value="id"
-                      option-text="descripcion">
+                      option-text="descripcion"
+                      placeholder="Digite para seleccione una opción">
                     </model-list-select>
                   </b-form-group>
                 </b-colxx>
@@ -93,7 +111,7 @@
                           <b-spinner small type="grow" variant="secondary"></b-spinner>
                           <b-spinner type="grow" variant="dark"></b-spinner>
                           <b-spinner small type="grow" variant="secondary"></b-spinner>
-                          <span class="sr-only">Espere por favor...</span>
+                          <span class="sr-only">{{ $t('vista.busqueda.espere-porfa') }}...</span>
                         </div>
                       </template>
                       <model-list-select 
@@ -102,6 +120,7 @@
                         option-value="id"
                         option-text="descripcion">
                       </model-list-select>
+                      <b-form-invalid-feedback :state="!$v.servicioSeleccionado.$error" >{{ $t('vista.clinica.consultas.validacion.servicio') }}</b-form-invalid-feedback>
                     </b-overlay>
                   </b-form-group>
                 </b-colxx>
@@ -113,6 +132,7 @@
                       option-value="id"
                       option-text="nombres">
                     </model-list-select>
+                    <b-form-invalid-feedback :state="!$v.medicoSeleccionado.$error" >{{ $t('vista.clinica.consultas.validacion.medico') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
@@ -122,7 +142,8 @@
                       :bootstrap-styling="true"
                       v-model="fechaSeleccionado"
                       :language="es"
-                    ></datepicker>  
+                    ></datepicker>
+                    <b-form-invalid-feedback :state="!$v.consulta.fecha.$error">{{ $t('vista.clinica.consultas.validacion.fecha') }}</b-form-invalid-feedback>  
                   </b-form-group>
                 </b-colxx>
               </b-row>
@@ -162,7 +183,8 @@
   </div>
 </template>
 <script>
-const { required } = require("vuelidate/lib/validators");
+import { cedulaValida } from '../../utils'
+const { required, minValue, numeric, email } = require("vuelidate/lib/validators");
 import * as moment from 'moment';
 import Datepicker from "vuejs-datepicker";
 import {es} from 'vuejs-datepicker/dist/locale'
@@ -228,7 +250,7 @@ export default {
         }  
       },
       especialidades: [],
-      servicios: [],
+      servicios: [ { id: 0, descripcion: this.$t('vista.clinica.consultas.seleccione-esp') } ],
       medicos: [],
       especialidadSel: 0,
       tiposIdentificacion: [],
@@ -247,10 +269,41 @@ export default {
     consulta: {
       relPaciente: {
         relCliente: {
+          identificacion: {
+            required,
+            valido(val) {
+              return val.length <= 10 ? cedulaValida(val) : (val.length == 13 ? true : false);
+            }
+          },
           nombres: {
             required
+          },
+          direccion: {
+            required
+          },
+          telefonos: {
+            numeric
+          },
+          email: {
+            email
           }
         }
+      },
+      fecha: {
+        required,
+        minValue(val) {
+          return (this.$moment(new Date()).format("YYYY-MM-DD") <= this.$moment(val).format("YYYY-MM-DD"));
+        },
+      }
+    },
+    medicoSeleccionado: {
+      required() {
+        return this.consulta.medico_id > 0;
+      }
+    },
+    servicioSeleccionado: {
+      required() {
+        return this.consulta.servicio_id > 0
       }
     }
   },
@@ -265,7 +318,7 @@ export default {
         res = this.$t('menu.clinica.consultas.modificar');
       } else {
         if (this.$route.params.publico != undefined) {
-          res = "Agendando nueva Consulta";
+          res = this.$t('vista.clinica.consultas.agendando');
         }
       }
       return res;  
@@ -326,37 +379,22 @@ export default {
       if (this.$v.$invalid) {
         this.$notify(
           "warning",
-          "No se puede guardar",
-          "Revise los mensajes de validacion para poder continuar.",
+          this.$t('vista.transacciones.guardar-canot'),
+          this.$t('vista.transacciones.guardar-invalido'),
           { duration: 3000, permanent: false }
         );
       } else {
         // TODO (parametrizar validacion)
         let val = true;
-        let msj = "";
-
-        val = val && this.consulta.servicio_id > 0
-        if (!val) {
-          msj += "Servicio medico";
-        }
-
-        val = val && this.consulta.medico_id > 0
-        if (!val) {
-          msj += (msj.length > 0 ? ", " : "") + "Profesional"; 
-        }
-
-        val = val && this.consulta.fecha != undefined
-        if (!val) {
-          msj += (msj.length > 0 ? ", " : "") + "Fecha";
-        }
+        let msj = this.$t("vista.transacciones.incompleto");
 
         if (val) {
           this.procesarGuardado(fac);
         } else {
           this.$notify(
             "warning",
-            "No se puede guardar",
-            "Estos campos son requeridos: " + msj,
+            this.$t('vista.transacciones.guardar-canot'),
+            this.$t('vista.transacciones.campos-req') + ": " + msj,
             { duration: 3000, permanent: false }
           );
 
@@ -391,7 +429,7 @@ export default {
                 this.relPaciente.id = 0;
                 this.nombrePaciente = r.data.data.relCliente.nombres;
                 if (r.data.data != undefined) {
-                  this.alerta.mensaje = "La cedula esta la base de datos pero no esta registrado como paciente, se creara un registro nuevo";
+                  this.alerta.mensaje = "La cédula está en la base de datos pero no esta registrado como paciente, se creará un registro nuevo";
                   this.alerta.tipo = "warning";
                   this.alerta.ver = true;
                   this.consulta.relPaciente.relCliente = r.data.data;
@@ -434,11 +472,10 @@ export default {
         .catch(function(e) {
           console.log(e);
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor: " + e.message;
           this.$notify(
             "danger", 
-            "Guardar Consulta", 
-            msj,
+            this.$t('vista.transacciones.guardando-reg'), 
+            this.$t('vista.transacciones.guardar-error') + ": " + e.message,
             { duration: 3000, permanent: false }
           );
         }.bind(this));
@@ -453,7 +490,7 @@ export default {
         plazo: 0,
         cliente_id: this.consulta.relPaciente.relCliente.id,
         vendedor_id: 1,
-        observaciones: "FACTURA DE CONSULTA MEDICA",
+        observaciones: this.$t('vista.clinica.consultas.factura-receta'),
         descuento_porcentaje: 0,
         porcentaje_venta: 0, // Rect
         subtotal: 0, 

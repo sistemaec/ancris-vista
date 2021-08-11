@@ -1,7 +1,7 @@
 <template>
   <b-row>
     <b-colxx xxs="12">
-      <h1>Existencias de productos</h1>
+      <h1>{{ $t('vista.inventarios.existencias') }}</h1>
       <piaf-breadcrumb />
       <div class="mb-2">
         <div class="d-block d-md-inline-block">
@@ -21,7 +21,7 @@
             class="d-inline-block float-md-left ml-3 view-icon boton-comando"
             @click="actualizar()"
             v-b-tooltip.hover 
-            title="Actualizar resultados"
+            :title="$t('vista.comandos.actualizar') + ' ' + $t('vista.busqueda.resultados')"
           >
             <i class="mdi mdi-24px mdi-find-replace"/>
           </a>
@@ -29,7 +29,7 @@
             class="d-inline-block float-md-left ml-3 view-icon boton-comando;"
             @click="imprimir()"
             v-b-tooltip.hover 
-            title="Actualizar resultados"
+            :title="$t('vista.comandos.actualizar') + ' ' + $t('vista.busqueda.resultados')"
           >
             <i class="mdi mdi-24px mdi-printer"/>
           </a>
@@ -39,7 +39,7 @@
               theme="custom" 
               color="primary-inverse" 
               class="vue-switcher-small d-md-inline-block align-middle ml-5"
-            >Ver productos sin stock</b-checkbox>
+            >{{ $t('vista.inventarios.sin-stock') }}</b-checkbox>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
     <b-colxx id="prnExiste" xxs="12">
       <b-table responsive :items="items" :busy="busquedaEjecutando" :fields="campos">
         <template #table-busy>
-          <table-busy mensaje="Consultando inventarios..." />
+          <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
         </template>
         <template #cell(existencia)="fila">
           <div style="text-align: right;">

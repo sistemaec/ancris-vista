@@ -29,7 +29,7 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(acciones)="row">
               <span v-if="row.item.estado == 0"
@@ -194,7 +194,10 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.movimientos.length <= 0) {
-            this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar " + this.tipo, "warning");
+            this.$notify("warning",
+              this.$t("vista.comandos.buscar") + " " + this.tipo,
+              this.$t("vista.busqueda.no-encontrado"),
+              { duration: 3000, permanent: false });
           } else {
             this.paginaActual = 1;
             this.cambiarPaginaActual(1);
@@ -204,7 +207,10 @@ export default {
           console.log("Error");
           console.log(e);
           this.busquedaEjecutando = false;
-          this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar " + this.tipo , "warning");
+          this.$notify("warning",
+            this.$t("vista.comandos.buscar") + " " + this.tipo,
+            this.$t("vista.busqueda.no-encontrado"),
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     modificar(p) {
@@ -242,12 +248,15 @@ export default {
          })
         .then(function(r) {
           this.buscar();
-          this.mensaje(r.data, comando + " " + tipo, "success");
+          this.mensaje(r.data, comando + " " + this.tipo, "success");
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.mensaje("No se pudo " + comando.toLowerCase() + " este item.", comando + " " + tipo, "warning");
+          this.$notify("warning",
+            comando + " " + this.tipo,
+            this.$t("vista.comandos.fallo") + " " + comando.toLowerCase() + " " + this.tipo,
+            { duration: 3000, permanent: false });
         }.bind(this));
       this.busquedaEjecutando = false;
     },

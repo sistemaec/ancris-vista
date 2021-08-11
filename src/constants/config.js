@@ -13,7 +13,7 @@ export const localeOptions = [
   { id: 'en', name: 'English LTR', direction: 'ltr' },
   { id: 'enrtl', name: 'English RTL', direction: 'rtl' }
 ]
-export const slogan = "Centro de Especialidades Medicas";
+export const slogan = "Centro médico comunitario";
 
 export const isAuthGuardActive = false;
 export const themeRadiusStorageKey = 'theme_radius';

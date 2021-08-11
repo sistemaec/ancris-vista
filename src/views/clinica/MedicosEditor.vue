@@ -133,7 +133,10 @@ export default {
     guardar() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.mensaje("Revise los mensajes de validacion para poder continuar.", "No se puede guardar", "warning");
+        this.$notify("warning", 
+          this.$t('vista.transaccion.guardar-canot'), 
+          this.$t('vista.transaccion.guardar-invalido'), 
+          { duration: 3000, permanent: false });
       } else {
         if (this.medico.usuario_id > 0) {
           console.log(this.medico.usuario_id);
@@ -149,7 +152,10 @@ export default {
                 if (res.status == 200) {
                   this.procesarGuardado();
                 } else {
-                  this.mensaje(res.data, "No se puede guardar", "warning");
+                  this.$notify("warning", 
+                    this.$t('vista.transaccion.guardar-canot'), 
+                    res.data, 
+                    { duration: 3000, permanent: false });
                 }
                 this.procesando = false;
               }.bind(this))
@@ -158,7 +164,10 @@ export default {
                 if (e.response.data != undefined)
                   msg = e.response.data;
                 this.procesando = false;
-                this.mensaje(msg, "Guardar Profesional", "danger");
+                this.$notify("danger", 
+                    this.$t('vista.transaccion.guardar-canot'), 
+                    msg, 
+                    { duration: 3000, permanent: false });
               }.bind(this));
             this.procesando = false;
           } else {
@@ -166,7 +175,10 @@ export default {
             this.procesando = false;
           }
         } else {
-          this.mensaje("Debe selecionar un usuario para poder continuar.", "No se puede guardar", "warning");
+          this.$notify("warning", 
+            this.$t('vista.transaccion.guardar-canot'), 
+            this.$t('vista.clinica.medicos.error-seluser'), 
+            { duration: 3000, permanent: false });
         }
       }
     },
@@ -175,10 +187,16 @@ export default {
         .dispatch("clinica/medicoGuardar", this.medico)
         .then(function(res) {
           if (res.status <= 201) {
-            this.mensaje(res.data.msj, "Guardando Profesional", "success");
+            this.$notify("warning", 
+              this.$t('vista.transacciones.guardando') + " " + this.$t('vista.clinica.consultas.campos.medico'), 
+              res.data.msj, 
+              { duration: 3000, permanent: false });
             this.$router.back();
           } else {
-            this.mensaje(res.data.msj, "Guardar Profesional", "warning");
+            this.$notify("warning", 
+              this.$t('vista.transacciones.guardando') + " " + this.$t('vista.clinica.consultas.campos.medico'), 
+              res.data.msj, 
+              { duration: 3000, permanent: false });
           }
           this.procesando = false;
         }.bind(this))
@@ -187,7 +205,10 @@ export default {
           let msj = "No se puede guardar por error relacionado al servidor";
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
-          this.mensaje(msj, "Guardar Profesional", "danger");
+          this.$notify("daner", 
+            this.$t('vista.comandos.guardar') + " " + this.$t('vista.clinica.consultas.campos.medico'), 
+            msj, 
+            { duration: 3000, permanent: false });
         }.bind(this)
       );
     },
@@ -248,7 +269,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

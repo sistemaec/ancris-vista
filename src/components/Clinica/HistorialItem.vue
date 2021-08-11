@@ -5,31 +5,31 @@
       <h6>{{ consulta.relServicio.descripcion }}</h6>
       <div class="text-primary text-small font-weight-medium d-none d-sm-block">{{ consulta.fecha }}</div>
       <div v-if="consulta.relMedico != null" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Profesional</span> {{ consulta.relMedico.nombres }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.medico') }}: </span> {{ consulta.relMedico.nombres }}</p>
       </div>
       <div v-if="consulta.sintomas_subjetivos != null && consulta.sintomas_subjetivos.length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Sintomas</span> {{ consulta.sintomas_subjetivos }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.sintomas') }}: </span> {{ consulta.sintomas_subjetivos }}</p>
       </div>
       <div v-if="consulta.antecedentes != null && consulta.antecedentes.length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Antecedentes</span> {{ consulta.antecedentes }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.antecedentes') }}: </span> {{ consulta.antecedentes }}</p>
       </div>
       <div v-if="consulta.exploracion_fisica != null && consulta.exploracion_fisica.length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Exploracion fisica</span> {{ consulta.exploracion_fisica }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.exploracion') }}: </span> {{ consulta.exploracion_fisica }}</p>
       </div>
       <div v-if="consulta.diagnostico_descripcion != null && consulta.diagnostico_descripcion.length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Diagnostico</span> {{ consulta.diagnostico_descripcion }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.diagnostico') }}: </span> {{ consulta.diagnostico_descripcion }}</p>
       </div>
       <div v-if="consulta.laboratorio != null && consulta.laboratorio.length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Datos de laboratorio</span> {{ consulta.laboratorio }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.datos-laboratorio') }}: </span> {{ consulta.laboratorio }}</p>
       </div>
       <div v-if="consulta.tratamiento != null && consulta.tratamiento.length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Tratamiento</span> {{ consulta.tratamiento }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.tratamiento') }}: </span> {{ consulta.tratamiento }}</p>
       </div>
       <div class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Signos Vitales: </span> {{ traerMediciones() }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.mediciones') }}: </span> {{ traerMediciones() }}</p>
       </div>
       <div v-if="traerExamenes().length > 0" class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">Examenes: </span> {{ traerExamenes() }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.orden-examenes') }}: </span> {{ traerExamenes() }}</p>
       </div>
     </div>
   </div>  
@@ -51,31 +51,31 @@ export default {
           const med = JSON.parse(this.$props.consulta.mediciones);
           let txt = ''
           if (med.presion != undefined && med.presion.length > 0) {
-            txt +=  `Presion: ${med.presion} (mmHG) `
+            txt +=  this.$t('vista.clinica.consultas.campos.mediciones-abreviadas.presion') + `: ${med.presion} (mmHG) `
           }
           if (med.peso != undefined && med.peso.length > 0) {
-            txt +=  `Peso: ${med.peso} (kg) `
+            txt +=  this.$t('vista.clinica.consultas.campos.mediciones.peso') + `: ${med.peso} (kg) `
           }
           if (med.estatura != undefined && med.estatura.length > 0) {
-            txt += `Estatura: ${med.estatura} (cm) `
+            txt += this.$t('vista.clinica.consultas.campos.mediciones.estatura') + `: ${med.estatura} (cm) `
           }
           if (med.temperatura != undefined && med.temperatura.length > 0) {
-            txt += `Temperatura: ${med.temperatura} (°C) `
+            txt += this.$t('vista.clinica.consultas.campos.mediciones.temperatura') + `: ${med.temperatura} (°C) `
           }
           if (med.critmo != undefined && med.critmo.length > 0) {
-            txt += `R. Cardiaco: ${med.critmo} (xMin) `
+            txt += this.$t('vista.clinica.consultas.campos.mediciones-abreviadas.critmo') + `: ${med.critmo} (xMin) `
           }
           if (med.rritmo != undefined && med.rritmo.length > 0) {
-            txt += `Frq. Respiratoria: ${med.rritmo} (xMin) `
+            txt += this.$t('vista.clinica.consultas.campos.mediciones-abreviadas.rritmo') + `: ${med.rritmo} (xMin) `
           }
           if (med.oxigeno != undefined && med.oxigeno.length > 0) {
-            txt += `% Oxigeno: ${med.oxigeno} (%) `
+            txt += this.$t('vista.clinica.consultas.campos.mediciones-abreviadas.oxigeno') + `: ${med.oxigeno} (%) `
           }
           if (med.imc != undefined && med.imc.length > 0) {
-            txt += `I. Masa Corpo.: ${med.imc} `
+            txt += this.$t('vista.clinica.consultas.campos.mediciones.imc') + `: ${med.imc} `
           }
           if (med.saturaciono2 != undefined && med.saturaciono2.length > 0) {
-            txt += `Saturacion Oxigeno: ${med.saturaciono2}`
+            txt += this.$t('vista.clinica.consultas.campos.mediciones-abreviadas.saturaciono2') + `: ${med.saturaciono2}`
           }
           return txt;
         } catch(e) {

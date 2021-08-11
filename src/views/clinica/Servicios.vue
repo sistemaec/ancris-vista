@@ -29,26 +29,26 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy :mensaje="$('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(acciones)="row">
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-pen mdi-18px mr-2" 
                 @click="modificar(row)"
                 v-b-tooltip.hover 
-                title="Modificar"
+                :title="$t('vista.comandos.modificar')"
               />
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="Eliminar"
+                :title="$t('vista.comandos.eliminar')"
               />
               <span v-if="row.item.estado == 2"
-                class="span-comando mdi mdi-restore mdi-18px" 
+                class="span-comando mdi mdi-restore mdi-18px"
                 @click="restaurar(row)"
                 v-b-tooltip.hover
-                title="Restaurar"
+                :title="$t('vista.comandos.restaurar')"
               />
             </template>
             <template #cell(estado)="fila">
@@ -197,7 +197,10 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.servicios.length <= 0) {
-            this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar servicio", "warning");
+            this.$notify("warning", 
+              this.$t("vista.comandos.buscar") + " " + this.$t('vista.clinica.servicios.denominacion'),
+              this.$t("vista.busqueda.no-encontrado"),
+              { duration: 3000, permanent: false });
             this.cambiarPaginaActual(1);
           } else {
             this.paginaActual = 1;
@@ -208,7 +211,10 @@ export default {
           console.log("Error");
           console.log(e);
           this.busquedaEjecutando = false;
-          this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar servicio", "warning");
+          this.$notify("warning", 
+            this.$t("vista.comandos.buscar") + " " + this.$t('vista.clinica.servicios.denominacion'),
+            this.$t("vista.busqueda.no-encontrado"),
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     modificar(p) {
@@ -233,9 +239,9 @@ export default {
       this.modificarEstado(p.item.id, 2);
     },
     modificarEstado(pid, pestado) {
-      let comando = "Eliminar";
+      let comando = this.$t("vista.comandos.eliminar");
       if (pestado == 0)
-        comando = "Restaurar";
+        comando = this.$t("vista.comandos.restaurar");
       this.busquedaEjecutando = true;
       this.$store
         .dispatch("clinica/servicioModificarEstado", {
@@ -244,12 +250,18 @@ export default {
          })
         .then(function(r) {
           this.buscar();
-          this.mensaje(r.data, comando + " Servicio", "success");
+          this.$notify("success", 
+            comando + " " + this.$t('vista.clinica.servicios.denominacion'),
+            r.data,
+            { duration: 3000, permanent: false });
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.mensaje("No se pudo " + comando.toLowerCase() + " este item.", comando + " Servicio", "warning");
+          this.$notify("warning", 
+            comando + " " + this.$t('vista.clinica.servicios.denominacion'),
+            this.$t("vista.comandos.fallo") + " " + comando.toLowerCase() + " este item.",
+            { duration: 3000, permanent: false });
         }.bind(this));
       this.busquedaEjecutando = false;
     },

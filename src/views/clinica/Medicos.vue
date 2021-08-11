@@ -29,7 +29,7 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(estado)="fila">
               <b-badge :variant="$t('vista.estados.colores.' + fila.item.estado)">
@@ -194,7 +194,10 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.medicos.length <= 0) {
-            this.$notify("warning", "Buscar profesionales", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+            this.$notify("warning", 
+              this.$t("vista.comandos.buscar") + " " + this.$t("vista.clinica.medicos.denominacionp"), 
+              this.$t("vista.busqueda.no-encontrado"), 
+              { duration: 3000, permanent: false });
             this.cambiarPaginaActual(1);
           } else {
             this.paginaActual = 1;
@@ -205,7 +208,10 @@ export default {
           console.log("Error");
           console.log(e);
           this.busquedaEjecutando = false;
-          this.$notify("warning", "Buscar profesionales", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+          this.$notify("warning", 
+            this.$t("vista.comandos.buscar") + " " + this.$t("vista.clinica.medicos.denominacionp"), 
+            this.$t("vista.busqueda.no-encontrado"), 
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     modificar(p) {
@@ -224,10 +230,10 @@ export default {
       });
     },
     restaurar(p) {
-      this.modificarEstado(p.item.id, 0, "Restaurar");
+      this.modificarEstado(p.item.id, 0, this.$t("vista.comandos.restaurar"));
     },
     eliminar(p) {
-      this.modificarEstado(p.item.id, 2, "Eliminar");
+      this.modificarEstado(p.item.id, 2, this.$t("vista.comandos.eliminar"));
     },
     modificarEstado(pid, pest, cmd) {
       this.busquedaEjecutando = true;
@@ -238,12 +244,16 @@ export default {
          })
         .then(function(r) {
           this.buscar();
-          this.$notify("success", cmd + " Profesional", r.data, { duration: 3000, permanent: false });
+          this.$notify("success", cmd + " " + this.$t("vista.clinica.consultas.campos.medico"), 
+            r.data, 
+            { duration: 3000, permanent: false });
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.$notify("warning", cmd + " Profesional", "No se pudo " + cmd.toLowerCase() + " este item.", { duration: 3000, permanent: false });
+          this.$notify("warning", cmd + " " + this.$t("vista.clinica.consultas.campos.medico"), 
+            this.$t("vista.comandos.fallo") + " " + cmd.toLowerCase() + " este item.", 
+            { duration: 3000, permanent: false });
         }.bind(this));
       this.busquedaEjecutando = false; 
     },

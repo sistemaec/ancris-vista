@@ -4,6 +4,7 @@ import {
   pacientePorCedula,
   pacienteRegistrado, 
   pacienteGuardar, 
+  pacienteModificarEstado,
   cedulaRegistrada, 
   registrosPorTabla, 
   consultasPorPaciente, 
@@ -327,6 +328,10 @@ const clinica = {
       let ced = p.cedula.length <= 0 ? '000' : p.cedula;
       return await axios.get(this.$app.appConfig.apiUrl + pacienteRegistrado(p.id, ced, p.nombres));
     },
+    async pacienteModificarEstado(context, p) {
+      return await axios.put(this.$app.appConfig.apiUrl + pacienteModificarEstado(p.id, p.estado));
+    },
+    
     // MEDICOS
     async medicosPorEstado(context, p) {
       let ruta = this.$app.appConfig.apiUrl + medicosPorEstado(p);

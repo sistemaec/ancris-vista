@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal v-model="selPacienteVer" title="Seleccionar paciente" v-on:ok="seleccionadoPaciente()">
+    <b-modal v-model="selPacienteVer" :title="$t('vista.busqueda.sel') + ' ' + $t('vista.pacientes.denominacion')" v-on:ok="seleccionadoPaciente()">
       <paciente-seleccionar/>
       <template #modal-footer="{ ok, cancel }">
         <b-button size="sm" @click="ok()" :disabled="pacienteNoSeleccionado">
@@ -40,26 +40,26 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(acciones)="row">
               <span
                 class="span-comando mdi mdi-pen mdi-18px mr-2" 
                 @click="modificar(row)"
                 v-b-tooltip.hover 
-                title="Modificar"
+                :title="$t('vista.comandos.modificar')"
               />
               <span
                 class="span-comando mdi mdi-paperclip mdi-18px" 
                 @click="acUnificar(row)"
                 v-b-tooltip.hover
-                title="Unificar"
+                :title="$t('vista.comandos.unificar')"
               />
               <span
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="Eliminar"
+                :title="$t('vista.comandos.eliminar')"
               />
             </template>
             <template #cell(estado)="fila">
@@ -218,7 +218,10 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.pacientes.length <= 0) {
-            this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+            this.$notify("warning", 
+              this.$t("vista.comandos.buscar") + " " + this.$t("vista.clinica.pacientes.denominacion"), 
+              this.$t("vista.busqueda.no-encontrado"), 
+              { duration: 3000, permanent: false });
             this.cambiarPaginaActual(1);
           } else {
             this.paginaActual = 1;
@@ -229,7 +232,10 @@ export default {
           console.log("Error");
           console.log(e);
           this.busquedaEjecutando = false;
-          this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+          this.$notify("warning", 
+            this.$t("vista.comandos.buscar") + " " + this.$t("vista.clinica.pacientes.denominacion"), 
+            this.$t("vista.busqueda.no-encontrado"), 
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     modificar(p) {
@@ -251,8 +257,33 @@ export default {
       this.unificar.mantenido = p.item.id;
       this.selPacienteVer = true;
     },
-    eliminar(id) {
-      console.log("Eliminar " + id);
+    eliminar(p) {
+      this.modificarEstado(p.item.id, 2, this.$t("vista.comandos.eliminar"));
+    },
+    restaurar(p) {
+      this.modificarEstado(p.item.id, 0, this.$t("vista.comandos.restaurar"));
+    },
+    modificarEstado(pid, pest, cmd) {
+      this.busquedaEjecutando = true;
+      this.$store
+        .dispatch("clinica/pacienteModificarEstado", { 
+          id: pid,
+          estado: pest
+         })
+        .then(function(r) {
+          this.buscar();
+          this.$notify("success", cmd + " " + this.$t("vista.clinica.consultas.campos.paciente"),
+            r.data,
+            { duration: 3000, permanent: false });
+        }.bind(this))
+        .catch(function(e) {
+          console.log("Error");
+          console.log(e);
+          this.$notify("warning", cmd + " " + this.$t("vista.clinica.consultas.campos.paciente"),
+            this.$t("vista.comandos.fallo") + " " + cmd.toLowerCase() + " este item.",
+            { duration: 3000, permanent: false });
+        }.bind(this));
+      this.busquedaEjecutando = false;
     },
     seleccionadoPaciente() {
       this.unificar.removido = this.selPaciente.id;
@@ -268,12 +299,18 @@ export default {
           })
           .then(function(r) {
             this.buscar();
-            this.$notify("success", "Unificar Pacientes", r.data, { duration: 3000, permanent: false });
+            this.$notify("success", 
+              this.$t("vista.comandos.unificar") + " " + this.$t("vista.clinica.pacientes.denominacionp"), 
+                r.data, 
+                { duration: 3000, permanent: false });
           }.bind(this))
           .catch(function(e) {
             console.log("Error");
             console.log(e);
-            this.$notify("warning", "Unificar Pacientes", "No se pudo unificar estos pacientes.", { duration: 3000, permanent: false });
+            this.$notify("warning", 
+              this.$t("vista.comandos.unificar") + " " + this.$t("vista.clinica.pacientes.denominacionp"), 
+              this.$t("vista.comandos.fallo") + " " + this.$t("vista.comandos.unificar") + " " + this.$t("vista.clinica.pacientes.denominacionp") + ".", 
+              { duration: 3000, permanent: false });
           }.bind(this));
         this.busquedaEjecutando = false;
       }

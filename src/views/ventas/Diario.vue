@@ -24,7 +24,7 @@
               class="d-inline-block float-md-left ml-3 view-icon boton-comando"
               @click="buscar()"
               v-b-tooltip.hover 
-              title="Actualizar resultados"
+              :title="$t('vista.comandos.actualizar') + ' ' + $t('vista.busqueda.resultados')"
             >
               <i class="mdi mdi-24px mdi-find-replace"/>
             </a>
@@ -32,7 +32,7 @@
               class="d-inline-block float-md-left ml-3 view-icon boton-comando"
               @click="imprimir()"
               v-b-tooltip.hover 
-              title="Actualizar resultados"
+              title="$t('vista.comandos.imprimir')"
             >
               <i class="mdi mdi-24px mdi-printer"/>
             </a>
@@ -44,7 +44,7 @@
     <b-row id="prnDiario">
       <b-colxx xxs="12">
         <b-card class="mb-4">
-          <h5>Servicios</h5>
+          <h5>{{ $t('vista.clinica.servicios.titulop') }}</h5>
           <b-table
             ref="custom-table"
             class="vuetable"
@@ -53,7 +53,7 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #head(valor)="data">
               <div style="text-align: right;">
@@ -67,10 +67,10 @@
             </template>
           </b-table>
           <div style="text-align: right;">
-            <span class="font-weight-semibold mr-4">Total Consultas</span>
+            <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.total-consultass') }}</span>
             <span class="font-weight-semibold mr-2">$ {{ totalConsultas | dinero }}</span>
           </div>
-          <h5>Productos</h5>
+          <h5>{{ $t('vista.inventarios.productos.titulop') }}</h5>
           <b-table
             ref="custom-table"
             class="vuetable"
@@ -89,12 +89,12 @@
             </template>
           </b-table>
           <div style="text-align: right;">
-            <span class="font-weight-semibold mr-4">Total Productos</span>
+            <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.total-productos') }}</span>
             <span class="font-weight-semibold mr-2">$ {{ totalProductos | dinero }}</span>
           </div>
           <hr>
           <div style="text-align: right;">
-            <span class="font-weight-semibold mr-4">TOTAL GENERAL</span>
+            <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.total-general') }}</span>
             <span class="font-weight-semibold mr-2">$ {{ parseFloat(totalProductos) + parseFloat(totalConsultas) | dinero }}</span>
           </div>  
         </b-card>
@@ -178,14 +178,20 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.ventas.length <= 0) {
-            this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar " + this.tipo, "warning");
+            this.$notify("warning",
+              this.$t("vista.ventas.diario"),
+              this.$t("vista.busqueda.no-encontrado"),
+              { duration: 3000, permanent: false });
           }
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
           this.busquedaEjecutando = false;
-          this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar " + this.tipo , "warning");
+          this.$notify("warning",
+            this.$t("vista.ventas.diario"),
+            this.$t("vista.busqueda.no-encontrado"),
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     imprimir() {

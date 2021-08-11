@@ -16,7 +16,6 @@ let render = () => {
   import("./assets/css/sass/themes/piaf." + color + ".scss").then(() => {
     require("./main");
   });
-  console.log("Tema iniciado");
 }
 render();
 

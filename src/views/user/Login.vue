@@ -19,7 +19,7 @@
                 <b-form @submit.prevent="formSubmit" class="av-tooltip tooltip-label-bottom">
                     <b-form-group label="Usuario" class="has-float-label mb-4">
                         <b-form-input type="text" v-model="$v.crendencial.usuario.$model" :state="!$v.crendencial.usuario.$error" />
-                        <b-form-invalid-feedback v-if="!$v.crendencial.usuario.required">Digite su codigo de usuario</b-form-invalid-feedback>
+                        <b-form-invalid-feedback v-if="!$v.crendencial.usuario.required">Digite su código de usuario</b-form-invalid-feedback>
                     </b-form-group>
 
                     <b-form-group label="Contraseña" class="has-float-label mb-4">
@@ -111,7 +111,7 @@ export default {
 			},
 			loginError(val) {
 				if (val != null) {
-					this.$notify("error", "Login Error", val, {
+					this.$notify("error", "Error", val, {
 						duration: 3000,
 						permanent: false
 					});

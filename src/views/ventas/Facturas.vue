@@ -30,32 +30,32 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="Ejecutando consulta..." />
+              <table-busy mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(acciones)="row">
               <span
                 class="span-comando mdi mdi-eye mdi-18px mr-2"
                 @click="ver(row)"
                 v-b-tooltip.hover
-                title="Ver"
+                title="$t('vista.comandos.ver')"
               />
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-pen mdi-18px mr-2"
                 @click="modificar(row)"
                 v-b-tooltip.hover
-                title="Modificar"
+                title="$t('vista.comandos.modificar')"
               />
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="Eliminar"
+                title="$t('vista.comandos.eliminar')"
               />
               <span v-if="row.item.estado == 2"
                 class="span-comando mdi mdi-restore mdi-18px" 
                 @click="restaurar(row)"
                 v-b-tooltip.hover
-                title="Restaurar"
+                title="$t('vista.comandos.restaurar')"
               />
             </template>
             <template #cell(fecha)="fila">
@@ -216,7 +216,10 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.ventas.length <= 0) {
-            this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar " + this.tipo, "warning");
+            this.$notify("warning",
+              this.$t("vista.comandos.buscar") + " " + this.$t('vista.ventas.facturas.denominacionp'),
+              this.$t("vista.busqueda.no-encontrado"),
+              { duration: 3000, permanent: false });
           } else {
             this.paginaActual = 1;
             this.cambiarPaginaActual(1);
@@ -226,7 +229,10 @@ export default {
           console.log("Error");
           console.log(e);
           this.busquedaEjecutando = false;
-          this.mensaje("No se encontraron resultados para esta busqueda.", "Buscar " + this.tipo , "warning");
+          this.$notify("warning",
+            this.$t("vista.comandos.buscar") + " " + this.$t('vista.ventas.facturas.denominacionp'),
+            this.$t("vista.busqueda.no-encontrado"),
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     modificar(p) {
@@ -257,9 +263,9 @@ export default {
       this.modificarEstado(p.item.id, 2);
     },
     modificarEstado(pid, pestado) {
-      let comando = "Eliminar";
+      let comando = this.$t("vista.comandos.eliminar");
       if (pestado == 0)
-        comando = "Restaurar";
+        comando = this.$t("vista.comandos.restaurar");
       this.busquedaEjecutando = true;
       this.$store
         .dispatch("inventarios/movimientoModificarEstado", {
@@ -268,12 +274,19 @@ export default {
          })
         .then(function(r) {
           this.buscar();
+          this.$notify("success",
+            comando + " " + this.$t('vista.ventas.facturas.denominacion'),
+            r.data,
+            { duration: 3000, permanent: false });
           this.mensaje(r.data, comando + " " + tipo, "success");
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
           console.log(e);
-          this.mensaje("No se pudo " + comando.toLowerCase() + " este item.", comando + " " + tipo, "warning");
+          this.$notify("warning",
+            comando + " " + this.$t('vista.ventas.facturas.denominacion'),
+            this.$t('vista.comandos.fallo') + " " + comando + " " + this.$t('vista.ventas.facturas.denominacion'),
+            { duration: 3000, permanent: false });
         }.bind(this));
       this.busquedaEjecutando = false;
     },

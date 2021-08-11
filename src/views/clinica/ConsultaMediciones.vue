@@ -229,10 +229,13 @@ export default {
         .catch(function(e) {
           console.log(e);
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t('vista.transacciones.guardar-error');
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
-          this.$notify("danger", "Guardar Mediciones", msj, { duration: 3000, permanent: false });
+          this.$notify("danger", 
+            this.$t('vista.transacciones.guardando') + ' ' + this.$t('vista.clinica.consultas.campos.mediciones-med'), 
+            msj, 
+            { duration: 3000, permanent: false });
         }.bind(this)
       );
     },

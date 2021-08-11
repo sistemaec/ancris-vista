@@ -32,12 +32,17 @@
                             <b-spinner type="grow" variant="dark"></b-spinner>
                             <b-spinner small type="grow" variant="secondary"></b-spinner>
                             <!-- We add an SR only text for screen readers -->
-                            <span class="sr-only">Please wait...</span>
+                            <span class="sr-only">{{ $t('vista.busqueda.espere-porfa') }}...</span>
                           </div>
                         </template>
-                        <b-form-input type="text" v-model.trim="paciente.relCliente.identificacion" @keyup.enter="validarCedula()" class="fondo-transparente-min"/>
+                        <b-form-input 
+                          type="text" v-model.trim="paciente.relCliente.identificacion" 
+                          @keyup.enter="validarCedula()" class="fondo-transparente-min" 
+                          :state="!$v.paciente.relCliente.identificacion.$error"
+                          :placeholder="$t('vista.busqueda.digitar-enter')"/>
+                        <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.cedula') }}</b-form-invalid-feedback>
                       </b-overlay>
-                    </div>  
+                    </div>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
@@ -48,17 +53,20 @@
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.direccion')">
-                    <b-form-input type="text" v-model.trim="paciente.relCliente.direccion"/>
+                    <b-form-input type="text" v-model.trim="paciente.relCliente.direccion" :state="!$v.paciente.relCliente.direccion.$error"/>
+                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.direccion') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.telefonos')">
-                    <b-form-input type="text" v-model.trim="paciente.relCliente.telefonos"/>
+                    <b-form-input type="text" v-model.trim="paciente.relCliente.telefonos" :state="!$v.paciente.relCliente.telefonos.$error"/>
+                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.telefonos') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
                   <b-form-group :label="$t('vista.ventas.clientes.campos.correo')">
-                    <b-form-input type="text" v-model.trim="paciente.relCliente.email"/>
+                    <b-form-input type="text" v-model.trim="paciente.relCliente.email"  :state="!$v.paciente.relCliente.email.$error"/>
+                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.email') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="12" sm="6">
@@ -120,6 +128,7 @@
                       v-model="nacimiento"
                       :language="es"
                     ></datepicker>
+                    <b-form-invalid-feedback :state="!$v.paciente.fecha_nacimiento.$error">{{ $t('vista.clinica.consultas.validacion.fecha') }}</b-form-invalid-feedback>
                   </b-form-group>
                 </b-colxx>
               </b-row>
@@ -143,9 +152,10 @@
   </div>
 </template>
 <script>
+import { cedulaValida } from '../../utils'
 import Datepicker from "vuejs-datepicker";
 import {es} from 'vuejs-datepicker/dist/locale';
-const { required } = require("vuelidate/lib/validators");
+const { required, minLength, maxLength, email, numeric, maxValue } = require("vuelidate/lib/validators");
 export default {
   components: {
     Datepicker
@@ -199,7 +209,22 @@ export default {
       relCliente: {
         nombres: {
           required
-        }
+        },
+        identificacion: {
+          minLength: minLength(10),
+          maxLength: maxLength(13),
+          valido(val) {
+            return val.length <= 10 ? cedulaValida(val) : (val.length == 13 ? true : false);
+          }
+        },
+        direccion: { required },
+        telefonos: { numeric },
+        email: { email }
+      },
+      fecha_nacimiento: {
+        maxValue(val) {
+          return new Date(val) <= new Date();
+        },
       }
     }
   },
@@ -226,7 +251,10 @@ export default {
     guardar() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        this.mensaje("Revise los mensajes de validacion para poder continuar.", "No se puede guardar", "warning");
+        this.$notify("warning", 
+          this.$t("vista.transacciones.guardar-canot"),
+          this.$t("vista.transacciones.guardar-invalido"),
+          { duration: 3000, permanent: false });
       } else {
         this.procesando = true;
         if (this.paciente.id == 0) {
@@ -240,16 +268,22 @@ export default {
               if (res.status == 200) {  
                 this.procesarGuardado();
               } else {
-                this.mensaje(res.data, "No se puede guardar", "warning");
+                this.$notify("warning", 
+                  this.$t("vista.transacciones.guardar-canot"),
+                  res.data,
+                  { duration: 3000, permanent: false });
               }
               this.procesando = false;
             }.bind(this))
             .catch(function(e) {
-              let msg = "No se puede guardar por error relacionado al servidor";
+              let msg = this.$t("vista.transacciones.guardar-error");
               if (e.response.data != undefined)
                 msg = e.response.data;
               this.procesando = false;
-              this.mensaje(msg, "Guardar Paciente", "danger");
+              this.$notify("danger", 
+                this.$t("vista.transacciones.guardar-canot"),
+                msg,
+                { duration: 3000, permanent: false });
             }.bind(this));
           this.procesando = false;  
         } else {
@@ -257,15 +291,6 @@ export default {
           this.procesando = false;
         }
       }
-    },
-    mensaje(contenido, titulo, variante) {
-      this.$bvToast.toast(contenido, {
-        title: titulo,
-        variant: variante,
-        toaster: 'b-toaster-bottom-right',
-        solid: true,
-        appendToast: false
-      })
     },
     ocultaOverlay() {
       this.$refs.btGuardar.focus();
@@ -280,37 +305,51 @@ export default {
           id: this.paciente.relCliente.id,
           cedula: this.paciente.relCliente.identificacion })
         .then(function(res) {
-          if (res.status == 200) {  
-            this.mensaje(res.data.msj, "Cedula registrada", "warning");
+          if (res.status == 200) {
+            this.$notify("success", 
+              "Cédula registrada",
+              res.data.msj,
+              { duration: 3000, permanent: false });
             if (res.data.data != undefined) {
               this.paciente.relCliente = res.data.data;
             }
           }
-          this.ocupadoCedula = false;
+          this.ocupadoCedula = false;  
         }.bind(this))
         .catch(function(e) {
           this.ocupadoCedula = false;
         }.bind(this));
+      //this.ocupadoCedula = false;  
     },
     procesarGuardado() {
+      this.procesando = true;
       this.$store
         .dispatch("clinica/pacienteGuardar", this.paciente)
         .then(function(res) {
           if (res.status <= 201) {
-            this.mensaje(res.data.msj, "Guardando paciente", "success");
+            this.$notify("success", 
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.pacientes.denominacion"),
+              res.data.msj,
+              { duration: 3000, permanent: false });
             this.$router.back();
           } else {
-            this.mensaje(res.data.msj, "Guardar paciente", "warning");
+            this.$notify("warning", 
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.pacientes.denominacion"),
+              res.data.msj,
+              { duration: 3000, permanent: false });
           }
           this.procesando = false;
         }.bind(this))
         .catch(function(e) {
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = this.$t('vista.transacciones.guardar-error');
           console.log(e);
           /*if (e.response.data.msj != undefined);
             msj = e.response.data.msj;*/
-          this.mensaje(msj, "Guardar Paciente", "danger");
+          this.$notify("danger", 
+            this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.pacientes.denominacion"),
+            msj,
+            { duration: 3000, permanent: false });  
         }.bind(this)
       );
     }

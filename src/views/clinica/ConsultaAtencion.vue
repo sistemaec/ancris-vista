@@ -37,7 +37,7 @@
             size="lg"
             class="top-right-button"
             @click="cancelar()"
-          >{{ lectura ? 'Volver' : $t('vista.comandos.cancelar') }}</b-button>
+          >{{ lectura ? $t('vista.comandos.volver') : $t('vista.comandos.cancelar') }}</b-button>
         </div>
       </b-colxx>
       <b-colxx lg="12" md="12">
@@ -54,28 +54,28 @@
                 <b-row>
                   <b-colxx lg="4" md="12">
                     <p class="list-item-heading mb-1 truncate">
-                      Paciente: {{ consulta.relPaciente.relCliente.nombres }}
+                      {{ $t('vista.clinica.consultas.campos.paciente') }}: {{ consulta.relPaciente.relCliente.nombres }}
                     </p>
                   </b-colxx>
                   <b-colxx lg="4" md="6">
                     <p class="list-item-heading mb-1 truncate">
-                      Profesional: {{ consulta.relMedico.nombres }}
+                      {{ $t('vista.clinica.consultas.campos.medico') }}: {{ consulta.relMedico.nombres }}
                     </p>
                   </b-colxx>
                   <b-colxx lg="2" md="2">
-                    Edad: {{ edadPaciente() }}
+                    {{ $t('vista.clinica.pacientes.campos.edad') }}: {{ consulta.relMedico.nombres }}: {{ edadPaciente() }}
                   </b-colxx>
                   <b-colxx lg="2" md="4">
-                    Fecha: {{ consulta.fecha }}
+                    {{ $t('vista.clinica.consultas.campos.fecha') }}: {{ consulta.fecha }}
                   </b-colxx>
                 </b-row>
                 <b-row>
                   <b-colxx lg="12" md="12">
                     <span class="mb-0 text-muted text-small mr-4">
-                      Especialidad: {{ consulta.relServicio.relEspecialidad.descripcion }}
+                      {{ $t('vista.clinica.pacientes.campos.especialidad') }}: {{ consulta.relServicio.relEspecialidad.descripcion }}
                     </span>
                     <span class="mb-0 text-muted text-small">
-                      Servicio: {{ consulta.relServicio.descripcion }}
+                      {{ $t('vista.clinica.pacientes.campos.servicio') }}: {{ consulta.relServicio.descripcion }}
                     </span>
                   </b-colxx>
                   <!--b-colxx lg="6" md="12">
@@ -137,14 +137,14 @@
                   <b-form-group :label="$t('vista.clinica.consultas.campos.diagnostico')">
                     <b-input-group>
                       <!--b-form-input ref="txDiagnostico" type="text" v-model="diagnosticoDescripcion" @keyup.enter="buscarDiagnostico()"/-->
-                      <b-form-input v-model="diagnosticoTexto" :disabled="lectura" placeholder="Digite y pulse ENTER para buscar diagnostico" @keyup.enter.stop.prevent="buscarDiagnostico()"/>
+                      <b-form-input v-model="diagnosticoTexto" :disabled="lectura" :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.clinica.consultas.campos.diagnostico')" @keyup.enter.stop.prevent="buscarDiagnostico()"/>
                       <b-input-group-append is-text v-if="!diagnosticoNoSeleccionado">
                         {{ diagnosticoSeleccion.codigo }}
                       </b-input-group-append>
                     </b-input-group>
                   </b-form-group>
                 </b-form-group>
-                <b-form-group label="Diagnostico extendido">
+                <b-form-group :label="$t('vista.clinica.consultas.campos.diagnostico-ext')">
                   <!--b-form-input v-model="consulta.diagnostico_descripcion" :disabled="lectura"></b-form-input-->
                   <b-textarea
                     v-model="consulta.diagnostico_descripcion"
@@ -161,7 +161,7 @@
                     :disabled="lectura"
                   />
                 </b-form-group>
-                <b-form-group label="Datos de laboratorio">
+                <b-form-group :label="$t('vista.clinica.consultas.campos.datos-laboratorio')">
                   <b-textarea
                     v-model="consulta.laboratorio"
                     :rows="4"
@@ -169,7 +169,7 @@
                     :disabled="lectura"
                   />
                 </b-form-group>
-                <b-form-group label="Fecha de proxima consulta">
+                <b-form-group :label="$t('vista.clinica.consultas.campos.proxima-fecha')">
                   <datepicker
                     class="fecha-md"
                     :bootstrap-styling="true"
@@ -200,11 +200,11 @@
           <b-colxx lg="12" md="12" sm="12">
             <b-card class="mb-4">
               <template v-if="!lectura" #header>
-                <h4 class="mt-4 ml-2">{{ $t('vista.clinica.consultas.receta') }} - Agregar items</h4>
+                <h4 class="mt-4 ml-2">{{ $t('vista.clinica.consultas.receta') }} - {{ $t('vista.transacciones.agergar-items') }}</h4>
                 <b-row class="ml-1 mr-1">
                   <b-col sm="8" md="4" lg="4" class="espacio-corto mb-2">
                     <b-input-group>
-                      <b-form-input v-model="productoSeleccion.texto" placeholder="Buscar producto" @keyup.enter.stop.prevent="buscarProducto()"/>
+                      <b-form-input v-model="productoSeleccion.texto" :placeholder="$t('vista.busqueda.digitar-enter') + ' medicinas'" @keyup.enter.stop.prevent="buscarProducto()"/>
                       <b-input-group-append>
                         <b-button variant="primary" class="borde-recto" @click="buscarProducto()">
                           <i class="mdi mdi-magnify"/>
@@ -213,11 +213,15 @@
                     </b-input-group>
                   </b-col>
                   <b-col sm="4" md="2" lg="2" class="espacio-corto mb-2">
-                    <b-form-input ref="txCantidad" size="sm" v-model="productoSeleccion.cantidad" placeholder="Cant." @keyup.enter="enfocarIndicaciones()"/>
+                    <b-form-input ref="txCantidad" size="sm" v-model="productoSeleccion.cantidad" 
+                      placeholder="Cant." 
+                      @keyup.enter="enfocarIndicaciones()"/>
                   </b-col>
                   <b-col sm="12" md="6" lg="6" class="espacio-corto mb-2">
                     <b-input-group>
-                      <b-form-input ref="txDosis" v-model="productoSeleccion.indicaciones" placeholder="Inidicaciones" @keyup.enter="agregarItem()"/>
+                      <b-form-input ref="txDosis" v-model="productoSeleccion.indicaciones" 
+                        :placeholder="$t('vista.clinica.consultas.campos.indicaciones')" 
+                        @keyup.enter="agregarItem()"/>
                       <b-input-group-append>
                         <b-button variant="primary" class="borde-recto" @click="agregarItem()">
                           <i class="mdi mdi-plus"/>
@@ -230,8 +234,10 @@
               <template #footer>
                 <b-row class="ml-1 mr-1">
                   <b-colxx md="4" lg="3" sm="6">
-                    <b-button @click="recetaImprimir()">Imprimir</b-button>
-                    <b-button @click="recetaFacturar()" class="ml-2" v-if="lectura && consulta.recetaItems.length > 0 && esAdmin">Facturar</b-button>
+                    <b-button @click="recetaImprimir()">{{ $('vista.comandos.imprimir') }}</b-button>
+                    <b-button @click="recetaFacturar()" class="ml-2" 
+                      v-if="lectura && consulta.recetaItems.length > 0 && esAdmin"
+                    >{{ $('vista.comandos.facturar') }}</b-button>
                   </b-colxx>
                   <b-colxx md="4" lg="3" sm="6">
                     
@@ -259,7 +265,8 @@
               <b-row class="medioA4 invisible">
                 <b-colxx xxs="12" class="mb-5">
                   <div style="background-color:#ffffff; height:660px; max-width:830px; font-family: Helvetica,Arial,sans-serif !important; position: relative;">
-                    <table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" style="width:100%; background-color:#ffffff;border-collapse:separate !important; border-spacing:0;color:#242128; margin:0; padding-left:30px; padding-right:30px;" heigth="auto">
+                    <table bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" 
+                      style="width:100%; background-color:#ffffff;border-collapse:separate !important; border-spacing:0;color:#242128; margin:0; padding-left:30px; padding-right:30px;" heigth="auto">
                       <tbody>
                         <tr>
                           <td align="left" valign="center" style="padding-bottom:0px; padding-top:10px; border-top:0;width:100% !important;">
@@ -267,7 +274,7 @@
                           </td>
                           <td align="right" valign="center" style="padding-bottom:0px;border-top:0;width:100% !important;">
                             <p style="color: #8f8f8f; font-weight: normal; line-height: 1.2; font-size: 12px; white-space: nowrap; ">
-                              {{ empresa.lema }}<br> {{ empresa.direccion }}<br> {{ empresa.telefonos }}
+                              {{ empresa.lema }}<br> {{ empresa.telefonos }}
                             </p>
                           </td>
                         </tr>
@@ -278,14 +285,14 @@
                                 <tr>
                                   <td style="vertical-align:middle; border-radius: 3px; padding:15px; background-color: #f9f9f9; border-right: 5px solid white;">
                                     <p style=" font-size: 11px">
-                                      <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">Paciente:</span> {{ consulta.relPaciente.relCliente.nombres }} <br/>
-                                      <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">Medico:</span> {{ consulta.relMedico.nombres }}<br/>
-                                      <span v-if="consulta.proxima != null" style="color:#303030; font-size: 14px;  line-height: 1.6; margin:0; padding:0;">Proxima consulta:</span> {{ $moment(consulta.proxima).format('YYYY-MM-DD') }}
+                                      <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">{{ $t('vista.clinica.consultas.campos.paciente') }}:</span> {{ consulta.relPaciente.relCliente.nombres }} <br/>
+                                      <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">{{ $t('vista.clinica.consultas.campos.medico') }}:</span> {{ consulta.relMedico.nombres }}<br/>
+                                      <span v-if="consulta.proxima != null" style="color:#303030; font-size: 14px;  line-height: 1.6; margin:0; padding:0;">{{ $t('vista.clinica.consultas.campos.proxima-fecha') }}:</span> {{ $moment(consulta.proxima).format('YYYY-MM-DD') }}
                                     </p>
                                   </td>
                                   <td style="text-align: right; padding-top:0px; padding-bottom:0; vertical-align:middle; padding:15px; background-color: #f9f9f9; border-radius: 3px; border-left: 5px solid white;">
                                     <p style="color:#8f8f8f; font-size: 11px; padding: 0; line-height: 1.6; margin:0; ">
-                                      RECETA<br>
+                                      {{ $t('vista.clinica.consultas.receta-titulos') }}<br>
                                       {{ consulta.fecha }}
                                     </p>
                                   </td>
@@ -297,10 +304,10 @@
                                 <thead>
                                   <tr style="padding-top: 0px;">
                                     <th style="text-align: left; font-size: 10px; color:#8f8f8f; padding-bottom:5px;">
-                                      Medicamento
+                                      {{ $t('vista.clinica.consultas.medicamento') }}
                                     </th>
                                     <th style="text-align: right; font-size: 10px; color:#8f8f8f; padding-bottom:5px;">
-                                      Cantidad
+                                      {{ $t('vista.inventarios.movimientos.campos.cantidad') }}
                                     </th>
                                   </tr>
                                 </thead>
@@ -324,7 +331,7 @@
                                 <thead>
                                   <tr style="padding-top:0px;">
                                     <th style="text-align:left; font-size: 10px; color:#8f8f8f; padding-bottom: 5px;">
-                                      Indicaciones
+                                      {{ $t('vista.clinica.consultas.campos.indicaciones') }}
                                     </th>
                                   </tr>
                                 </thead>
@@ -361,7 +368,7 @@
               <template #footer>
                 <b-row class="ml-1 mr-1">
                   <b-colxx md="4" lg="3" sm="12">
-                    <b-button @click="certificadoImprimir()">Imprimir</b-button>
+                    <b-button @click="certificadoImprimir()">{{ $t('vista.comandos.imprimir') }}</b-button>
                   </b-colxx>
                 </b-row>
               </template>
@@ -380,11 +387,11 @@
             <template #footer>
               <b-row class="ml-1 mr-1">
                 <b-colxx md="4" lg="3" sm="12">
-                  <b-button @click="examenesImprimir()">Imprimir</b-button>
+                  <b-button @click="examenesImprimir()">{{ $t('vista.comandos.imprimir') }}</b-button>
                 </b-colxx>
               </b-row>
             </template>
-            <h6>Adicionales</h6>
+            <h6>{{ $t('vista.clinica.consultas.adicionales')}}</h6>
             <b-form-input class="mb-4" v-model="consulta.examenes" size="sm" :disabled="lectura"/>
             <div class="examenes">
               <b-form-group
@@ -427,20 +434,20 @@
                               <tr>
                                 <td style="vertical-align:middle; border-radius: 3px; padding:15px; background-color: #f9f9f9; border-right: 5px solid white;">
                                   <p>
-                                    <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">Paciente:</span> {{ consulta.relPaciente.relCliente.nombres }} <br/>
-                                    <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">Medico:</span> {{ consulta.relMedico.nombres }}
+                                    <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">{{ $t('vista.clinica.consultas.campos.paciente') }}:</span> {{ consulta.relPaciente.relCliente.nombres }} <br/>
+                                    <span style="color:#303030; font-size: 11px;  line-height: 1.6; margin:0; padding:0;">{{ $t('vista.clinica.consultas.campos.medico') }}:</span> {{ consulta.relMedico.nombres }}
                                   </p>
                                 </td>
                                 <td style="text-align: right; padding-top:0px; padding-bottom:0; vertical-align:middle; padding:15px; background-color: #f9f9f9; border-radius: 3px; border-left: 5px solid white;">
                                   <p style="color:#8f8f8f; font-size: 11px; padding: 0; line-height: 1.6; margin:0; ">
-                                    ORDEN DE EXAMENES<br>
+                                    {{ $t('vista.clinica.consultas.examenes-titulo') }}<br>
                                     {{ consulta.fecha }}
                                   </p>
                                 </td>
                               </tr>
                               <tr style="margin-top: 10px; margin-bottom: 10px">
                                 <td>
-                                  <p>Otros examenes: {{ consulta.examenes }}</p>
+                                  <p>{{ $t('vista.clinica.consultas.otros-examenes') }}: {{ consulta.examenes }}</p>
                                 </td>
                               </tr>
                             </tbody>
@@ -730,9 +737,9 @@ export default {
         .dispatch("clinica/consultaGuardar", this.consulta)
         .then(function(res) {
           if (res.status <= 201) {
-            this.$notify("success", "Guardando registro", res.data.msj, { duration: 3000, permanent: false });
+            this.$notify("success", this.$t('vista.transacciones.guardando-reg'), res.data.msj, { duration: 3000, permanent: false });
           } else {
-            this.$notify("warning", "Guardar registro", res.data.msj, { duration: 3000, permanent: false });
+            this.$notify("warning", this.$t('vista.transacciones.guardar-reg'), res.data.msj, { duration: 3000, permanent: false });
           }
           this.procesando = false;
           this.$router.back();
@@ -740,8 +747,9 @@ export default {
         .catch(function(e) {
           console.log(e);
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
-          this.$notify("danger", "Guardar registro", msj, { duration: 3000, permanent: false });
+          this.$notify("danger", "Guardar registro", 
+            this.$t('vista.transacciones.guardar-error'), 
+            { duration: 3000, permanent: false });
         }.bind(this)
       );
       this.procesando = false;
@@ -807,77 +815,6 @@ export default {
     diagnosticoSeleccionado() {
       this.consulta.diagnostico_cie = this.selDiagnostico.codigo;
     },
-    /*cargarValoraCardio() {
-      let res = this.valoraCardio.replace(':paciente:', this.valoraCardioDatos.paciente);
-      res = res.replace(':fecha:', this.valoraCardioDatos.fecha);
-      res = res.replace(':paciente_edad:', this.valoraCardioDatos.paciente_edad);
-      res = res.replace(':paciente_sexo:', this.valoraCardioDatos.paciente_sexo);
-      res = res.replace(':hipertension:', this.valoraCardioDatos.hipertension);
-      res = res.replace(':diabetico:', this.valoraCardioDatos.diabetico);
-      res = res.replace(':peso:', this.valoraCardioDatos.peso);
-      res = res.replace(':talla:', this.valoraCardioDatos.talla);
-      res = res.replace(':imc:', this.valoraCardioDatos.imc);
-      res = res.replace(':motivo:', this.valoraCardioDatos.motivo);
-      res = res.replace(':antecedentes_personales:', this.valoraCardioDatos.antecedentes_personales);
-      res = res.replace(':habitos:', this.valoraCardioDatos.habitos);
-      res = res.replace(':examen_fisico:', this.valoraCardioDatos.examen_fisico);
-      res = res.replace(':presion:', this.valoraCardioDatos.presion);
-      res = res.replace(':ritmo:', this.valoraCardioDatos.ritmo);
-      res = res.replace(':fauricular:', this.valoraCardioDatos.fauricular);
-      res = res.replace(':fventricular:', this.valoraCardioDatos.fventricular);
-      res = res.replace(':ejelec:', this.valoraCardioDatos.ejelec);
-      res = res.replace(':complejo_qrs:', this.valoraCardioDatos.complejo_qrs);
-      res = res.replace(':complejo_qtc:', this.valoraCardioDatos.complejo_qtc);
-      res = res.replace(':ondat:', this.valoraCardioDatos.ondat);
-      res = res.replace(':observacion:', this.valoraCardioDatos.observacion);
-      res = res.replace(':dx:', this.valoraCardioDatos.dx);
-      res = res.replace(':riesgo_nivel:', this.valoraCardioDatos.riesgo_nivel);
-      res = res.replace(':escala:', this.valoraCardioDatos.escala);
-      res = res.replace(':sugerencia:', this.valoraCardioDatos.sugerencia);
-      res = res.replace(':profesional:', this.valoraCardioDatos.profesional);
-      res = res.replace(':profesional_registro:', 'R.M.S.P.: ' + this.valoraCardioDatos.profesional_registro);
-      res = res.replace(':dislipidemia:', this.valoraCardioDatos.dislipidemia);
-      res = res.replace(':solicitante:', this.valoraCardioDatos.solicitante);
-      res = res.replace(':tipocirugia:', this.valoraCardioDatos.tipocirugia);
-      this.valoraCardio = res;
-      this.informeEjecutado.valoraCardio = true;
-    },
-    cargarInformeEKG() {
-      let res = this.informeEKG.replace(':paciente:', this.informeEKGDatos.paciente);
-        res = res.replace(':paciente:', this.informeEKGDatos.paciente);
-        res = res.replace(':medicosol:', this.informeEKGDatos.medicosol);
-        res = res.replace(':fecha:', this.informeEKGDatos.fecha);
-        res = res.replace(':ritmo:', this.informeEKGDatos.ritmo);
-        res = res.replace(':frecuencia:', this.informeEKGDatos.frecuencia);
-        res = res.replace(':ejelec:', this.informeEKGDatos.ejelec);
-        res = res.replace(':ondap:', this.informeEKGDatos.ondap);
-        res = res.replace(':qrs:', this.informeEKGDatos.qrs);
-        res = res.replace(':st:', this.informeEKGDatos.st);
-        res = res.replace(':ondat:', this.informeEKGDatos.ondat);
-        res = res.replace(':pr:', this.informeEKGDatos.pr);
-        res = res.replace(':arritmia:', this.informeEKGDatos.arritmia);
-        res = res.replace(':interpretacion:', this.informeEKGDatos.interpretacion);
-        res = res.replace(':conclusion:', this.informeEKGDatos.conclusion);
-        res = res.replace(':profesional:', this.informeEKGDatos.profesional);
-        res = res.replace(':profesional_registro:', this.informeEKGDatos.profesional_registro);
-      this.informeEKG = res;
-      this.informeEjecutado.EKG = true;
-    },
-    informeEKGImprimir() {
-      this.imprimibleInforme = this.convertirDeltaHtml(this.$refs['txtInformeEKG'].quill.editor.delta.ops);
-      this.$htmlToPaper("prnInforme");
-      this.imprimibleInforme = "";
-    },
-    informeEcoImprimir() {
-      this.imprimibleInforme = this.convertirDeltaHtml(this.$refs['txtInformeEco'].quill.editor.delta.ops);
-      this.$htmlToPaper("prnInforme");
-      this.imprimibleInforme = "";
-    },
-    valoraCardioImprimir() {
-      this.imprimibleInforme = this.convertirDeltaHtml(this.$refs['txtValoraCardio'].quill.editor.delta.ops);
-      this.$htmlToPaper("prnInforme");
-      this.imprimibleInforme = "";
-    },*/
     certificadoImprimir() {
       this.imprimibleInforme = this.convertirDeltaHtml(this.$refs['txtCertificado'].quill.editor.delta.ops);
       this.$htmlToPaper("prnInforme");
@@ -921,7 +858,7 @@ export default {
         plazo: 0,
         cliente_id: this.consulta.relPaciente.relCliente.id,
         vendedor_id: 1,
-        observaciones: "FACTURA DE RECETA MEDICA",
+        observaciones: this.$t('vista.clinica.consultas.factura-receta'),
         descuento_porcentaje: 0,
         porcentaje_venta: 0, // Rect
         subtotal: 0, 
@@ -966,7 +903,7 @@ export default {
         params: {
           id: 0,
           dato: fac,
-          tipo: "Factura",
+          tipo: this.$t('vista.ventas.facturas.titulo'),
           tipoId: 11,
           lectura: false,
           servicioValor: 0,

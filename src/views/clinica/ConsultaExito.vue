@@ -38,7 +38,7 @@
                   </td>
                   <td align="right" valign="center" style="padding-bottom:0px;border-top:0;width:100% !important;">
                     <p style="color: #8f8f8f; font-weight: normal; line-height: 1.2; font-size: 12px; white-space: nowrap; ">
-                      Centro medico comunitario<br> Telf.: 0994066015
+                      Centro médico comunitario<br> Telf.: 0994066015
                     </p>
                   </td>
                 </tr>
@@ -62,7 +62,7 @@
                 </tr>
                 <tr v-if="consulta != null">
                   <td colspan="2" style="padding-bottom: 10px; padding-left: 20px">
-                    Servicio medico: {{ consulta.relServicio.descripcion }}
+                    Servicio médico: {{ consulta.relServicio.descripcion }}
                   </td>
                 </tr>
                 <!--tr>

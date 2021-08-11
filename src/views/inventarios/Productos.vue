@@ -41,19 +41,19 @@
                 class="span-comando mdi mdi-pen mdi-18px mr-2" 
                 @click="modificar(row)"
                 v-b-tooltip.hover 
-                title="Modificar"
+                :title="$t('vista.comandos.modificar')"
               />
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="Eliminar"
+                title="$t('vista.comandos.eliminar')"
               />
               <span v-if="row.item.estado == 2"
                 class="span-comando mdi mdi-restore mdi-18px" 
                 @click="restaurar(row)"
                 v-b-tooltip.hover
-                title="Restaurar"
+                title="$t('vista.comandos.restaurar')"
               />
             </template>
             <template #cell(precio)="fila">
@@ -210,8 +210,8 @@ export default {
           if (this.productos.length <= 0) {
             this.$notify(
               "warning", 
-              "Buscar Productos", 
-              "No se encontraron resultados para esta busqueda.", 
+              this.$t("vista.comandos.buscar") + " " + this.$t("vista.inventarios.productos.denominacionp"), 
+              this.$t("vista.busqueda.no-encontrado"), 
               { duration: 3000, permanent: false }
             );
           } else {
@@ -225,8 +225,8 @@ export default {
           this.busquedaEjecutando = false;
           this.$notify(
             "warning", 
-            "Buscar Productos", 
-            "No se encontraron resultados para esta busqueda.", 
+            this.$t("vista.comandos.buscar") + " " + this.$t("vista.inventarios.productos.denominacionp"), 
+            this.$t("vista.busqueda.no-encontrado"), 
             { duration: 3000, permanent: false }
           );
         }.bind(this));
@@ -247,10 +247,10 @@ export default {
       });
     },
     restaurar(p) {
-      this.modificarEstado(p.item.id, 0, "Restaurar");
+      this.modificarEstado(p.item.id, 0, this.$t("vista.comandos.restaurar"));
     },
     eliminar(p) {
-      this.modificarEstado(p.item.id, 2, "Eliminar");
+      this.modificarEstado(p.item.id, 2, this.$t("vista.comandos.eliminar"));
     },
     modificarEstado(pid, pest, cmd) {
       this.busquedaEjecutando = true;
@@ -263,7 +263,7 @@ export default {
           this.buscar();
           this.$notify(
             "success", 
-            cmd + " Producto", 
+            cmd + " " + this.$t("vista.inventarios.productos.denominacion"), 
             r.data, 
             { duration: 3000, permanent: false }
           );
@@ -273,8 +273,8 @@ export default {
           console.log(e);
           this.$notify(
             "warning", 
-            cmd + " Producto", 
-            "No se pudo " + cmd.toLowerCase() + " este item.", 
+            cmd + " " + this.$t("vista.inventarios.productos.denominacion"), 
+            this.$t("vista.comandos.fallo") + " " + cmd.toLowerCase() + " " + this.$t("vista.inventarios.productos.denominacion"), 
             { duration: 3000, permanent: false }
           );
         }.bind(this));

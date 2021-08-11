@@ -106,7 +106,10 @@ export default {
           }
           this.busquedaEjecutando = false;
           if (this.items.length <= 0) {
-            this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+            this.$notify("warning", 
+              this.$t("vista.busqueda.buscar") + " " + this.$t("vista.clinica.medicos.denominacion"), 
+              this.$t("vista.busqueda.no-encontrado"), 
+              { duration: 3000, permanent: false });
           } else {
             this.paginaActual = 1;
             //this.cambiarPaginaActual(1);
@@ -114,7 +117,10 @@ export default {
         }.bind(this))
         .catch(function() {
           this.busquedaEjecutando = false;
-          this.$notify("warning", "Buscar paciente", "No se encontraron resultados para esta busqueda.", { duration: 3000, permanent: false });
+          this.$notify("warning", 
+            this.$t("vista.busqueda.buscar") + " " + this.$t("vista.clinica.medicos.denominacion"), 
+              this.$t("vista.busqueda.no-encontrado"), 
+            { duration: 3000, permanent: false });
         }.bind(this));
     },
     filaSeleccionada(p) {
