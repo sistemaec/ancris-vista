@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { cedulaValida } from '../../utils'
+import { cedulaValida } from '../utils'
 export default {
   data() {
     return {
