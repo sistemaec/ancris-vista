@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { cedulaValida } from '../../utils'
 export default {
   data() {
     return {
@@ -40,7 +41,13 @@ export default {
   },
   methods: {
     agendar() {
+      let val = false;
       if (this.cedula.length == 10 || this.cedula.length == 13) {
+        if (this.cedula.length == 10) {
+          val = cedulaValida(this.cedula);
+        } 
+      }
+      if (val) {
         this.$router.push({
           name: "consultas-crear",
           params: {
