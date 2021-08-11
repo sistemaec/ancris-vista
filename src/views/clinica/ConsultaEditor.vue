@@ -625,7 +625,8 @@ export default {
           if (r.respuesta != null) {
             this.tiposIdentificacion = r.respuesta.data;
             if (this.$route.params.publico) {
-              this.consulta.relPaciente.relCliente.identificacion_tipo = r.respuesta.data[1].id;
+              let tipoid = this.$route.params.cedula.length == 13 ? 0 : 1
+              this.consulta.relPaciente.relCliente.identificacion_tipo = r.respuesta.data[tipoid].id;
             }
           }
         }
