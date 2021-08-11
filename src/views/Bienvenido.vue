@@ -45,7 +45,9 @@ export default {
       if (this.cedula.length == 10 || this.cedula.length == 13) {
         if (this.cedula.length == 10) {
           val = cedulaValida(this.cedula);
-        } 
+        } else {
+          val = true;
+        }
       }
       if (val) {
         this.$router.push({
