@@ -30,32 +30,32 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
             </template>
             <template #cell(acciones)="row">
               <span
                 class="span-comando mdi mdi-eye mdi-18px mr-2"
                 @click="ver(row)"
                 v-b-tooltip.hover
-                title="$t('vista.comandos.ver')"
+                :title="$t('vista.comandos.ver')"
               />
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-pen mdi-18px mr-2"
                 @click="modificar(row)"
                 v-b-tooltip.hover
-                title="$t('vista.comandos.modificar')"
+                :title="$t('vista.comandos.modificar')"
               />
               <span v-if="row.item.estado == 0"
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="$t('vista.comandos.eliminar')"
+                :title="$t('vista.comandos.eliminar')"
               />
               <span v-if="row.item.estado == 2"
                 class="span-comando mdi mdi-restore mdi-18px" 
                 @click="restaurar(row)"
                 v-b-tooltip.hover
-                title="$t('vista.comandos.restaurar')"
+                :title="$t('vista.comandos.restaurar')"
               />
             </template>
             <template #cell(fecha)="fila">

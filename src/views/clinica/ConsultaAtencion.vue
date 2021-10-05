@@ -234,10 +234,10 @@
               <template #footer>
                 <b-row class="ml-1 mr-1">
                   <b-colxx md="4" lg="3" sm="6">
-                    <b-button @click="recetaImprimir()">{{ $('vista.comandos.imprimir') }}</b-button>
+                    <b-button @click="recetaImprimir()">{{ $t('vista.comandos.imprimir') }}</b-button>
                     <b-button @click="recetaFacturar()" class="ml-2" 
                       v-if="lectura && consulta.recetaItems.length > 0 && esAdmin"
-                    >{{ $('vista.comandos.facturar') }}</b-button>
+                    >{{ $t('vista.comandos.facturar') }}</b-button>
                   </b-colxx>
                   <b-colxx md="4" lg="3" sm="6">
                     

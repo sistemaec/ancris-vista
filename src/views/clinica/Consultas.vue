@@ -482,7 +482,7 @@ export default {
         params: {
           id: 0,
           dato: fac,
-          tipo: this.$t('vista.ventas.factura.titulo'),
+          tipo: this.$t('vista.ventas.facturas.titulo'),
           tipoId: 11,
           lectura: false,
           servicioValor: valServ,

@@ -26,7 +26,7 @@
         <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.tratamiento') }}: </span> {{ consulta.tratamiento }}</p>
       </div>
       <div class="pr-4">
-        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.mediciones') }}: </span> {{ traerMediciones() }}</p>
+        <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.mediciones') }}: </span> {{ traerMediciones() }}</p>
       </div>
       <div v-if="traerExamenes().length > 0" class="pr-4">
         <p class="mb-1 text-small"><span class="text-muted theme-color-1">{{ $t('vista.clinica.consultas.campos.orden-examenes') }}: </span> {{ traerExamenes() }}</p>
@@ -49,6 +49,7 @@ export default {
       if (this.$props.consulta.mediciones.length > 10) {
         try {
           const med = JSON.parse(this.$props.consulta.mediciones);
+          console.log(med);
           let txt = ''
           if (med.presion != undefined && med.presion.length > 0) {
             txt +=  this.$t('vista.clinica.consultas.campos.mediciones-abreviadas.presion') + `: ${med.presion} (mmHG) `
@@ -101,7 +102,6 @@ export default {
       if (this.$props.consulta.examenes) {
         ret += this.$props.consulta.examenes.trim()
       }
-      console.log(ret)
       return ret.trimLeft()
     }
   },
