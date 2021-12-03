@@ -708,7 +708,7 @@ export default {
           let msj = this.$t("vista.transacciones.guardar-error");
           this.$notify(
             "danger",
-            this.$t("vista.transacciones.guardando") + ' ' + $t("vista.ventas.facturas.denominacion"),
+            this.$t("vista.transacciones.guardando") + ' ' + this.$t("vista.ventas.facturas.denominacion"),
             msj,
             { duration: 3000, permanent: false }
           );
