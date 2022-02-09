@@ -2,6 +2,9 @@
   "name": "pointerapp",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
@@ -52,10 +55,7 @@
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.9.0"
-  },
-  "engines": {
-    "node": "14.17.5"
-  }
+  }, 
   "browserslist": [
     "> 1%",
     "last 2 versions",
