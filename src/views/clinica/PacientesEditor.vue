@@ -217,8 +217,8 @@ export default {
             return val.length <= 10 ? cedulaValida(val) : (val.length == 13 ? true : false);
           }
         },
-        direccion: { required },
-        telefonos: { numeric },
+        direccion: { required, maxLength: maxLength(200) },
+        telefonos: { numeric, maxLength: maxLength(15) },
         email: { email }
       },
       fecha_nacimiento: {
