@@ -75,7 +75,7 @@ Vue.mixin({
     async loadAppConfig() {
         this.appConfig = {
         adminRoot: "ancris",
-        apiUrl: 'https://ancris.pointerp.pw/api/v4'
+        apiUrl: 'https://ancris-server.herokuapp.com/api/v4'
       };
     }
   },
