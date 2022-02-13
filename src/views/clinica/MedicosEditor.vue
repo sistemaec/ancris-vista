@@ -109,7 +109,7 @@ export default {
         direccion: '',
         telefonos: '',
         email: '',
-        empresa_id: 0,
+        empresa_id: 1,
         usuario_id: 0,
         estado: 0,
         relUsuario: {
