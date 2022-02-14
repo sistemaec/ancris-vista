@@ -89,6 +89,9 @@ export default {
     signOut({ commit }) {
       setCurrentUser(null);
       // vaciar listas de cache de busquedas de ventanas
+      this.$store.commit('clinica/setBuscaConsultaListaCache', []);
+      this.$store.commit('clinica/setCacheBusquedaPacientesLista', []);
+      this.$store.commit('clinica/setCacheBusquedaMedicosLista', []);
       commit("clinica/setMedicoUsuario", 0);
       commit('setLogout');
     }
