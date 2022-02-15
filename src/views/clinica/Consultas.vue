@@ -402,7 +402,7 @@ export default {
       
     },
     buscar() {
-      if (this.esMedico > 0 && this.$store.state.clinica.medicoUsuario > 0) {
+      if (this.esMedico && this.$store.state.clinica.medicoUsuario > 0) {
           this.busquedaMedico();
         } else {
 
