@@ -691,6 +691,9 @@ export default {
         if (r.id == 1) {
           if (r.respuesta.data != undefined && r.respuesta.data.length > 0) {
             this.$store.commit("clinica/setMedicoUsuario", r.respuesta.data[0].id);
+            if (this.esMedico) {
+              this.busquedaMedico();
+            }
           }
         }
       }.bind(this));
@@ -699,10 +702,6 @@ export default {
     if (this.$store.state.clinica.consultaBuscador.listaCache.length > 0) {
       this.consultas = this.$store.state.clinica.consultaBuscador.listaCache;
       this.$store.commit('clinica/setBuscaConsultaListaCache', []);
-    } else {
-      if (this.esMedico) {
-        this.busquedaMedico();
-      }
     }
     if (this.$store.state.clinica.consultaBuscador.cacheAtributo.length > 0) {
       this.$store.commit('clinica/setBuscaConsultaAtributo', this.$store.state.clinica.consultaBuscador.cacheAtributo);
@@ -718,17 +717,21 @@ export default {
       this.$store.commit('clinica/setBuscaConsultaDesde', new Date());
     if (this.buscaConsultaHasta == null)  
       this.$store.commit('clinica/setBuscaConsultaHasta', new Date());
-    this.actualizar();  
+    if (!this.esMedico) {  
+      this.actualizar();  
+    }
   },
   destroyed() {
-    this.$store.commit('clinica/setBuscaConsultaListaCache', this.consultas);
-    if (this.$store.state.clinica.consultaBuscador.atributo.length > 0) {
-      this.$store.commit('clinica/setCacheBusquedaConsultasAtributo', this.$store.state.clinica.consultaBuscador.atributo);
-      this.$store.commit('clinica/setBuscaConsultaAtributo', '');
-    }
-    if (this.$store.state.clinica.consultaBuscador.atributoIdx > 0) {
-      this.$store.commit('clinica/setCacheBusquedaConsultasAtributoIdx', this.$store.state.clinica.consultaBuscador.atributoIdx);
-      this.$store.commit('clinica/setBuscaConsultaAtributoIdx', 0);
+    if (this.currenUser != null) {
+      this.$store.commit('clinica/setBuscaConsultaListaCache', this.consultas);
+      if (this.$store.state.clinica.consultaBuscador.atributo.length > 0) {
+        this.$store.commit('clinica/setCacheBusquedaConsultasAtributo', this.$store.state.clinica.consultaBuscador.atributo);
+        this.$store.commit('clinica/setBuscaConsultaAtributo', '');
+      }
+      if (this.$store.state.clinica.consultaBuscador.atributoIdx > 0) {
+        this.$store.commit('clinica/setCacheBusquedaConsultasAtributoIdx', this.$store.state.clinica.consultaBuscador.atributoIdx);
+        this.$store.commit('clinica/setBuscaConsultaAtributoIdx', 0);
+      }
     }
   }
 }
