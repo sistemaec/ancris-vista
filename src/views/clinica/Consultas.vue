@@ -312,7 +312,8 @@ export default {
       'currentUser'
     ]),
     esMedico() {
-      return this.currentUser != undefined ? this.currentUser.rol_id-1 == 4 : false;
+      let ret = this.currentUser != undefined ? this.currentUser.rol_id-1 == 4 : false;
+      return ret;
     },
     esMedicoEnfermero() {
       return this.currentUser != undefined ? this.currentUser.rol_id-1 >= 4 : false;
@@ -405,7 +406,6 @@ export default {
       if (this.esMedico && this.$store.state.clinica.medicoUsuario > 0) {
           this.busquedaMedico();
         } else {
-
           switch (this.buscaConsultaTipo) {
             case 0 : {
               this.selPacienteVer = true;
