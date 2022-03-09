@@ -10,6 +10,9 @@ export const apiSeguridad = {
   usuarioGuardar: function() {
     return `${rutaBase}/usuarios/guardar`;
   },
+  usuarioModificarEstado: function(id, est) {
+    return `${rutaBase}/usuario/${id}/modificar/estado/${est}`
+  },
   rolesTodos: function() {
     return `${rutaBase}/roles`;
   }
