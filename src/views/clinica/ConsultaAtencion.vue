@@ -103,7 +103,7 @@
       </b-colxx>
     </b-row>
     <b-tabs content-class="mt-2" justified>
-      <b-tab title="Atencion General" active>
+      <b-tab title="Atención General" active>
         <b-row> <!-- Sintomas, Exp. fisica, signos vitales, historial medico -->
           <b-colxx lg="6" md="6" sm="12">
             <b-card class="mb-4" :title="$t('vista.clinica.consultas.datos-consulta')">
@@ -395,7 +395,7 @@
             <b-form-input class="mb-4" v-model="consulta.examenes" size="sm" :disabled="lectura"/>
             <div class="examenes">
               <b-form-group
-                v-for="exa in consulta.relExamenes"
+                v-for="exa in vistaExamenes"
                 :key="exa.id"
                 :label="exa.denominacion"
               >
@@ -630,6 +630,14 @@ export default {
         }
       }
     },
+    vistaExamenes: {
+      get () {
+        return this.consulta.relExamenes;
+      },
+      set (value) {
+        this.consulta.relExamenes = value;
+      }
+    },
     fechaProxima: {
       get: function() {
         if (this.consulta.proxima)
@@ -839,8 +847,11 @@ export default {
       });
       if (res.length > 0 || this.consulta.examenes.length > 0) {
         this.examenesSeleccion = res;
+        console.table(res);
         this.$htmlToPaper("prnExamenes");
         this.examenesSeleccion = [];
+      } else {
+        console.log("Vacio res o examenes")
       }
     },
     recetaImprimir() {
@@ -944,10 +955,23 @@ export default {
         this.$refs.txDosis.$el.select();
       }
     },
+    procesarExamenes(exams) {
+      if (this.consulta.relExamenes != null) {
+        let lst = []
+        exams.forEach(function(ex) {
+          let f = this.consulta.relExamenes.find(t => t.examen_id === ex.id)
+          if (f) {
+            let sel = f.seleccionados.trimLeft().split(" ")
+            ex.seleccionado = sel
+          }
+          lst.push(ex)
+        }.bind(this))
+        exams = lst
+      }
+      this.vistaExamenes = exams
+    }
   },
   mounted() {
-    console.log("ruta:");
-    console.log(this.$route.params.dato);
     if (this.$route.params.dato != undefined) {
       this.consulta = {
         id: this.$route.params.id,
@@ -973,6 +997,7 @@ export default {
         relPaciente: this.$route.params.dato.relPaciente,
         relMedico: this.$route.params.dato.relMedico,
         relServicio: this.$route.params.dato.relServicio,
+        relExamenes: this.$route.params.dato.relExamenes,
         recetaItems: this.$route.params.dato.recetaItems,
         proxima: this.$route.params.dato.proxima,
         laboratorio: this.$route.params.dato.laboratorio
@@ -1060,29 +1085,17 @@ export default {
       .dispatch("clinica/examenesLista").then(function(r) {
         if (r.id == 1) {
           if (r.respuesta != null) {
-            this.consulta.relExamenes = []
+            let exams = []
             r.respuesta.forEach(e => {
               e.seleccionado = [];
-              this.consulta.relExamenes.push(e);
+              exams.push(e);
             });
-            let lst = []
-            if (this.$route.params.dato.relExamenes != null) {
-              this.consulta.relExamenes.forEach(function(ex) {
-                let f = this.$route.params.dato.relExamenes.find(t => t.examen_id === ex.id)
-                if (f) {
-                  let sel = f.seleccionados.trimLeft().split(" ")
-                  ex.seleccionado = sel
-                }
-                lst.push(ex)
-              }.bind(this))
-              this.consulta.relExamenes = lst
-            }
+            this.procesarExamenes(exams);
           }
         }
       }.bind(this));
   },
   created() {
-    
     this.$store.dispatch("clinica/examenesCargarCache")
   }
 }
