@@ -356,7 +356,7 @@ export default {
     modificarEstado(pid, pest, cmd) {
       this.busquedaEjecutando = true;
       this.$store
-        .dispatch("clinica/medicoModificarEstado", { 
+        .dispatch("seguridad/usuarioModificarEstado", { 
           id: pid,
           estado: pest
          })
