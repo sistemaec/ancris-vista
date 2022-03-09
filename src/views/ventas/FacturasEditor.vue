@@ -684,19 +684,19 @@ export default {
         .then(function(res) {
           if (res.data.cid > 0)
             this.venta.id = res.data.cid;
-            if (this.venta.numero <= 0)
-              this.venta.numero = res.data.num;
+          if (this.venta.numero <= 0)
+            this.venta.numero = res.data.num;
           if (res.status <= 201) {
             this.$notify(
               "success",
-              this.$t("vista.transacciones.guardando") + ' ' + $t("vista.ventas.facturas.denominacion"),
+              this.$t("vista.transacciones.guardando") + ' ' + this.$t("vista.ventas.facturas.denominacion"),
               res.data.msj,
               { duration: 3000, permanent: false }
             );
           } else {
             this.$notify(
               "warning",
-              this.$t("vista.transacciones.guardando") + ' ' + $t("vista.ventas.facturas.denominacion"),
+              this.$t("vista.transacciones.guardando") + ' ' + this.$t("vista.ventas.facturas.denominacion"),
               res.data.msj,
               { duration: 3000, permanent: false }
             );
@@ -949,3 +949,4 @@ export default {
   }
 }
 </script>
+
