@@ -93,13 +93,13 @@
                 class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                 @click="eliminar(row)"
                 v-b-tooltip.hover
-                title="$t('vista.comandos.eliminar')"
+                :title="$t('vista.comandos.eliminar')"
               />
               <span v-if="row.item.estado == 2"
                 class="span-comando mdi mdi-restore mdi-18px" 
                 @click="restaurar(row)"
                 v-b-tooltip.hover
-                title="$t('vista.comandos.restaurar')"
+                :title="$t('vista.comandos.restaurar')"
               />
             </template>
           </b-table>
