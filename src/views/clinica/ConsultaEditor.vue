@@ -1,185 +1,195 @@
 <template>
-<div>
-  <b-row v-if="!esPublico">
-    <b-colxx xxs="12">
-      <piaf-breadcrumb :heading="$t('vista.clinica.consultas.editor-titulo')"/>
-      <div class="separator mb-5"></div>
-    </b-colxx>
-  </b-row>
-  <b-modal v-model="selPacienteVer" title="Seleccionar paciente" v-on:ok="seleccionadoPaciente()">
-    <paciente-seleccionar/>
-    <template #modal-footer="{ ok, cancel }">
-      <b-button size="sm" @click="ok()" :disabled="pacienteNoSeleccionado">
-        {{ $t('vista.comandos.aceptar') }}
-      </b-button>
-      <b-button size="sm" @click="cancel()">
-        {{ $t('vista.comandos.cancelar') }}
-      </b-button>
-    </template>
-  </b-modal>
-  <b-row>
-    <b-colxx xxs="12">
-        <b-card class="mb-4" :title="tituloAccion" >
-          <h6 class="mb-4">{{ $t('vista.clinica.consultas.datos-paciente') }}</h6>
-            <b-form class="av-tooltip mb-5 tooltip-label-right">
-              <b-row>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.ventas.clientes.campos.tipo-identificacion')">
-                    <b-form-select v-model="consulta.relPaciente.relCliente.identificacion_tipo"
-                      :options="tiposIdentificacion"
-                      value-field="id"
-                      text-field="denominacion"
-                      size="xs"
-                    />
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.ventas.clientes.campos.cedula')">
-                    <div>
-                      <b-overlay :show="ocupadoCedula" rounded="lg" opacity="0.6">
+  <div>
+    <b-row v-if="!esPublico">
+      <b-colxx xxs="12">
+        <piaf-breadcrumb :heading="$t('vista.clinica.consultas.editor-titulo')"/>
+        <div class="separator mb-5"></div>
+      </b-colxx>
+    </b-row>
+    <b-modal v-model="selPacienteVer" title="Seleccionar paciente" v-on:ok="seleccionadoPaciente()">
+      <paciente-seleccionar/>
+      <template #modal-footer="{ ok, cancel }">
+        <b-button size="sm" @click="ok()" :disabled="pacienteNoSeleccionado">
+          {{ $t('vista.comandos.aceptar') }}
+        </b-button>
+        <b-button size="sm" @click="cancel()">
+          {{ $t('vista.comandos.cancelar') }}
+        </b-button>
+      </template>
+    </b-modal>
+    <b-row>
+      <b-colxx xxs="12">
+          <b-card class="mb-4" :title="tituloAccion" >
+            <h6 class="mb-4">{{ $t('vista.clinica.consultas.datos-paciente') }}</h6>
+              <b-form class="av-tooltip mb-5 tooltip-label-right">
+                <b-row>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.ventas.clientes.campos.tipo-identificacion')">
+                      <b-form-select v-model="consulta.relPaciente.relCliente.identificacion_tipo"
+                        :options="tiposIdentificacion"
+                        value-field="id"
+                        text-field="denominacion"
+                        size="xs"
+                      />
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.ventas.clientes.campos.cedula')">
+                      <div>
+                        <b-overlay :show="ocupadoCedula" rounded="lg" opacity="0.6">
+                          <template #overlay>
+                            <div class="d-flex align-items-center">
+                              <b-spinner small type="grow" variant="secondary"></b-spinner>
+                              <b-spinner type="grow" variant="dark"></b-spinner>
+                              <b-spinner small type="grow" variant="secondary"></b-spinner>
+                              <!-- We add an SR only text for screen readers -->
+                              <span class="sr-only">Espere por favor...</span>
+                            </div>
+                          </template>
+                          <b-form-input type="text" 
+                            :state="!$v.consulta.relPaciente.relCliente.identificacion.$error"
+                            v-model.trim="consulta.relPaciente.relCliente.identificacion"
+                            :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.cedula')"
+                            @keyup.enter="validarCedula()" :disabled="esPublico"/>
+                          <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.cedula') }}</b-form-invalid-feedback>  
+                        </b-overlay>
+                      </div>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.ventas.clientes.campos.nombres')">
+                      <b-form-input ref="txNombre" type="text" v-model="nombrePaciente" 
+                        :state="!$v.consulta.relPaciente.relCliente.nombres.$error" 
+                        :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.nombres')"
+                        @keyup.enter="buscarPaciente()"/>
+                      <b-form-invalid-feedback>{{ $t('vista.clinica.consultas.validacion.paciente') }}</b-form-invalid-feedback>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.ventas.clientes.campos.direccion')">
+                      <b-form-input 
+                        :state="!$v.consulta.relPaciente.relCliente.direccion.$error"
+                        type="text" v-model.trim="consulta.relPaciente.relCliente.direccion"/>
+                      <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.direccion') }}</b-form-invalid-feedback>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.ventas.clientes.campos.telefonos')">
+                      <b-form-input 
+                        :state="!$v.consulta.relPaciente.relCliente.telefonos.$error"
+                        type="text" v-model.trim="consulta.relPaciente.relCliente.telefonos"/>
+                      <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.telefonos') }}</b-form-invalid-feedback>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.ventas.clientes.campos.correo')">
+                      <b-form-input 
+                        :state="!$v.consulta.relPaciente.relCliente.email.$error"
+                        type="text" v-model.trim="consulta.relPaciente.relCliente.email"/>
+                      <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.email') }}</b-form-invalid-feedback>
+                    </b-form-group>
+                  </b-colxx>
+                </b-row>
+                <h6 class="mb-4">{{ $t('vista.clinica.consultas.datos-consulta') }}</h6>
+                <b-row>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.clinica.consultas.campos.especialidad')">
+                      <model-list-select 
+                        :list="especialidades"
+                        v-model="especialidadSeleccionado"
+                        option-value="id"
+                        option-text="descripcion"
+                        placeholder="Digite para seleccione una opción">
+                      </model-list-select>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.clinica.consultas.campos.servicio')">
+                      <b-overlay :show="ocupadoServicio" rounded="lg" opacity="0.6">
                         <template #overlay>
                           <div class="d-flex align-items-center">
                             <b-spinner small type="grow" variant="secondary"></b-spinner>
                             <b-spinner type="grow" variant="dark"></b-spinner>
                             <b-spinner small type="grow" variant="secondary"></b-spinner>
-                            <!-- We add an SR only text for screen readers -->
-                            <span class="sr-only">Espere por favor...</span>
+                            <span class="sr-only">{{ $t('vista.busqueda.espere-porfa') }}...</span>
                           </div>
                         </template>
-                        <b-form-input type="text" 
-                          :state="!$v.consulta.relPaciente.relCliente.identificacion.$error"
-                          v-model.trim="consulta.relPaciente.relCliente.identificacion"
-                          :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.cedula')"
-                          @keyup.enter="validarCedula()" :disabled="esPublico"/>
-                        <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.cedula') }}</b-form-invalid-feedback>  
+                        <model-list-select 
+                          :list="servicios"
+                          v-model="servicioSeleccionado"
+                          option-value="id"
+                          option-text="descripcion">
+                        </model-list-select>
+                        <b-form-invalid-feedback :state="!$v.servicioSeleccionado.$error" >{{ $t('vista.clinica.consultas.validacion.servicio') }}</b-form-invalid-feedback>
                       </b-overlay>
-                    </div>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.ventas.clientes.campos.nombres')">
-                    <b-form-input ref="txNombre" type="text" v-model="nombrePaciente" 
-                      :state="!$v.consulta.relPaciente.relCliente.nombres.$error" 
-                      :placeholder="$t('vista.busqueda.digitar-enter') + ' ' + $t('vista.busqueda.por') + ' ' + $t('vista.ventas.clientes.campos.nombres')"
-                      @keyup.enter="buscarPaciente()"/>
-                    <b-form-invalid-feedback>{{ $t('vista.clinica.consultas.validacion.paciente') }}</b-form-invalid-feedback>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.ventas.clientes.campos.direccion')">
-                    <b-form-input 
-                      :state="!$v.consulta.relPaciente.relCliente.direccion.$error"
-                      type="text" v-model.trim="consulta.relPaciente.relCliente.direccion"/>
-                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.direccion') }}</b-form-invalid-feedback>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.ventas.clientes.campos.telefonos')">
-                    <b-form-input 
-                      :state="!$v.consulta.relPaciente.relCliente.telefonos.$error"
-                      type="text" v-model.trim="consulta.relPaciente.relCliente.telefonos"/>
-                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.telefonos') }}</b-form-invalid-feedback>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.ventas.clientes.campos.correo')">
-                    <b-form-input 
-                      :state="!$v.consulta.relPaciente.relCliente.email.$error"
-                      type="text" v-model.trim="consulta.relPaciente.relCliente.email"/>
-                    <b-form-invalid-feedback>{{ $t('vista.ventas.clientes.validacion.email') }}</b-form-invalid-feedback>
-                  </b-form-group>
-                </b-colxx>
-              </b-row>
-              <h6 class="mb-4">{{ $t('vista.clinica.consultas.datos-consulta') }}</h6>
-              <b-row>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.clinica.consultas.campos.especialidad')">
-                    <model-list-select 
-                      :list="especialidades"
-                      v-model="especialidadSeleccionado"
-                      option-value="id"
-                      option-text="descripcion"
-                      placeholder="Digite para seleccione una opción">
-                    </model-list-select>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.clinica.consultas.campos.servicio')">
-                    <b-overlay :show="ocupadoServicio" rounded="lg" opacity="0.6">
-                      <template #overlay>
-                        <div class="d-flex align-items-center">
-                          <b-spinner small type="grow" variant="secondary"></b-spinner>
-                          <b-spinner type="grow" variant="dark"></b-spinner>
-                          <b-spinner small type="grow" variant="secondary"></b-spinner>
-                          <span class="sr-only">{{ $t('vista.busqueda.espere-porfa') }}...</span>
-                        </div>
-                      </template>
-                      <model-list-select 
-                        :list="servicios"
-                        v-model="servicioSeleccionado"
-                        option-value="id"
-                        option-text="descripcion">
-                      </model-list-select>
-                      <b-form-invalid-feedback :state="!$v.servicioSeleccionado.$error" >{{ $t('vista.clinica.consultas.validacion.servicio') }}</b-form-invalid-feedback>
-                    </b-overlay>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label="$t('vista.clinica.consultas.campos.medico')">
-                    <model-list-select
-                      :list="medicos"
-                      v-model="medicoSeleccionado"
-                      option-value="id"
-                      option-text="nombres">
-                    </model-list-select>
-                    <b-form-invalid-feedback :state="!$v.medicoSeleccionado.$error" >{{ $t('vista.clinica.consultas.validacion.medico') }}</b-form-invalid-feedback>
-                  </b-form-group>
-                </b-colxx>
-                <b-colxx xxs="12" sm="6">
-                  <b-form-group :label='$t("vista.clinica.consultas.campos.fecha")'>
-                    <datepicker
-                      class="fecha-md"
-                      :bootstrap-styling="true"
-                      v-model="fechaSeleccionado"
-                      :language="es"
-                    ></datepicker>
-                    <b-form-invalid-feedback :state="!$v.consulta.fecha.$error">{{ $t('vista.clinica.consultas.validacion.fecha') }}</b-form-invalid-feedback>  
-                  </b-form-group>
-                </b-colxx>
-              </b-row>
-              <b-row>
-                <b-colxx xxs="12" sm="12">
-                  <b-alert :show="alerta.ver" :variant="alerta.tipo" class="mt-4">{{ alerta.mensaje }}</b-alert>
-                </b-colxx>  
-              </b-row>
-              <div class="mt-4">
-                <b-overlay
-                  :show="procesando"
-                  opacity=0.6
-                  spinner-small
-                  spinner-variant="primary"
-                  class="d-inline-block"
-                  @hidden="ocultaOverlay"
-                >
-                  <b-button ref="btGuardar" :disabled="procesando" @click="guardar(false)" variant="success" class="mr-3 mb-3">{{ $t('vista.comandos.guardar') }}</b-button>
-                </b-overlay>
-                <b-overlay
-                  v-if="!esPublico"
-                  :show="procesando" 
-                  opacity=0.6
-                  spinner-small
-                  spinner-variant="primary"
-                  class="d-inline-block"
-                  @hidden="ocultaOverlay"
-                >
-                  <b-button v-if="consulta.id <= 0" ref="btGuardarFac" :disabled="procesando" @click="guardar(true)" variant="success" class="mr-3 mb-3">{{ $t('vista.comandos.guardar-facturar') }}</b-button>
-                </b-overlay>
-                <b-button ref="btCancelar" :disabled="procesando" @click="cancelar()" variant="primary" class="mb-3">{{ $t('vista.comandos.cancelar') }}</b-button>
-              </div>
-          </b-form>
-        </b-card>
-    </b-colxx>
-  </b-row>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label="$t('vista.clinica.consultas.campos.medico')">
+                      <b-overlay :show="ocupadoServicio" rounded="lg" opacity="0.6">
+                        <template #overlay>
+                          <div class="d-flex align-items-center">
+                            <b-spinner small type="grow" variant="secondary"></b-spinner>
+                            <b-spinner type="grow" variant="dark"></b-spinner>
+                            <b-spinner small type="grow" variant="secondary"></b-spinner>
+                            <span class="sr-only">{{ $t('vista.busqueda.espere-porfa') }}...</span>
+                          </div>
+                        </template>
+                        <model-list-select
+                          :list="medicos"
+                          v-model="medicoSeleccionado"
+                          option-value="id"
+                          option-text="nombres">
+                        </model-list-select>
+                        <b-form-invalid-feedback :state="!$v.medicoSeleccionado.$error" >{{ $t('vista.clinica.consultas.validacion.medico') }}</b-form-invalid-feedback>
+                      </b-overlay>
+                    </b-form-group>
+                  </b-colxx>
+                  <b-colxx xxs="12" sm="6">
+                    <b-form-group :label='$t("vista.clinica.consultas.campos.fecha")'>
+                      <datepicker
+                        class="fecha-md"
+                        :bootstrap-styling="true"
+                        v-model="fechaSeleccionado"
+                        :language="es"
+                      ></datepicker>
+                      <b-form-invalid-feedback :state="!$v.consulta.fecha.$error">{{ $t('vista.clinica.consultas.validacion.fecha') }}</b-form-invalid-feedback>  
+                    </b-form-group>
+                  </b-colxx>
+                </b-row>
+                <b-row>
+                  <b-colxx xxs="12" sm="12">
+                    <b-alert :show="alerta.ver" :variant="alerta.tipo" class="mt-4">{{ alerta.mensaje }}</b-alert>
+                  </b-colxx>  
+                </b-row>
+                <div class="mt-4">
+                  <b-overlay
+                    :show="procesando"
+                    opacity=0.6
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block"
+                    @hidden="ocultaOverlay"
+                  >
+                    <b-button ref="btGuardar" :disabled="procesando" @click="guardar(false)" variant="success" class="mr-3 mb-3">{{ $t('vista.comandos.guardar') }}</b-button>
+                  </b-overlay>
+                  <b-overlay
+                    v-if="!esPublico"
+                    :show="procesando" 
+                    opacity=0.6
+                    spinner-small
+                    spinner-variant="primary"
+                    class="d-inline-block"
+                    @hidden="ocultaOverlay"
+                  >
+                    <b-button v-if="consulta.id <= 0" ref="btGuardarFac" :disabled="procesando" @click="guardar(true)" variant="success" class="mr-3 mb-3">{{ $t('vista.comandos.guardar-facturar') }}</b-button>
+                  </b-overlay>
+                  <b-button ref="btCancelar" :disabled="procesando" @click="cancelar()" variant="primary" class="mb-3">{{ $t('vista.comandos.cancelar') }}</b-button>
+                </div>
+            </b-form>
+          </b-card>
+      </b-colxx>
+    </b-row>
   </div>
 </template>
 <script>
@@ -251,7 +261,7 @@ export default {
       },
       especialidades: [],
       servicios: [ { id: 0, descripcion: this.$t('vista.clinica.consultas.seleccione-esp') } ],
-      medicos: [],
+      medicos: [ { id: 0, nombres: this.$t('vista.clinica.consultas.seleccione-esp') } ],
       especialidadSel: 0,
       tiposIdentificacion: [],
       procesando: false,
@@ -481,6 +491,7 @@ export default {
         }.bind(this));
     },
     guardarfac(cid) {
+      console.log(cid);
       let fac = {
         id: 0,
         tipo: 11,
@@ -558,6 +569,20 @@ export default {
         .catch(function(e) {
           this.ocupadoServicio = false;
         }.bind(this));
+
+        // Actualizar lista de medicos por especialidad
+        this.$store
+          .dispatch("clinica/medicosPorEspecialidadEstado", {
+            especialidad: this.especialidadSel,
+            estado: 0
+          })
+          .then(function(r) {
+            if (r.id == 1) {
+              if (r.respuesta != null) {
+                this.medicos = r.respuesta.data;
+              }
+            }
+          }.bind(this));
     },
     seleccionadoPaciente() {
       this.consulta.relPaciente = this.selPaciente;
@@ -603,16 +628,6 @@ export default {
         if (r.id == 1) {
           if (r.respuesta != null) {
             this.especialidades = r.respuesta.data;
-          }
-        }
-      }.bind(this));
-
-    this.$store
-      .dispatch("clinica/medicosPorEstado", 0)
-      .then(function(r) {
-        if (r.id == 1) {
-          if (r.respuesta != null) {
-            this.medicos = r.respuesta.data;
           }
         }
       }.bind(this));

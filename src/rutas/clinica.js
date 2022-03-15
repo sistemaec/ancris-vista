@@ -65,6 +65,10 @@ export const medicosPorEstado = function(estado) {
   return `${rutaBase}/medicos/estado/${estado}`;
 }
 
+export const medicosPorEspecialidadEstado = function(especialidad, estado) {
+  return `${rutaBase}/medicos/especialidad/${especialidad}/estado/${estado}`;
+}
+
 export const medicoModificarEstado = function(id, estado) {
   return `${rutaBase}/medicos/${id}/modificar/estado/${estado}`
 }

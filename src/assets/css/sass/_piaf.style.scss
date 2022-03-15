@@ -7948,6 +7948,33 @@ footer.page-footer {
   }
 }
 
+.input-grupo {
+  display: flex;
+  flex-direction: row;
+}
+.input-grupo-select {
+    color: $primary-color;
+    flex-grow: 1;
+    overflow-wrap: 0;
+    word-wrap: 0;
+}
+.input-grupo-boton {
+    margin-left: 4px;
+}
+
+.badges-container {
+  border: 1px;
+  border-style: solid;
+  border-color: rgba($primary-color, 0.15);;
+  background: transparent;
+  outline: initial !important;
+  padding: 0.5rem 0.5rem;
+  line-height: 1.5;
+  width: 93%;
+  color: $primary-color;
+  min-height: 3.1em;
+}
+
 #app-container {
   &.sub-hidden .footer-content,
   &.menu-sub-hidden .footer-content,

@@ -11,6 +11,7 @@ import {
   consultasPorFecha,
   medicosBuscar, 
   medicosPorEstado,
+  medicosPorEspecialidadEstado,
   medicoPorCedula,
   medicoRegistrado, 
   medicoGuardar, 
@@ -335,6 +336,20 @@ const clinica = {
     // MEDICOS
     async medicosPorEstado(context, p) {
       let ruta = this.$app.appConfig.apiUrl + medicosPorEstado(p);
+      const response = await axios.get(ruta, context.rootState.remotoConfig)
+        .catch(e => {
+          return { 
+            id: -1, 
+            respuesta: e
+          };
+        });
+      return {
+        id: 1,
+        respuesta: response
+      };
+    },
+    async medicosPorEspecialidadEstado(context, p) {
+      let ruta = this.$app.appConfig.apiUrl + medicosPorEspecialidadEstado(p.especialidad, p.estado);
       const response = await axios.get(ruta, context.rootState.remotoConfig)
         .catch(e => {
           return { 

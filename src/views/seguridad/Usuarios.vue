@@ -55,6 +55,12 @@
       <b-colxx xxs="12">
         <h1>Usuarios</h1>
         <div class="top-right-button-container">
+          <b-checkbox switch 
+              v-model="verEliminados" 
+              theme="custom" 
+              color="primary-inverse" 
+              class="vue-switcher-small d-md-inline-block align-middle mr-3"
+            >{{ $t("vista.busqueda.eliminados") }}</b-checkbox>
           <b-button
             @click="crear()"
             variant="primary"
@@ -130,7 +136,7 @@
         </b-card>
       </b-colxx>
     </b-row>
-  </div>    
+  </div>
 </template>
 
 <script>
@@ -188,7 +194,8 @@ export default {
       clave: '',
       verEditor: false,
       verClave: false,
-      roles: []
+      roles: [],
+      verEliminados: false
     }
   },
   validations: {
@@ -219,6 +226,11 @@ export default {
       return Math.ceil(this.total / this.porPagina)
     },
   },
+  watch: {
+    verEliminados() {
+      this.listar();
+    }
+  },
   methods: {
     cambiarPagina(p) {
       this.porPagina = p;
@@ -245,11 +257,12 @@ export default {
       this.paginaActual = e;
     },
     listar() {
+      const estado = this.verEliminados ? 9 : 0;
       this.consultando = true;
       this.usuarios = [];
       this.paginaActual = 1;
       this.$store
-        .dispatch("seguridad/usuariosPorEstado", 9)
+        .dispatch("seguridad/usuariosPorEstado", estado)
         .then(function(r) {
           if (r) {
             if (r.data != undefined) {
@@ -273,7 +286,7 @@ export default {
           this.busquedaEjecutando = false;
           this.$notify("warning", 
             this.$t("vista.busqueda.consultando") + " " + this.$t("vista.seguridad.usuarios.denominacionp"), 
-            this.$t("vista.bisqueda.no-encontrado"), 
+            this.$t("vista.busqueda.no-encontrado"), 
             { duration: 3000, permanent: false });
           this.consultando = false;
         }.bind(this));

@@ -232,6 +232,8 @@ export default {
       }
     },
     isDarkActive(val) {
+      console.log("Color establecido");
+      console.log(val);
       let color = getThemeColor();
       let isChange = false;
       if (val && color.indexOf("light") > -1) {
@@ -245,7 +247,7 @@ export default {
         setThemeColor(color);
         setTimeout(() => {
           window.location.reload();
-        }, 500);
+        }, 1000);
       }
     },
     isMobileSearch(val) {

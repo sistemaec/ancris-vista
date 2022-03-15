@@ -70,6 +70,33 @@
                   <b-form-invalid-feedback>{{ $t('vista.clinica.medicos.validacion.usuario') }}</b-form-invalid-feedback>
                 </b-form-group>
               </b-colxx>
+              <b-colxx xxs="12" sm="6">
+                <b-form-group class="w-100" label="Seleccionar especialidades">
+                  <div class="input-grupo">
+                    <model-list-select
+                      :list="especialidades"
+                      v-model="especialidadSeleccionado"
+                      option-value="id"
+                      option-text="descripcion"
+                      placeholder="Seleccionar para agregar"
+                      class="input-grupo-select">
+                    </model-list-select>  
+                    <b-button :disabled="especialidadNoSel" class="borde-recto input-grupo-boton" @click="agregarEspecialidad()" tooltip="Agregar especialidad seleccionada">
+                      <i class="mdi mdi-plus"/>
+                    </b-button>
+                  </div>
+                </b-form-group>
+              </b-colxx>
+              <b-colxx xxs="12" sm="6">
+                <b-form-group class="w-100" label="Especialidades asignadas">
+                  <div class="w-100 badges-container">
+                    <b-badge v-for="(item, index) in vistaEspecialidades" :key="index" pill class="mr-1 mb-1">
+                      <span>{{ item.relEspecialidad.descripcion }}</span>
+                      <a @click.prevent.stop="eliminarEspecialidad(index)" class="ml-2 vue-tagsinput-remove"></a>
+                    </b-badge>
+                  </div>
+                </b-form-group>  
+              </b-colxx>
             </b-row>
             <div class="mt-4">
               <b-overlay 
@@ -93,9 +120,13 @@
 
 <script>
 import {es} from 'vuejs-datepicker/dist/locale';
+import { ModelListSelect } from 'vue-search-select'
 const { required, minValue } = require("vuelidate/lib/validators");
 const mayorQueCero = (value) => value > 0
 export default {
+  components: {
+    ModelListSelect
+  },
   data() {
     return {
       es: es,
@@ -115,11 +146,20 @@ export default {
         relUsuario: {
           id: 0,
           nombre: ''
-        }
+        },
+        relEspecialidades: []
       },
       usuarios: [],
+      especialidades: [],
+      especialidadSeleccionado: {
+        id: 0,
+        codigo: '',
+        descripcion: '',
+        estado: 0
+      },
       procesando: false,
-      codigoGenerar: true
+      codigoGenerar: true,
+      vistaEspecialidades: []
     }
   },
   validations: {
@@ -139,7 +179,6 @@ export default {
           { duration: 3000, permanent: false });
       } else {
         if (this.medico.usuario_id > 0) {
-          console.log(this.medico.usuario_id);
           this.procesando = true;
           if (this.medico.id == 0) {
             // Validar medico existe
@@ -183,11 +222,12 @@ export default {
       }
     },
     procesarGuardado() {
+      this.medico.relEspecialidades = this.vistaEspecialidades;
       this.$store
         .dispatch("clinica/medicoGuardar", this.medico)
         .then(function(res) {
           if (res.status <= 201) {
-            this.$notify("warning", 
+            this.$notify("success", 
               this.$t('vista.transacciones.guardando') + " " + this.$t('vista.clinica.consultas.campos.medico'), 
               res.data.msj, 
               { duration: 3000, permanent: false });
@@ -201,25 +241,18 @@ export default {
           this.procesando = false;
         }.bind(this))
         .catch(function(e) {
+          console.log("Datos del error:")
+          console.log(e);
           this.procesando = false;
-          let msj = "No se puede guardar por error relacionado al servidor";
+          let msj = "No se puede guardar por error en el servidor";
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
-          this.$notify("daner", 
+          this.$notify("danger", 
             this.$t('vista.comandos.guardar') + " " + this.$t('vista.clinica.consultas.campos.medico'), 
             msj, 
             { duration: 3000, permanent: false });
         }.bind(this)
       );
-    },
-    mensaje(contenido, titulo, variante) {
-      this.$bvToast.toast(contenido, {
-        title: titulo,
-        variant: variante,
-        toaster: 'b-toaster-bottom-right',
-        solid: true,
-        appendToast: false
-      })
     },
     ocultaOverlay() {
       this.$refs.btGuardar.focus();
@@ -227,6 +260,33 @@ export default {
     cancelar() {
       this.$router.back();
     },
+    agregarEspecialidad() {
+      if (this.vistaEspecialidades == undefined && this.vistaEspecialidades == null) {
+        this.vistaEspecialidades = [];
+      }
+      this.vistaEspecialidades.push({
+        id: 0,
+        descripcion: "",
+        medico_id: this.medico.id,
+        especialidad_id: this.especialidadSeleccionado.id,
+        relEspecialidad: this.especialidadSeleccionado
+      });
+      this.especialidadSeleccionado = {
+        id: 0,
+        codigo: '',
+        descripcion: '',
+        estado: 0
+      };
+    },
+    eliminarEspecialidad(index) {
+      if (this.vistaEspecialidades.length == 1) {
+        this.vistaEspecialidades = [];
+      } else {
+        if (this.vistaEspecialidades.length > 0) {
+          this.vistaEspecialidades.splice(index, 1);
+        }
+      }
+    }
   },
   computed: {
     tituloAccion: function() {
@@ -234,6 +294,9 @@ export default {
       if (this.medico.id > 0) 
         res = this.$t('vista.comandos.modificar');
       return res;
+    },
+    especialidadNoSel: function() {
+      return this.procesando == true || this.especialidadSeleccionado.id <= 0 
     }
   },
   created() {
@@ -242,6 +305,15 @@ export default {
       .then(function(r) {
         if (r.data != undefined) {
           this.usuarios = r.data;
+        }
+      }.bind(this));
+    this.$store
+      .dispatch("clinica/especialidadesTodas")
+      .then(function(r) {
+        if (r.id == 1) {
+          if (r.respuesta != null) {
+            this.especialidades = r.respuesta.data;
+          }
         }
       }.bind(this));
     if (this.$route.params.id > 0) {
@@ -260,9 +332,15 @@ export default {
         email: this.$route.params.dato.email,
         empresa_id: this.$route.params.dato.empresa_id,
         usuario_id: this.$route.params.dato.usuario_id,
-        estado: this.$route.params.dato.estado
+        estado: this.$route.params.dato.estado        
       };
-      if (this.$route.params.dato.relUsuario != null && this.$route.params.dato.relUsuario != undefined) {
+      if (this.$route.params.dato.relEspecialidades != undefined && this.$route.params.dato.relEspecialidades != null) {
+        this.medico.relEspecialidades = this.$route.params.dato.relEspecialidades;
+        this.vistaEspecialidades = this.medico.relEspecialidades;
+      } else {
+        this.medico.relEspecialidades = [];
+      }
+      if (this.$route.params.dato.relUsuario != undefined && this.$route.params.dato.relUsuario != null) {
         this.medico.relUsuario = this.$route.params.dato.relUsuario;
       }
     } 

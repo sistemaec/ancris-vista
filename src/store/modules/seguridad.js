@@ -7,11 +7,11 @@ const seguridad = {
     async usuariosPorEstado(context, p) {
       return await axios.get(this.$app.appConfig.apiUrl + apiSeguridad.usuariosPorEstado(p));
     },
-    async rolesTodos(context) {
-      return await axios.get(this.$app.appConfig.apiUrl + apiSeguridad.rolesTodos());
-    },
     async usuarioModificarEstado(context, p) {
       return await axios.put(this.$app.appConfig.apiUrl + apiSeguridad.usuarioModificarEstado(p.id, p.estado));
+    },
+    async rolesTodos(context) {
+      return await axios.get(this.$app.appConfig.apiUrl + apiSeguridad.rolesTodos());
     },
     async usuarioGuardar(context, p) {
       let config = {

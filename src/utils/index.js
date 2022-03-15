@@ -78,7 +78,6 @@ export const setDirection = localValue => {
   localStorage.setItem('direction', direction)
 }
 
-
 export const getThemeColor = () => {
   let color = defaultColor;
   try {
