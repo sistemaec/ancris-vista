@@ -18,7 +18,7 @@
         <hr class="my-4">
         <p>Paciente: {{ consulta.relPaciente.relCliente.nombres }}</p>
         <p>Fecha: {{ $moment(consulta.fecha).format("YYYY-MM-DD") }}</p>
-        <p>Turno: {{ horaCita() }}</p>
+        <p>Turno: {{ horaCita }}</p>
         <p>Profesional: {{ consulta.relMedico.nombres }}</p>
         <p>Especialidad: {{ consulta.relServicio.descripcion }}</p>
 
@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                   <td v-if="consulta != null" align="left" valign="center" style="padding-top: 30px; padding-bottom: 30px; border-top:0; font-weight: bold; width:100% !important;">
-                    TICKET DE TURNO DE {{ horaCita() }}
+                    TICKET DE TURNO DE {{ horaCita }}
                   </td>
                   <td v-if="consulta != null" align="right" valign="center" style="padding-top: 30px; padding-bottom:30px; border-top:0; font-weight: bold; width:100% !important;">
                     FECHA: {{ $moment(consulta.fecha).format("YYYY-MM-DD") }}
@@ -65,18 +65,6 @@
                     Servicio médico: {{ consulta.relServicio.descripcion }}
                   </td>
                 </tr>
-                <!--tr>
-                  <td></td>
-                  <td align="right" valign="bottom" style="padding-right: 10px; width: 100% !important;">
-                    ------------------------------------
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td align="center" valign="top" style="padding-right: 15px; width:100% !important;">
-                    Elaborado por
-                  </td>
-                </tr-->
               </tbody>
             </table>
           </div>
@@ -141,13 +129,11 @@ export default {
             relIdentificaTipo: null
           }
         }  
-      }
+      },
+      horaCita: null
     }
   },
   methods: {
-    horaCita: () => {
-      return this.consulta.numero > 0 ? horario()[this.consulta.numero - 1].titulo:  "";
-    },
     irInicio() {
       this.$router.push("/bienvenido");
     },
@@ -180,6 +166,7 @@ export default {
       if (this.consulta.relMedico == null && this.$route.params.dato != null) {
         this.consulta.relMedico = this.$route.params.dato.relMedico;
       }
+      this.horaCita = this.consulta.numero > 0 ? horario()[this.consulta.numero - 1].titulo:  "";
     }
   }
 }
