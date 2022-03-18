@@ -84,6 +84,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "exito" */ "@/views/clinica/ConsultaExito.vue")
   },
   {
+    name: "agendar",
+    path: "/agendar",
+    component: () => import(/* webpackChunkName: "exito" */ "@/views/clinica/ConsultaAgendar.vue")
+  },
+  {
     path: "*",
     component: () => import(/* webpackChunkName: "error" */ "@/views/Error")
   },

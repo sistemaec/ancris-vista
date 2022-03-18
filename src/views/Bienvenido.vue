@@ -14,7 +14,7 @@
             </b-row>
           </template>
           <template #lead>
-            Centro médicos comunitario
+            Centro médico comunitario
           </template>
           <hr class="my-4">
           <p>En ANCRIS contamos con profesionales para la prestación de servicios médicos y de diagnóstico en distintas especialidades con la finalidad de cuidar con vocación humanitaria la salud de todos en nuestra comunidad.</p>
@@ -51,7 +51,7 @@ export default {
       }
       if (val) {
         this.$router.push({
-          name: "consultas-crear",
+          name: "agendar",
           params: {
             id: 0,
             dato: null,

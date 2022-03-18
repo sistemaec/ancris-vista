@@ -548,6 +548,27 @@ const clinica = {
           };
         });
     },
+    async consultasMedicoFechaEstado({state}, p) {
+      let ruta = this.$app.appConfig.apiUrl + consultasMedicoFecha(
+        p.id,
+        p.desde.toISOString().substring(0,10),
+        p.hasta.toISOString().substring(0,10),
+        p.estado
+      );
+      return await axios.get(ruta)
+        .then(function(r) {
+          return {
+            id: 1,
+            respuesta: r.data
+          };
+        })
+        .catch(e => {
+          return { 
+            id: -1, 
+            respuesta: e
+          };
+        });
+    },
     async pacientesUnificar(context, p) {
       let config = {
         /*headers: {

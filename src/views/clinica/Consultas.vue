@@ -59,7 +59,7 @@
             </template>
             <template #cell(numero)="fila">
               <div style="text-align: center; vertical-align: middle;">
-                {{ fila.item.numero }}
+                {{ horarioPorId(fila.item.numero) }}
               </div>
             </template>
             <template #cell(acciones)="row">
@@ -226,6 +226,7 @@ import EncabezadoConsultas from "@/containers/views/EncabezadoConsultas";
 import PacienteSeleccionar from "@/components/Clinica/PacienteSeleccionar";
 import MedicoSeleccionar from "@/components/Clinica/MedicoSeleccionar";
 import { slogan } from "@/constants/config";
+import { horario } from '../../utils'
 export default {
   components: {
     "encabezado": EncabezadoConsultas,
@@ -343,6 +344,9 @@ export default {
     },
   },
   methods: {
+    horarioPorId(id) {
+      return id > 0 ? horario()[id-1].titulo:  "";
+    },
     cambiarPagina(p) {
       this.porPagina = p;
     },

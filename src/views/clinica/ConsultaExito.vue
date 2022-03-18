@@ -18,7 +18,7 @@
         <hr class="my-4">
         <p>Paciente: {{ consulta.relPaciente.relCliente.nombres }}</p>
         <p>Fecha: {{ $moment(consulta.fecha).format("YYYY-MM-DD") }}</p>
-        <p>Turno: {{ consulta.numero }}</p>
+        <p>Turno: {{ horaCita() }}</p>
         <p>Profesional: {{ consulta.relMedico.nombres }}</p>
         <p>Especialidad: {{ consulta.relServicio.descripcion }}</p>
 
@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                   <td v-if="consulta != null" align="left" valign="center" style="padding-top: 30px; padding-bottom: 30px; border-top:0; font-weight: bold; width:100% !important;">
-                    TICKET DE TURNO # {{ consulta.numero }}
+                    TICKET DE TURNO DE {{ horaCita() }}
                   </td>
                   <td v-if="consulta != null" align="right" valign="center" style="padding-top: 30px; padding-bottom:30px; border-top:0; font-weight: bold; width:100% !important;">
                     FECHA: {{ $moment(consulta.fecha).format("YYYY-MM-DD") }}
@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import { horario } from '../../utils'
 export default {
   data: function () {
     return {
@@ -144,6 +145,9 @@ export default {
     }
   },
   methods: {
+    horaCita: () => {
+      return this.consulta.numero > 0 ? horario()[this.consulta.numero - 1].titulo:  "";
+    },
     irInicio() {
       this.$router.push("/bienvenido");
     },

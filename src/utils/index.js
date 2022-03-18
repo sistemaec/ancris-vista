@@ -214,3 +214,40 @@ export const cedulaValida = (cedula) => {
   }
   return ret;
 }
+
+export const ayer =()=> {
+  return new Date(new Date().getTime() - 24*60*60*1000); //new Date(yesterdayTimeStamp);
+}
+
+export const horario =()=> {
+  return [
+    { id:1,  codigo: "0800", titulo: "08:00H", hora: 8, minuto: 0 },
+    { id:2,  codigo: "0815", titulo: "08:15H", hora: 8, minuto: 15 },
+    { id:3,  codigo: "0830", titulo: "08:30H", hora: 8, minuto: 30 },
+    { id:4,  codigo: "0845", titulo: "08:45H", hora: 8, minuto: 45 },
+    { id:5,  codigo: "0900", titulo: "09:00H", hora: 9, minuto: 0 },
+    { id:6,  codigo: "0915", titulo: "09:15H", hora: 9, minuto: 15 },
+    { id:7,  codigo: "0930", titulo: "09:30H", hora: 9, minuto: 30 },
+    { id:8,  codigo: "0945", titulo: "09:45H", hora: 9, minuto: 45 },
+    { id:9,  codigo: "1000", titulo: "10:00H", hora: 10, minuto: 0 },
+    { id:10, codigo: "1015", titulo: "10:15H", hora: 10, minuto: 15 },
+    { id:11, codigo: "1030", titulo: "10:30H", hora: 10, minuto: 30 },
+    { id:12, codigo: "1045", titulo: "10:45H", hora: 10, minuto: 45 },
+    { id:13, codigo: "1100", titulo: "11:00H", hora: 11, minuto: 0 },
+    { id:14, codigo: "1115", titulo: "11:15H", hora: 11, minuto: 15 },
+    { id:15, codigo: "1130", titulo: "11:30H", hora: 11, minuto: 30 },
+    { id:16, codigo: "1145", titulo: "11:45H", hora: 11, minuto: 45 },
+    { id:17, codigo: "1300", titulo: "13:00H", hora: 13, minuto: 0 },
+    { id:18, codigo: "1315", titulo: "13:15H", hora: 13, minuto: 15 },
+    { id:19, codigo: "1330", titulo: "13:30H", hora: 13, minuto: 30 },
+    { id:20, codigo: "1345", titulo: "13:45H", hora: 13, minuto: 45 },
+    { id:21, codigo: "1400", titulo: "14:00H", hora: 14, minuto: 0 },
+    { id:22, codigo: "1415", titulo: "14:15H", hora: 14, minuto: 15 },
+    { id:23, codigo: "1430", titulo: "14:30H", hora: 14, minuto: 30 },
+    { id:24, codigo: "1445", titulo: "14:45H", hora: 14, minuto: 45 },
+    { id:25, codigo: "1500", titulo: "15:00H", hora: 15, minuto: 0 },
+    { id:26, codigo: "1515", titulo: "15:15H", hora: 15, minuto: 15 },
+    { id:27, codigo: "1530", titulo: "15:30H", hora: 15, minuto: 30 },
+    { id:28, codigo: "1545", titulo: "15:45H", hora: 15, minuto: 45 },
+  ]
+}
