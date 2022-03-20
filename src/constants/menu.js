@@ -11,7 +11,7 @@ const data = [
         icon: "iconsminds-stethoscope",
         label: "menu.clinica.consultas.titulo",
         to: `/clinica/consultas`,
-        roles: [UserRole.Admin, UserRole.Medico, UserRole.Enfermeria], 
+        roles: [UserRole.Admin, UserRole.Medico, UserRole.Enfermeria, UserRole.Ventas, UserRole.Cajero], 
       },
       {
         icon: "iconsminds-mens",
@@ -43,7 +43,7 @@ const data = [
         icon: "iconsminds-letter-open",
         label: "menu.ventas.facturas.titulo",
         to: `/ventas/facturas`,
-        roles: [UserRole.Admin, UserRole.Ventas], 
+        roles: [UserRole.Admin, UserRole.Ventas, UserRole.Cajero], 
       },
       /*{
         icon: "iconsmind-man+woman",

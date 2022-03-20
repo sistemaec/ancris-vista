@@ -20,6 +20,7 @@
       <b-colxx xxs="12">
         <b-card class="mb-4">
           <b-table
+            responsive
             ref="custom-table"
             class="vuetable"
             :per-page="porPagina"

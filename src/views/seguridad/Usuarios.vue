@@ -75,7 +75,8 @@
       <b-colxx xxs="12">
         <b-card class="mb-4">
           <b-table
-          :busy="consultando"
+            responsive
+            :busy="consultando"
             ref="custom-table"
             class="vuetable"
             :per-page="porPagina"
@@ -83,6 +84,9 @@
             :items="usuarios"
             :current-page="paginaActual"
           >
+            <template #table-busy>
+              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
+            </template>
             <template #cell(estado)="fila">
               <b-badge :variant="$t('vista.estados.colores.' + fila.item.estado)">
                 {{ $t('vista.estados.' + fila.item.estado) }}

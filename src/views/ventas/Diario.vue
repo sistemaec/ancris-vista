@@ -46,6 +46,7 @@
         <b-card class="mb-4">
           <h5>{{ $t('vista.clinica.servicios.titulop') }}</h5>
           <b-table
+            responsive
             ref="custom-table"
             class="vuetable"
             :fields="columnas"
