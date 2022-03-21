@@ -272,6 +272,8 @@ export default {
         .catch(function(e) {
           console.log("Error");
           console.log(e);
+          if (cmd == undefined || cmd == null)
+            cmd = "Operacion"
           this.$notify(
             "warning", 
             cmd + " " + this.$t("vista.inventarios.productos.denominacion"), 

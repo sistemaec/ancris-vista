@@ -136,17 +136,12 @@ export default {
       "changeSelectedMenuHasSubItems",
     ]),
     selectMenu() {
-      if (this.$route != null) {
-        const currentParentUrl = this.$route.path
-          .split("/")
-          .filter((x) => x !== "")[1];
-        if (currentParentUrl !== undefined || currentParentUrl !== null) {
-          this.selectedParentMenu = currentParentUrl.toLowerCase();
-        } else {
-          this.selectedParentMenu = "dashboards";
-        }
-        this.isCurrentMenuHasSubItem();
+      const arutas = this.$route.path.split("/");
+      this.selectedParentMenu = "inicio";
+      if (arutas.length > 1) {
+        this.selectedParentMenu = arutas[1].toLowerCase();
       }
+      this.isCurrentMenuHasSubItem();
     },
     isCurrentMenuHasSubItem() {
       const menuItem = this.menuItems.find(

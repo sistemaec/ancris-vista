@@ -251,6 +251,8 @@ export default {
         .catch(function(e) {
           console.log("Error");
           console.log(e);
+          if (cmd == undefined || cmd == null)
+            cmd = "Operacion"
           this.$notify("warning", cmd + " " + this.$t("vista.clinica.consultas.campos.medico"), 
             this.$t("vista.comandos.fallo") + " " + cmd.toLowerCase() + " este item.", 
             { duration: 3000, permanent: false });
