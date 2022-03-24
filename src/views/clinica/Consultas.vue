@@ -549,7 +549,7 @@ export default {
             this.$t("vista.transacciones.eliminar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
             { duration: 3000, permanent: false });
         }.bind(this));
-      this.busquedaEjecutando = false; 
+      this.actualizar;
     },
     abrirEditor(ruta, pid, psel, lec) {
       this.$store.commit('clinica/setBuscaConsultaListaCache', this.consultas);
