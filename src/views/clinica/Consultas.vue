@@ -134,7 +134,7 @@
               </b-dropdown>
             </template>
             <template #cell(estado)="fila">
-              <b-badge :variant="$t('vista.clinica.consultas.estados.colores.' + parseInt(fila.item.estado))">{{ $t('vista.clinica.consultas.estados.' + parseInt(fila.item.estado)) }}</b-badge>
+              <b-badge :variant="$t('vista.clinica.consultas.estados.colores.' + parseInt(fila.item.estado))">{{ etiquetaEstado(fila.item) }}</b-badge>
             </template>
           </b-table>
           <b-pagination
@@ -687,6 +687,12 @@ export default {
       this.$t("vista.comandos.buscar") + " " + this.$t("vista.clinica.consultas.denominacionp"), 
       this.$t("vista.busqueda.no-encontrado"), 
       { duration: 3000, permanent: false });
+    },
+    etiquetaEstado(fila)  {
+      if (fila.estado == 0 && fila.factura_id > 0) {
+        return 'Cobrado';
+      }
+      return this.$t('vista.clinica.consultas.estados.' + parseInt(fila.item.estado))
     }
   },
   created(){

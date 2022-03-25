@@ -1,8 +1,8 @@
 export const UserRole = {
   Admin: 0,
-  Ventas: 1,
+  Cajero: 1,
   Bodega: 2,
-  Cajero: 3,
+  Ventas: 3,
   Medico: 4,
   Enfermeria: 5
 };
