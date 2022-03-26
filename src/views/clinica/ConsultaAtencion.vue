@@ -200,7 +200,7 @@
           <b-colxx lg="12" md="12" sm="12">
             <b-card class="mb-4">
               <template v-if="!lectura" #header>
-                <h4 class="mt-4 ml-2">{{ $t('vista.clinica.consultas.receta') }} - {{ $t('vista.transacciones.agergar-items') }}</h4>
+                <h4 class="mt-4 ml-2">{{ $t('vista.clinica.consultas.receta') }} - {{ $t('vista.transacciones.agregar-items') }}</h4>
                 <b-row class="ml-1 mr-1">
                   <b-col sm="8" md="4" lg="4" class="espacio-corto mb-2">
                     <b-input-group>
