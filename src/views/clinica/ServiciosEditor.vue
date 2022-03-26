@@ -192,7 +192,7 @@ export default {
                 msg = e.response.data;
               this.procesando = false;
               this.$notify("danger",
-                this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+                this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicios.denominacion"),
                 msg,
                 { duration: 3000, permanent: false });
             }.bind(this));
@@ -209,13 +209,13 @@ export default {
         .then(function(res) {
           if (res.status <= 201) {
             this.$notify("success",
-              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicios.denominacion"), 
               res.data.msj,
               { duration: 3000, permanent: false });
             this.$router.back();
           } else {
             this.$notify("warning",
-              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+              this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicios.denominacion"),
               res.data.msj,
               { duration: 3000, permanent: false });
           }
@@ -228,7 +228,7 @@ export default {
           if (e.response.data.msj != undefined);
             msj = e.response.data.msj;
           this.$notify("danger",
-            this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicio.denominacion"),
+            this.$t("vista.comandos.guardar") + " " + this.$t("vista.clinica.servicios.denominacion"),
             msj,
             { duration: 3000, permanent: false });  
         }.bind(this)

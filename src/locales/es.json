@@ -397,11 +397,11 @@
           "email": "El correo electrónico no es válido",
           "telefonos": "El teléfono solo debe contener números"
         },
-        "diario": "Diario de ventas",
-        "total-consultas": "Total Consultas",
-        "total-productos": "Total Productos",
-        "total-general": "TOTAL GENERAL"
+        "diario": "Diario de ventas"
       },
+      "total-consultas": "Total Consultas",
+      "total-productos": "Total Productos",
+      "total-general": "TOTAL GENERAL",
       "facturas": {
         "denominacion": "factura",
         "denominacionp": "facturas",

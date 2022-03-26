@@ -155,6 +155,7 @@
 import { cedulaValida } from '../../utils'
 import Datepicker from "vuejs-datepicker";
 import {es} from 'vuejs-datepicker/dist/locale';
+import moment from 'moment';
 const { required, minLength, maxLength, email, numeric, maxValue } = require("vuelidate/lib/validators");
 export default {
   components: {
@@ -218,6 +219,7 @@ export default {
           }
         },
         telefonos: { numeric, maxLength: maxLength(15) },
+        direccion: { required },
         email: { email }
       },
       fecha_nacimiento: {

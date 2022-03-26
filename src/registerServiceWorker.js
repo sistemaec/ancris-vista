@@ -5,12 +5,12 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import "./assets/css/vendor/bootstrap.min.css";
 import "./assets/css/vendor/bootstrap.rtl.only.min.css";
 // Un solo color
-import "./assets/css/sass/themes/piaf.light.blueolympic.scss";
-import "./main";
+/*import "./assets/css/sass/themes/piaf.light.blueolympic.scss";
+import "./main";*/
 import { register } from 'register-service-worker'
 
 // Multicolor
-/*import { getThemeColor } from "./utils";
+import { getThemeColor } from "./utils";
 var color = getThemeColor();
 let render = () => {
   import("./assets/css/sass/themes/piaf." + color + ".scss").then(() => {
@@ -19,7 +19,7 @@ let render = () => {
   console.log("Color leido");
   console.log(color);
 }
-render();*/
+render();
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {

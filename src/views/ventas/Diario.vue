@@ -68,7 +68,7 @@
             </template>
           </b-table>
           <div style="text-align: right;">
-            <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.total-consultass') }}</span>
+            <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.total-consultas') }}</span>
             <span class="font-weight-semibold mr-2">$ {{ totalConsultas | dinero }}</span>
           </div>
           <h5>{{ $t('vista.inventarios.productos.titulop') }}</h5>
@@ -97,7 +97,7 @@
           <div style="text-align: right;">
             <span class="font-weight-semibold mr-4">{{ $t('vista.ventas.total-general') }}</span>
             <span class="font-weight-semibold mr-2">$ {{ parseFloat(totalProductos) + parseFloat(totalConsultas) | dinero }}</span>
-          </div>  
+          </div>
         </b-card>
       </b-colxx>
     </b-row>
