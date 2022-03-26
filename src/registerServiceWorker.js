@@ -10,7 +10,7 @@ import "./main";*/
 import { register } from 'register-service-worker'
 
 // Multicolor
-import { getThemeColor } from "./utils";
+/*import { getThemeColor } from "./utils";
 var color = getThemeColor();
 let render = () => {
   import("./assets/css/sass/themes/piaf." + color + ".scss").then(() => {
@@ -19,7 +19,7 @@ let render = () => {
   console.log("Color leido");
   console.log(color);
 }
-render();
+render();*/
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
