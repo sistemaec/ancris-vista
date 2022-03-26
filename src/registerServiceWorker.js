@@ -5,8 +5,8 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import "./assets/css/vendor/bootstrap.min.css";
 import "./assets/css/vendor/bootstrap.rtl.only.min.css";
 // Un solo color
-/*import "./assets/css/sass/themes/piaf.light.blueolympic.scss";
-import "./main";*/
+import "./assets/css/sass/themes/piaf.light.blueolympic.scss";
+import "./main";
 import { register } from 'register-service-worker'
 
 // Multicolor

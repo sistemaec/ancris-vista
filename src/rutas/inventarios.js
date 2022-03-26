@@ -1,6 +1,10 @@
 import { app } from "@/main";
 let rutaBase = "/inventarios";
 
+export const productoPorId = function(id) {
+  return `${rutaBase}/productos/${id}`;
+};
+
 export const productosBuscar = function(emp, tipo, atrib, estado, filtro) {
   return `${rutaBase}/productos/emp/${emp}/tipo/${tipo}/estado/${estado}/atributo/${atrib}/filtro/${filtro}/buscar`;
 };

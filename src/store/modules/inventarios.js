@@ -1,6 +1,7 @@
 import moment from 'moment'
 import axios from 'axios';
 import { 
+  productoPorId,
   productosBuscar, 
   movimientosBuscar, 
   movimientosGuardar, 
@@ -220,6 +221,13 @@ const inventarios = {
         texto: context.rootState.clinica.tablasBuscador.texto
       };
       return await context.dispatch("productosBuscarMin", p);
+    },
+    async productoPorId(context, id) {
+      console.log("Modulo: id");
+      console.log(id);
+      console.log("Ruta")
+      console.log(this.$app.appConfig.apiUrl + productoPorId(id));
+      return await axios.get(this.$app.appConfig.apiUrl + productoPorId(id));
     },
     async productosBuscarMin(context, p) {
       let emp = context.rootState.empresaAccedida.id; 

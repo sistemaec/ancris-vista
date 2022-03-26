@@ -479,6 +479,32 @@ export default {
           relProducto: p.relServicio.relProducto
         }
         fac.relItems.push(item);
+      } else {
+        this.$store
+          .dispatch("inventarios/productoPorId", p.relServicio.producto_id)
+          .then(function(r) {
+            console.log("resultado");
+            console.log(r);
+            if (r.data != null) {
+              let item = {
+                id: 0,
+                venta_id: 0,
+                movitem_id: 1,
+                producto_id: p.relServicio.producto_id,
+                cantidad: 1,
+                pedido: 0,
+                precio: r.data.precio,
+                costo: 0,
+                descuento: 0,
+                adicional: 0,
+                observacion: '',
+                presentacion_id: 0, 
+                lote_id: 0,
+                relProducto: r.data
+              }
+              fac.relItems.push(item);
+            }
+          }.bind(this));
       }
 
       let valServ = p.relServicio.valor;
