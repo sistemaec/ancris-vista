@@ -115,7 +115,7 @@ const data = [
       },*/
     ]
   },
-  {
+  /*{
     id: "ajustes",
     icon: "iconsminds-equalizer",
     label: "menu.ajustes.titulo",
@@ -158,7 +158,7 @@ const data = [
         roles: [UserRole.Admin], 
       }
     ]
-  },
+  },*/
   {
     id: "seguridad",
     icon: "iconsminds-police",

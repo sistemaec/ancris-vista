@@ -540,7 +540,8 @@ export default {
               this.$t("vista.comandos.reactivar") + " " + this.$t("vista.clinica.consultas.titulo"), 
               r.data.msj, 
               { duration: 3000, permanent: false });
-          this.buscar();  
+          this.busquedaEjecutando = false;    
+          this.actualizar();  
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
@@ -549,8 +550,9 @@ export default {
             this.$t("vista.comandos.reactivar") + " " + this.$t("vista.clinica.consultas.campos.medico"), 
             this.$t('vista.clinica.consultas.reactivar-error'), 
             { duration: 3000, permanent: false });
+          this.busquedaEjecutando = false;  
         }.bind(this));
-      this.busquedaEjecutando = false; 
+       
     },
     eliminar(p) {
       this.busquedaEjecutando = true;
@@ -566,7 +568,7 @@ export default {
               "La " + this.$t("vista.clinica.consultas.titulo") + "se " + this.$t("vista.comandos.elimino") + " " + this.$t("vista.comandos.exito"), 
               { duration: 3000, permanent: false });
           this.busquedaEjecutando = false;
-          this.buscar();
+          this.actualizar();
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
@@ -576,7 +578,6 @@ export default {
             this.$t("vista.transacciones.eliminar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
             { duration: 3000, permanent: false });
             this.busquedaEjecutando = false;
-            this.buscar();
         }.bind(this));
     },
     restaurar(p) {
@@ -593,7 +594,7 @@ export default {
               "La " + this.$t("vista.clinica.consultas.titulo") + "se " + this.$t("vista.comandos.restauro") + " " + this.$t("vista.comandos.exito"), 
               { duration: 3000, permanent: false });
           this.busquedaEjecutando = false;
-          this.buscar();
+          this.actualizar();
         }.bind(this))
         .catch(function(e) {
           console.log("Error");
@@ -603,7 +604,6 @@ export default {
             this.$t("vista.transacciones.restaurar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
             { duration: 3000, permanent: false });
           this.busquedaEjecutando = false;
-          this.buscar();
         }.bind(this));
     },
     abrirEditor(ruta, pid, psel, lec) {
