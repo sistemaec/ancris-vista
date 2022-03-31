@@ -32,7 +32,7 @@
               class="d-inline-block float-md-left ml-3 view-icon boton-comando"
               @click="imprimir()"
               v-b-tooltip.hover 
-              title="$t('vista.comandos.imprimir')"
+              :title="$t('vista.comandos.imprimir')"
             >
               <i class="mdi mdi-24px mdi-printer"/>
             </a>
@@ -54,7 +54,7 @@
             :busy="busquedaEjecutando"
           >
             <template #table-busy>
-              <table-busy :mensaje="$t('vista.busqueda.ejecutandoq') + '...'" />
+              <table-busy :mensaje="$t('vista.busqueda.ejecutando') + '...'" />
             </template>
             <template #head(valor)="data">
               <div style="text-align: right;">

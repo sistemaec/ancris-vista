@@ -92,6 +92,14 @@
           >
             <i class="mdi mdi-24px mdi-find-replace"/>
           </a>
+          <a v-if="imprimirVisible"
+              class="d-inline-block float-md-left ml-3 view-icon boton-comando"
+              @click="imprimir()"
+              v-b-tooltip.hover 
+              :title="$t('vista.comandos.imprimir')"
+            >
+              <i class="mdi mdi-24px mdi-printer"/>
+            </a>
         </div>
         <div class="d-md-inline-block float-md-right">
           <b-button
@@ -154,7 +162,9 @@
     "xPagina",
     "lPaginas",
     "cambiarPagina",
-    "actualizar"
+    "actualizar",
+    "imprimir",
+    "imprimirVisible",
   ],
   data: function() {
     return {

@@ -14,6 +14,8 @@
           :lPaginas="lPaginas"
           :cambiarPagina="cambiarPagina"
           :actualizar="actualizar"
+          :imprimir="imprimirReporte"
+          :imprimirVisible="esMedico"
         ></encabezado>
         <b-modal v-model="selPacienteVer" title="Seleccionar paciente" v-on:ok="seleccionadoPaciente()">
           <paciente-seleccionar/>
@@ -158,6 +160,7 @@
               <i class="simple-icon-control-end"/>
             </template>
           </b-pagination>
+
         </b-card>
       </b-colxx>
     </b-row>
@@ -217,6 +220,48 @@
           </div>
         </b-colxx>
       </b-row>              
+    </div>
+    <div id="prnReporte" class="invisible">
+      <b-colxx xxs="12">
+        <b-card class="mb-4">
+          <h5>Reporte de consultas por periodo</h5>
+          <b-table
+            responsive
+            ref="custom-table"
+            class="vuetable"
+            :fields="columnas"
+            :items="consultas"
+            :busy="busquedaEjecutando"
+          >
+            <template #table-busy>
+              <table-busy :mensaje="$t('vista.busqueda.ejecutando') + '...'" />
+            </template>
+            <template #head(numero)="fila">
+              <div style="text-align: right; vertical-align: middle;">
+                {{ horarioPorId(fila.label) }}
+              </div>
+            </template>
+            <template #cell(numero)="fila">
+              <div style="text-align: right; vertical-align: middle;">
+                {{ horarioPorId(fila.item.numero) }}
+              </div>
+            </template>
+            <template #cell(estado)="fila">
+              <b-badge :variant="$t('vista.clinica.consultas.estados.colores.' + parseInt(fila.item.estado))">{{ etiquetaEstado(fila) }}</b-badge>
+            </template>
+            <template #head(acciones)="">
+              <span></span>
+            </template>
+            <template #cell(acciones)="">
+              <span></span>
+            </template>
+          </b-table>
+          <div style="text-align: right;">
+            <span class="font-weight-semibold mr-4">Total de consultas reportadas</span>
+            <span class="font-weight-semibold mr-2"> {{ consultas.length }}</span>
+          </div>
+        </b-card>
+      </b-colxx>
     </div>
   </div>
 </template>
@@ -552,7 +597,6 @@ export default {
             { duration: 3000, permanent: false });
           this.busquedaEjecutando = false;  
         }.bind(this));
-       
     },
     eliminar(p) {
       this.busquedaEjecutando = true;
@@ -748,6 +792,11 @@ export default {
         return 'Cobrado';
       } else {
         return this.$t('vista.clinica.consultas.estados.' + parseInt(fila.item.estado))
+      }
+    },
+    imprimirReporte() {
+      if (this.consultas.length > 0) {
+        this.$htmlToPaper("prnReporte");
       }
     }
   },
