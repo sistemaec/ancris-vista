@@ -101,7 +101,7 @@
                   <i class="boton-icono-accion mdi mdi-menu mdi-18px"/>
                   <!--span class="count">3</!--span-->
                 </template>
-                <b-dropdown-item v-if="row.item.factura_id <= 0 && !esMedicoEnfermero">
+                <b-dropdown-item v-if="row.item.factura_id <= 0 && row.item.estado != 2 && !esMedicoEnfermero">
                   <span
                     class="span-comando mdi mdi-file-send-outline mdi-18px" 
                     @click="facturar(row.item)"
@@ -565,6 +565,7 @@ export default {
               this.$t("vista.comandos.eliminar") + " " + this.$t("vista.clinica.consultas.titulo"), 
               "La " + this.$t("vista.clinica.consultas.titulo") + "se " + this.$t("vista.comandos.elimino") + " " + this.$t("vista.comandos.exito"), 
               { duration: 3000, permanent: false });
+          this.busquedaEjecutando = false;
           this.buscar();
         }.bind(this))
         .catch(function(e) {
@@ -574,8 +575,9 @@ export default {
             this.$t("vista.comandos.eliminar") + " " + this.$t("vista.clinica.consultas.titulo"), 
             this.$t("vista.transacciones.eliminar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
             { duration: 3000, permanent: false });
+            this.busquedaEjecutando = false;
+            this.buscar();
         }.bind(this));
-      this.actualizar;
     },
     restaurar(p) {
       this.busquedaEjecutando = true;
@@ -590,6 +592,7 @@ export default {
               this.$t("vista.comandos.restaurar") + " " + this.$t("vista.clinica.consultas.titulo"), 
               "La " + this.$t("vista.clinica.consultas.titulo") + "se " + this.$t("vista.comandos.restauro") + " " + this.$t("vista.comandos.exito"), 
               { duration: 3000, permanent: false });
+          this.busquedaEjecutando = false;
           this.buscar();
         }.bind(this))
         .catch(function(e) {
@@ -599,8 +602,9 @@ export default {
             this.$t("vista.comandos.restaurar") + " " + this.$t("vista.clinica.consultas.titulo"), 
             this.$t("vista.transacciones.restaurar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
             { duration: 3000, permanent: false });
+          this.busquedaEjecutando = false;
+          this.buscar();
         }.bind(this));
-      this.actualizar;
     },
     abrirEditor(ruta, pid, psel, lec) {
       this.$store.commit('clinica/setBuscaConsultaListaCache', this.consultas);

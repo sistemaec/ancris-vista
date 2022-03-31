@@ -293,6 +293,7 @@
         "examenes-titulomin": "Orden de exámenes",
         "otros-examenes": "Otros exámenes",
         "servicio-med": "Servicio médico",
+        "titulo":"consulta",
         "campos": {
           "paciente": "Paciente",
           "fecha": "Fecha",
@@ -336,7 +337,7 @@
         "estados": {
           "0": "Pendiente",
           "1": "En atención",
-          "2": "Cancelada",
+          "2": "Eliminada",
           "3": "Terminada",
           "colores": {
             "0": "info",
