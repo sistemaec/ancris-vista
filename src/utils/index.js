@@ -249,5 +249,9 @@ export const horario =()=> {
     { id:26, codigo: "15:15", titulo: "15:15H", hora: 15, minuto: 15 },
     { id:27, codigo: "15:30", titulo: "15:30H", hora: 15, minuto: 30 },
     { id:28, codigo: "15:45", titulo: "15:45H", hora: 15, minuto: 45 },
+    { id:25, codigo: "16:00", titulo: "16:00H", hora: 16, minuto: 0 },
+    { id:26, codigo: "16:15", titulo: "16:15H", hora: 16, minuto: 15 },
+    { id:27, codigo: "16:30", titulo: "16:30H", hora: 16, minuto: 30 },
+    { id:28, codigo: "16:45", titulo: "16:45H", hora: 16, minuto: 45 },
   ]
 }
