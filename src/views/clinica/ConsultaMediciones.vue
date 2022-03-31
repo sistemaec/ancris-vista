@@ -100,7 +100,7 @@
                   <b-form-group :label="$t('vista.clinica.consultas.campos.mediciones.imc')">
                     <b-input-group append=" IMC ">
                       <b-form-input type="text" v-model="mediciones.imc"/>
-                    </b-input-group>  
+                    </b-input-group>
                   </b-form-group>
                 </b-colxx>
                 <b-colxx xxs="6" sm="3">
@@ -190,7 +190,7 @@ export default {
         critmo: 0,
         rritmo: 0,
         oxigeno: 0,
-        imc: 0,
+        imc: 0.00,
         saturaciono2: 0
       },
       medicionesAnt: "",
@@ -210,6 +210,11 @@ export default {
     }
   },
   methods: {
+    calcularIMC: function() {
+      if(this.mediciones.peso > 0 && this.mediciones.estatura > 0) {
+        this.mediciones.imc = parseFloat(this.mediciones.peso / ((this.mediciones.estatura/100) * (this.mediciones.estatura/100))).toFixed(2);
+      }
+    },
     guardar() {
       this.procesando = true;
       this.$store
@@ -245,6 +250,14 @@ export default {
     cancelar() {
       this.$router.go(-1);
     },
+  },
+  watch: {
+    'mediciones.peso'() {
+      this.calcularIMC();
+    },
+    'mediciones.estatura'() {
+      this.calcularIMC();
+    }
   },
   mounted() {
     if (this.$route.params.id > 0) {

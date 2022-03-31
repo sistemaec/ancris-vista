@@ -655,6 +655,12 @@ export default {
       });
     },
     cargarHorariosDisponibles(valor) {
+      let hoy = new Date();
+      let horas = hoy.getHours();
+      let minutos = hoy.getMinutes();
+      if (horas < 10) horas = 0 + horas;
+      if (minutos < 10) minutos = "0" + minutos;
+      let horaActual = horas + ":" + minutos;
       if (this.consulta.medico_id > 0) {
         this.horas = [];
         this.procesandoFecha = true;
@@ -678,7 +684,10 @@ export default {
             } else {
               horario().forEach(h => {
                 // en numero esta registrado el horario.id
-                let desactivado = false;
+                let desactivado = h.codigo < horaActual;
+                console.log("Comparacion de horas = " + desactivado)
+                console.log(h.codigo);
+                console.log(horaActual);
                 if (r.respuesta.length > 0) {
                   // Marcar los agendados como inactivos
                   let ooo = r.respuesta.some(e => e.numero == h.id);

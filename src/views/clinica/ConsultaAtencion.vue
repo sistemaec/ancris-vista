@@ -176,6 +176,7 @@
                     v-model="fechaProxima"
                     :language="es"
                     :disabled='lectura'
+                    :disabled-dates="fechasInvalidas"
                   ></datepicker>
                 </b-form-group>
               </b-form>
@@ -489,6 +490,7 @@ import HistorialItem from '@/components/Clinica/HistorialItem.vue';
 import ProductoSeleccionar from "@/components/Inventarios/ProductoSeleccionar";
 import DiagnosticoSeleccionar from "@/components/Clinica/DiagnosticoBuscar";
 import { mapGetters } from 'vuex';
+
 import { slogan } from "@/constants/config";
 
 export default {
@@ -577,7 +579,11 @@ export default {
       examenesSeleccion: [],
       informeEcoVisible: false,
       informeEcoEspecilidad: 27,
-      lectura: false
+      lectura: false,
+      fechasInvalidas: {
+        to: new Date(), // Desactivar fechas hasta ayer
+        days: [6, 0] // Sabados y domingos
+      },
     }
   },
   computed: {
