@@ -183,7 +183,8 @@
       "exito": "Exitosamente",
       "fallo": "No se pudo",
       "guardo": "guardó",
-      "elimino": "eliminó"
+      "elimino": "eliminó",
+      "restauro": "restauró"
     },
     "transacciones": {
       "atencion": "Atención",
@@ -203,6 +204,7 @@
       "guardar-invalido": "Revise los mensajes de validación para poder continuar.",
       "guardar-error": "No se puede guardar verifique los datos y vuelva a intentarlo",
       "eliminar-error": "No se pudo eliminar",
+      "restaurar-error": "No se pudo restaurar",
       "campos-req": "Estos campos son requeridos",
       "elaboradox": "Elaborado por",
       "eliminar-item": "Eliminar item",

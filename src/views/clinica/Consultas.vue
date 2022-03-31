@@ -101,13 +101,13 @@
                   <i class="boton-icono-accion mdi mdi-menu mdi-18px"/>
                   <!--span class="count">3</!--span-->
                 </template>
-                <b-dropdown-item v-if="row.item.factura_id <= 0 && !esMedico">
+                <b-dropdown-item v-if="row.item.factura_id <= 0 && !esMedicoEnfermero">
                   <span
                     class="span-comando mdi mdi-file-send-outline mdi-18px" 
                     @click="facturar(row.item)"
                   > Facturar</span>
                 </b-dropdown-item>
-                <b-dropdown-item v-if="row.item.estado == 0 && !esMedico">
+                <b-dropdown-item v-if="row.item.estado == 0 && !esMedicoEnfermero">
                   <span
                     class="span-comando mdi mdi-pen mdi-18px" 
                     @click="modificar(row.item)"
@@ -119,17 +119,17 @@
                     @click="reactivar(row.item)"
                   > Reactivar</span>
                 </b-dropdown-item>
-                <b-dropdown-item v-if="row.item.estado == 0 && !esMedico">
+                <b-dropdown-item v-if="row.item.estado == 0 && !esMedicoEnfermero">
                   <span
                     class="span-comando mdi mdi-trash-can-outline mdi-18px" 
                     @click="eliminar(row.item)"
                   > Eliminar</span>
                 </b-dropdown-item>
-                <b-dropdown-item v-if="row.item.estado == 2 || row.item.estado == 0 && !esMedico">
+                <b-dropdown-item v-if="row.item.estado == 2 && !esMedicoEnfermero">
                   <span
                     class="span-comando mdi mdi-update mdi-18px" 
-                    @click="reprogramar(row.item)"
-                  > Reprogramar</span>
+                    @click="restaurar(row.item)"
+                  > Restaurar</span>
                 </b-dropdown-item>
               </b-dropdown>
             </template>
@@ -573,6 +573,31 @@ export default {
           this.$notify("warning", 
             this.$t("vista.comandos.eliminar") + " " + this.$t("vista.clinica.consultas.titulo"), 
             this.$t("vista.transacciones.eliminar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
+            { duration: 3000, permanent: false });
+        }.bind(this));
+      this.actualizar;
+    },
+    restaurar(p) {
+      this.busquedaEjecutando = true;
+      this.$store
+        .dispatch("clinica/consultasGuardarEstado", { 
+          id: p.id,
+          estado: 0
+         })
+        .then(function(r) {
+          if (r.data.msj != null)
+            this.$notify("success", 
+              this.$t("vista.comandos.restaurar") + " " + this.$t("vista.clinica.consultas.titulo"), 
+              "La " + this.$t("vista.clinica.consultas.titulo") + "se " + this.$t("vista.comandos.restauro") + " " + this.$t("vista.comandos.exito"), 
+              { duration: 3000, permanent: false });
+          this.buscar();
+        }.bind(this))
+        .catch(function(e) {
+          console.log("Error");
+          console.log(e);
+          this.$notify("warning", 
+            this.$t("vista.comandos.restaurar") + " " + this.$t("vista.clinica.consultas.titulo"), 
+            this.$t("vista.transacciones.restaurar-error") + " " + this.$t('vista.esta') + " " + this.$t("consulta."), 
             { duration: 3000, permanent: false });
         }.bind(this));
       this.actualizar;

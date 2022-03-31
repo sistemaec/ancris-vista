@@ -63,7 +63,7 @@
                     </p>
                   </b-colxx>
                   <b-colxx lg="2" md="2">
-                    {{ $t('vista.clinica.pacientes.campos.edad') }}: {{ consulta.relMedico.nombres }}: {{ edadPaciente() }}
+                    {{ $t('vista.clinica.pacientes.campos.edad') }}: {{ edadPaciente() }}
                   </b-colxx>
                   <b-colxx lg="2" md="4">
                     {{ $t('vista.clinica.consultas.campos.fecha') }}: {{ consulta.fecha }}
